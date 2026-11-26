@@ -1,0 +1,5 @@
+# local Claude Code settings (preview server config), not part of the site
+.claude/
+
+# macOS
+.DS_Store

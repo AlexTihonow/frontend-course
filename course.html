@@ -1,0 +1,2196 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Курс к стажировке во фронтенд</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#151D19" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Фронтенд">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: app-shell — sticky module rail on the left, reading column on the right; rail becomes a horizontal strip on phones. Price-tag badges carry readiness. */
+:root{
+  --bg:#F3F5F2; --surface:#FFFFFF; --surface-2:#E8EEE7; --fg:#16201B; --muted:#5A695F; --line:#D3DCD3;
+  --accent:#16794A; --accent-fg:#FFFFFF; --accent-soft:#DCEFE3;
+  --tag:#F5C842; --tag-fg:#2A2205; --ok:#1E8A4C; --bad:#C2412D; --bad-soft:#FBE4DF; --code-bg:#EDF2EB;
+  --f-display:'Unbounded','Golos Text',system-ui,sans-serif;
+  --f-body:'Golos Text',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1411; --surface:#151D19; --surface-2:#1D2822; --fg:#E3EBE5; --muted:#93A399; --line:#2B3730;
+  --accent:#4CC38A; --accent-fg:#06140D; --accent-soft:#183327;
+  --tag:#E9BE3A; --tag-fg:#1E1803; --ok:#4CC38A; --bad:#F07A63; --bad-soft:#3A1E18; --code-bg:#101814; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1411; --surface:#151D19; --surface-2:#1D2822; --fg:#E3EBE5; --muted:#93A399; --line:#2B3730;
+  --accent:#4CC38A; --accent-fg:#06140D; --accent-soft:#183327;
+  --tag:#E9BE3A; --tag-fg:#1E1803; --ok:#4CC38A; --bad:#F07A63; --bad-soft:#3A1E18; --code-bg:#101814; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.2;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.6rem,3.4vw,2.3rem)} h2{font-size:1.35rem} h3{font-size:1.05rem;font-family:var(--f-body);font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--code-bg);padding:.1em .35em;border-radius:5px}
+pre{margin:0;background:var(--code-bg);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--f-mono)}
+pre code{background:none;padding:0;font-size:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+.shell{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+.rail{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;overflow-y:auto;border-right:1px solid var(--line);background:var(--surface);padding:22px 14px 30px;padding-left:max(14px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px}
+.brand{display:flex;flex-direction:column;gap:4px;padding:0 8px}
+.brand b{font-family:var(--f-display);font-size:1rem;line-height:1.25}
+.brand span{font-size:.8rem;color:var(--muted)}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav-group{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:12px 10px 4px}
+.nav a{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;text-decoration:none;color:var(--fg);font-size:.92rem;line-height:1.3}
+.nav a:hover{background:var(--surface-2)}
+.nav a.on{background:var(--accent-soft);color:var(--fg);font-weight:600}
+.nav .t{flex:1;min-width:0}
+.dot{width:26px;height:26px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:.7rem;font-weight:700;background:var(--surface-2);color:var(--muted);font-variant-numeric:tabular-nums}
+.dot.full{background:var(--accent);color:var(--accent-fg)}
+.rail-foot{margin-top:auto;font-size:.78rem;color:var(--muted);padding:0 10px;display:flex;flex-direction:column;gap:8px}
+.linkbtn{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;font-size:.78rem;text-align:left}
+
+main{padding-block:32px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.lead{font-size:1.08rem;color:var(--muted);max-width:65ch}
+
+/* price tag */
+.tag{display:inline-flex;align-items:center;gap:8px;background:var(--tag);color:var(--tag-fg);padding:6px 14px 6px 20px;font-weight:700;font-variant-numeric:tabular-nums;clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);border-radius:0 6px 6px 0;position:relative;line-height:1.2}
+.tag::before{content:"";position:absolute;left:9px;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;background:var(--bg)}
+.tag small{font-weight:500;font-size:.75rem;opacity:.8}
+.tag big{font-family:var(--f-display);font-size:1.6rem}
+
+.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end}
+.ready{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.ready .tag{padding:10px 18px 10px 26px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.mod-card{display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:12px;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--fg);transition:border-color .15s,transform .15s}
+.mod-card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.mod-card .row{display:flex;justify-content:space-between;align-items:center;gap:6px 10px;flex-wrap:wrap}
+.mod-card .eyebrow{white-space:nowrap}
+.filebox{display:flex;flex-direction:column;gap:12px}
+.fstat{display:flex;align-items:center;gap:8px;font-size:.92rem}
+.fstat i{width:10px;height:10px;border-radius:50%;background:var(--muted);flex:none}
+.fstat.ok i{background:var(--ok)} .fstat.warn i{background:var(--tag)}
+.filebox small{color:var(--muted);font-size:.82rem}
+.mod-card p{font-size:.88rem;color:var(--muted)}
+.pill{font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:99px;letter-spacing:.02em;white-space:nowrap}
+.pill.req{background:var(--accent-soft);color:var(--accent)}
+.pill.plus{background:var(--surface-2);color:var(--muted)}
+.bar{height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
+
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.tscroll{overflow-x:auto}
+
+.weeks{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.week{border-top:3px solid var(--accent);background:var(--surface);border-radius:0 0 12px 12px;padding:14px;display:flex;flex-direction:column;gap:6px;border-left:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.week b{font-family:var(--f-display);font-size:.9rem}
+.week ul{margin:0;padding-left:18px;font-size:.88rem;color:var(--muted)}
+
+.check{display:flex;flex-direction:column;gap:2px}
+.check label{display:flex;gap:12px;align-items:flex-start;padding:9px 10px;border-radius:8px;cursor:pointer;font-size:.94rem}
+.check label:hover{background:var(--surface-2)}
+.check input{width:18px;height:18px;margin-top:3px;accent-color:var(--accent);flex:none}
+.check input:checked + span{color:var(--muted);text-decoration:line-through}
+
+/* module */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{background:none;border:0;padding:10px 14px;border-bottom:2px solid transparent;color:var(--muted);font-weight:600;white-space:nowrap;font-size:.95rem}
+.tabs button.on{color:var(--fg);border-color:var(--accent)}
+.tabs button .n{font-size:.75rem;font-weight:500;color:var(--muted);margin-left:4px}
+.section{display:flex;flex-direction:column;gap:12px;max-width:72ch}
+.section p,.section li{color:var(--fg)}
+.section ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.callout{border-left:3px solid var(--tag);background:var(--surface);padding:12px 16px;border-radius:0 10px 10px 0;font-size:.94rem}
+.stack{display:flex;flex-direction:column;gap:30px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);padding:9px 16px;border-radius:9px;font-weight:600;font-size:.92rem}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.5;cursor:default}
+.btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* quiz */
+.q{display:flex;flex-direction:column;gap:12px}
+.q-head{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.q-text{font-size:1.1rem;font-weight:600;overflow-wrap:anywhere}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{overflow-wrap:anywhere;text-align:left;border:1px solid var(--line);background:var(--surface);padding:12px 14px;border-radius:10px;display:flex;gap:12px;align-items:flex-start;font-size:.95rem}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .k{width:24px;height:24px;flex:none;border-radius:6px;background:var(--surface-2);display:grid;place-items:center;font-size:.75rem;font-weight:700}
+.opt.right{border-color:var(--ok);background:var(--accent-soft)}
+.opt.right .k{background:var(--ok);color:var(--accent-fg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.opt:disabled{cursor:default}
+.why{font-size:.93rem;padding:12px 14px;border-radius:10px;background:var(--surface-2)}
+.result{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+
+/* interview */
+details.iq{border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+details.iq summary{padding:13px 16px;cursor:pointer;font-weight:600;list-style:none;display:flex;gap:10px;align-items:flex-start}
+details.iq summary::-webkit-details-marker{display:none}
+details.iq summary::before{content:"+";font-family:var(--f-mono);color:var(--accent);font-weight:700;width:14px;flex:none}
+details.iq[open] summary::before{content:"−"}
+details.iq .a{padding:0 16px 14px 40px;display:flex;flex-direction:column;gap:8px;font-size:.95rem}
+details.iq textarea{width:100%;min-height:70px;border:1px dashed var(--line);border-radius:8px;background:var(--bg);color:var(--fg);padding:8px 10px;font:inherit;font-size:.9rem;resize:vertical}
+
+/* code task */
+.editor{width:100%;min-height:260px;font:13.5px/1.55 var(--f-mono);background:var(--code-bg);color:var(--fg);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;resize:vertical;tab-size:2;white-space:pre;overflow:auto}
+.tests{display:flex;flex-direction:column;gap:6px;font-size:.9rem}
+.test{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border-radius:8px;background:var(--surface)}
+.test .s{font-weight:700;width:18px;flex:none}
+.test.pass .s{color:var(--ok)} .test.fail .s{color:var(--bad)}
+.test .m{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);word-break:break-word}
+.solved{display:inline-flex;align-items:center;gap:6px;color:var(--ok);font-weight:700}
+
+/* order task */
+.order-pool,.order-out{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;padding:10px;border-radius:10px}
+.order-pool{background:var(--surface-2)}
+.order-out{border:1px dashed var(--line);flex-direction:column;flex-wrap:nowrap}
+.chip{font-family:var(--f-mono);font-size:.85rem;padding:7px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);text-align:left}
+.chip:hover{border-color:var(--accent)}
+.order-out .chip{display:flex;gap:10px}
+.order-out .chip i{font-style:normal;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* playground */
+.pg{display:grid;grid-template-columns:280px minmax(0,1fr);gap:16px;align-items:start}
+.pg-side{display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:5px;font-size:.85rem;font-weight:600}
+.field input,.field select,.field textarea{font:inherit;font-weight:400;font-size:.92rem;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+.seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{flex:1;border:0;background:var(--surface);padding:7px 6px;font-size:.82rem;font-weight:600;color:var(--muted)}
+.seg button.on{background:var(--accent);color:var(--accent-fg)}
+.blist{display:flex;flex-direction:column;gap:6px}
+.bitem{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;padding:6px 6px 6px 10px;background:var(--surface);font-size:.86rem}
+.bitem.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.bitem .nm{flex:1;min-width:0;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bitem.hid .nm{opacity:.45;text-decoration:line-through}
+.ib{border:0;background:var(--surface-2);width:26px;height:26px;border-radius:6px;font-size:.8rem;display:grid;place-items:center;flex:none}
+.ib:hover{background:var(--accent-soft)}
+.stage{background:repeating-linear-gradient(45deg,var(--surface-2) 0 10px,var(--bg) 10px 20px);border:1px solid var(--line);border-radius:14px;padding:16px;overflow-x:auto}
+.device{margin:0 auto;transition:width .3s;border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.18);max-width:100%}
+.json{max-height:320px}
+
+/* preview brands — demo content with its own palette */
+.pv{--p:#1B8A3A;--p-fg:#fff;--a:#E23B2E;--pbg:#FFFFFF;--pfg:#1A1A1A;--pmuted:#6B6B6B;--card:#F4F6F3;--pr:16px;--pfont:'Golos Text',sans-serif;--hfont:'Unbounded',sans-serif;background:var(--pbg);color:var(--pfg);font-family:var(--pfont)}
+.pv[data-brand="b"]{--p:#0E4D3A;--p-fg:#F3EBDD;--a:#B88A3B;--pbg:#FBF8F2;--pfg:#1F2A24;--pmuted:#6E6A5E;--card:#F0EADD;--pr:4px;--hfont:Georgia,'Times New Roman',serif}
+.pv[data-brand="c"]{--p:#FFD400;--p-fg:#111;--a:#111111;--pbg:#FFFFFF;--pfg:#111;--pmuted:#555;--card:#FFF6BF;--pr:0px;--hfont:'Unbounded',sans-serif}
+.pv-block{position:relative;cursor:pointer;outline:2px solid transparent;outline-offset:-2px}
+.pv-block:hover{outline-color:rgba(80,140,255,.5)}
+.pv-block.sel{outline-color:#3D7BFF}
+.pv-hero{background:var(--p);color:var(--p-fg);padding:28px 22px;display:flex;flex-direction:column;gap:10px}
+.pv-hero h4{font-family:var(--hfont);font-size:clamp(1.2rem,4vw,1.8rem);margin:0;line-height:1.15}
+.pv-hero p{opacity:.85;font-size:.95rem}
+.pv-cta{align-self:flex-start;background:var(--p-fg);color:var(--p);border:0;border-radius:var(--pr);padding:9px 16px;font-weight:700;font-size:.9rem}
+.pv-promo{background:var(--a);color:#fff;padding:12px 22px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:600;flex-wrap:wrap}
+.pv[data-brand="c"] .pv-promo{color:#FFD400}
+.pv-promo b{font-family:var(--hfont);font-size:1.3rem}
+.pv-grid{padding:20px 22px;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.pv-card{background:var(--card);border-radius:var(--pr);padding:10px;display:flex;flex-direction:column;gap:6px;font-size:.82rem}
+.pv-img{aspect-ratio:1;border-radius:calc(var(--pr) * .6);background:linear-gradient(135deg,rgba(0,0,0,.06),rgba(0,0,0,.14))}
+.pv-price{font-weight:800;font-size:1rem}
+.pv-old{color:var(--pmuted);text-decoration:line-through;font-size:.78rem;margin-left:6px;font-weight:400}
+.pv-text{padding:18px 22px;color:var(--pfg);font-size:.92rem;display:flex;flex-direction:column;gap:6px}
+.pv-text h5{font-family:var(--hfont);font-size:1.05rem;margin:0}
+.pv-empty{padding:40px 20px;text-align:center;color:var(--pmuted);font-size:.9rem}
+
+.proj ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px}
+.foot-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:20px}
+
+
+/* training */
+.tr-seg button{display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.25;padding:8px 6px}
+.tr-seg small{font-weight:500;font-size:.72rem;opacity:.85;font-variant-numeric:tabular-nums}
+.term,.cmp,.build{display:flex;flex-direction:column;gap:14px}
+.term-t{font-family:var(--f-display);font-size:clamp(1.3rem,4.5vw,1.7rem);line-height:1.2;padding:6px 0}
+.term-parts{display:grid;gap:10px}
+.term-part{padding:12px 14px;border-radius:10px;background:var(--surface-2);font-size:.95rem}
+.term-part b{display:block;font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.term-part.vs{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--tag)}
+.hint{font-size:.9rem;color:var(--muted)}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dots button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:.72rem;font-weight:700;color:var(--muted);padding:0;display:grid;place-items:center}
+.dots button.on{border-color:var(--accent);color:var(--fg);box-shadow:0 0 0 1px var(--accent)}
+.dots button.done{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.cmp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cmp-col{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--bg);min-width:0}
+.cmp-col.win{border-color:var(--ok);box-shadow:0 0 0 1px var(--ok)}
+.cmp-col.lose{border-color:var(--bad)}
+.cmp-h{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:.95rem}
+.cmp-col pre{font-size:12.5px;padding:10px 12px}
+.cmp-res{display:flex;flex-direction:column;gap:6px}
+.cmp-hidden{border:1px dashed var(--line);border-radius:8px;padding:16px 10px;text-align:center;color:var(--muted);font-size:.85rem}
+pre.cmp-out{background:#0F1A14;color:#CFE8D8;border-color:#0F1A14}
+.rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-size:.88rem}
+.rows li{display:flex;gap:8px;align-items:flex-start;padding:6px 9px;border-radius:8px;background:var(--surface)}
+.rows li i{font-style:normal;font-weight:700;flex:none;width:14px}
+.rows .y i{color:var(--ok)} .rows .n i{color:var(--bad)}
+.cmp-live{border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.pts{display:flex;flex-direction:column;gap:8px}
+.pt{text-align:left;border:1px solid var(--line);background:var(--surface);padding:12px 14px;border-radius:10px;display:flex;gap:12px;align-items:flex-start;font-size:.95rem;color:var(--fg)}
+.pt:hover:not(:disabled){border-color:var(--accent)}
+.pt .k{width:22px;height:22px;flex:none;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center;font-size:.75rem;font-weight:700;margin-top:1px}
+.pt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.pt[aria-pressed="true"] .k{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.pt small{display:block;color:var(--muted);font-size:.85rem;margin-top:4px}
+.pt:disabled{cursor:default}
+.pt.right{border-color:var(--ok);background:var(--accent-soft)}
+.pt.right .k{background:var(--ok);border-color:var(--ok)}
+.pt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.pt.wrong .k{background:var(--bad);border-color:var(--bad);color:#fff}
+.pt.miss{border-style:dashed;border-color:var(--tag)}
+.pt.miss .k{border-color:var(--tag);color:var(--fg)}
+.pt.skip{opacity:.7}
+.callout ol{margin:6px 0 8px;padding-left:20px;display:flex;flex-direction:column;gap:3px}
+@media (max-width:700px){.cmp-grid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.dots button{width:32px;height:32px}.pt{padding:14px}}
+
+/* top bar + drawer: visible only on narrow screens */
+.topbar,.scrim,.icon-btn.rail-close{display:none}
+.rail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.icon-btn{width:44px;height:44px;flex:none;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface);border-radius:10px;color:var(--fg)}
+.icon-btn svg{width:22px;height:22px}
+
+@media (max-width:860px){
+  :root{--tb:58px}
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .topbar{display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20;min-height:calc(var(--tb) + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) 0 max(12px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .tb-title{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
+  .tb-title .eyebrow{font-size:.66rem}
+  .tb-title b{font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tb-prog{flex:none;font-weight:700;font-size:.8rem;font-variant-numeric:tabular-nums;background:var(--tag);color:var(--tag-fg);padding:4px 10px;border-radius:99px}
+
+  .rail{position:fixed;inset:0 auto 0 0;z-index:40;width:min(330px,86vw);height:100%;height:100dvh;border-right:1px solid var(--line);box-shadow:0 0 40px rgba(0,0,0,.25);padding:calc(14px + env(safe-area-inset-top,0px)) 12px calc(20px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));transform:translateX(-105%);visibility:hidden;transition:transform .25s ease,visibility 0s .25s;overscroll-behavior:contain}
+  .nav-open .rail{transform:none;visibility:visible;transition:transform .25s ease}
+  .icon-btn.rail-close{display:grid}
+  .brand{padding-top:4px}
+  .nav a{padding:11px 10px;font-size:.95rem}
+  .scrim{display:block;position:fixed;inset:0;z-index:35;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .25s}
+  .nav-open .scrim{opacity:1;pointer-events:auto}
+  body.nav-open{overflow:hidden}
+
+  main{padding-top:22px;padding-bottom:calc(56px + env(safe-area-inset-bottom,0px))}
+  .wrap{gap:24px}
+  .hero{grid-template-columns:minmax(0,1fr);gap:16px}
+  .ready{align-items:flex-start}
+  .panel{padding:16px}
+
+  /* module tabs stick under the top bar */
+  .tabs{position:sticky;top:calc(var(--tb) + env(safe-area-inset-top,0px));z-index:10;background:var(--bg);margin-inline:-16px;padding-inline:12px;scrollbar-width:none;scroll-padding-inline:16px}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs button{padding:13px 12px;flex:none}
+  .stack{gap:26px}
+  .section{max-width:none}
+
+  /* requirement table becomes cards */
+  .req-table thead{display:none}
+  .req-table,.req-table tbody,.req-table tr,.req-table td{display:block}
+  .req-table tr{padding:12px 8px;border-bottom:1px solid var(--line)}
+  .req-table tr:last-child{border-bottom:0}
+  .req-table td{border:0;padding:3px 0}
+  .req-table td:first-child{font-weight:600}
+  .req-table td:last-child a{display:inline-block;padding:2px 0}
+  .tscroll.panel{padding:4px 12px!important}
+
+  /* playground: preview first, controls below */
+  .pg{grid-template-columns:minmax(0,1fr)}
+  .pg > .stack{order:-1}
+  .stage{padding:10px}
+  .pg-scale{font-size:.78rem;color:var(--muted);text-align:center}
+
+  .foot-nav{flex-direction:column}
+  .foot-nav .btn{justify-content:center;text-align:center;text-decoration:none;color:var(--fg);min-height:46px}
+}
+
+@media (max-width:560px){
+  body{font-size:15.5px}
+  h2{font-size:1.2rem}
+  pre,.editor{font-size:12.5px;padding:12px}
+  pre{margin-inline:-4px}
+  /* 16px on inputs stops iOS from zooming the page on focus */
+  .field input,.field select,.field textarea,details.iq textarea{font-size:16px}
+  .editor{font-size:16px;min-height:300px}
+  .btns > .btn{flex:1 1 auto;justify-content:center;min-height:44px}
+  #addBlock{flex:none;min-width:48px}
+  .opt{padding:14px;min-height:52px}
+  .q-text{font-size:1.04rem}
+  .chip{padding:10px 12px}
+  .ib{width:34px;height:34px}
+  .seg button{padding:10px 6px}
+  details.iq summary{padding:14px}
+  details.iq .a{padding:0 14px 14px 14px}
+  .check label{padding:11px 8px}
+  .tag big{font-size:1.4rem}
+}
+@media (hover:none){
+  .mod-card:hover{transform:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="shell">
+  <header class="topbar">
+    <button class="icon-btn" id="menuBtn" aria-label="Открыть меню курса" aria-expanded="false" aria-controls="rail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <div class="tb-title"><span class="eyebrow" id="tbEyebrow">Фронтенд-стажёр</span><b id="tbTitle">Обзор и план</b></div>
+    <span class="tb-prog" id="tbProg" title="Общая готовность">0%</span>
+  </header>
+  <div class="scrim" id="scrim"></div>
+  <aside class="rail" id="rail" aria-label="Навигация по курсу">
+    <div class="rail-head">
+      <div class="brand"><b>Фронтенд-стажёр</b><span>Подготовка: React, TS, вёрстка, конструктор</span></div>
+      <button class="icon-btn rail-close" id="menuClose" aria-label="Закрыть меню"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="rail-foot">
+      <span id="railFile">Прогресс хранится в браузере. Файл можно подключить на странице «Обзор».</span>
+      <button class="linkbtn" id="reset">Сбросить прогресс</button>
+      <span id="resetConfirm" hidden><button class="linkbtn" id="resetYes">Да, стереть всё</button> <button class="linkbtn" id="resetNo" style="margin-left:12px">Отмена</button></span>
+    </div>
+  </aside>
+  <main><div class="wrap" id="view"></div></main>
+</div>
+
+<script>
+/* ---------- helpers ---------- */
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const code = s => '<pre><code>' + esc(s.replace(/^\n/,'').replace(/\s+$/,'')) + '</code></pre>';
+const $ = (s, r=document) => r.querySelector(s);
+
+/* ---------- content ---------- */
+const MODULES = [
+{
+  id:'html', title:'HTML, семантика и доступность', short:'Структура страницы, картинки, формы, a11y', req:true,
+  theory:[
+    {h:'Семантическая разметка', html:`<p>Промо-страница — это документ. Теги <code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>, <code>footer</code> описывают смысл блоков. Это помогает SEO, скринридерам и коллегам, которые читают твой код на ревью.</p><ul><li>Один <code>h1</code> на страницу, дальше иерархия <code>h2 → h3</code> без пропусков.</li><li><code>section</code> обычно имеет заголовок. Если заголовка нет, скорее всего, нужен <code>div</code>.</li><li>Список товаров — это <code>ul/li</code>, а не набор div'ов.</li></ul>`,
+     code:`
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <h1 id="hero-title">Неделя скидок на фрукты</h1>
+    <p>До −40% на сезонные товары</p>
+    <a class="cta" href="/catalog/fruits">Смотреть акции</a>
+  </section>
+  <section aria-labelledby="goods-title">
+    <h2 id="goods-title">Товары недели</h2>
+    <ul class="goods">
+      <li><article class="card">…</article></li>
+    </ul>
+  </section>
+</main>`},
+    {h:'Кнопка или ссылка', html:`<p>Ссылка <code>&lt;a href&gt;</code> ведёт на другой адрес. Кнопка <code>&lt;button&gt;</code> выполняет действие на этой странице: открыть модалку, добавить в корзину, переключить таб. <code>&lt;div onclick&gt;</code> не получает фокус с клавиатуры и не читается скринридером как кнопка.</p>`},
+    {h:'Картинки на промо', html:`<ul><li>Всегда задавай <code>width</code> и <code>height</code> (или <code>aspect-ratio</code>), чтобы не было сдвига макета (метрика CLS).</li><li><code>loading="lazy"</code> для картинок ниже первого экрана, но не для баннера в hero — он влияет на LCP.</li><li><code>srcset</code> + <code>sizes</code> или <code>&lt;picture&gt;</code> дают отдельные картинки под мобилку и десктоп.</li><li><code>alt</code> описывает смысл. Для декоративной картинки пиши <code>alt=""</code>.</li></ul>`,
+     code:`
+<picture>
+  <source media="(min-width: 768px)" srcset="banner-desktop.webp">
+  <img src="banner-mobile.webp" width="750" height="900"
+       alt="Скидка 30% на молочную продукцию">
+</picture>`},
+    {h:'Формы и доступность', html:`<ul><li>У каждого поля есть <code>&lt;label for&gt;</code>. Placeholder не заменяет label.</li><li>Правильный <code>type</code> (<code>email</code>, <code>tel</code>) и <code>autocomplete</code> открывают нужную клавиатуру на телефоне.</li><li>Видимый фокус (<code>:focus-visible</code>) и контраст текста не ниже 4.5:1.</li><li>Иконка-кнопка без текста получает <code>aria-label</code>.</li></ul>`}
+  ],
+  quiz:[
+    {q:'Элемент по клику открывает модальное окно на этой же странице. Какой тег выбрать?', opts:['<button type="button">','<a href="#">','<div onclick="…">','<span role="link">'], a:0, why:'Действие на странице — это кнопка. Она фокусируется с клавиатуры, нажимается Enter/Space и озвучивается как кнопка.'},
+    {q:'Зачем указывать width и height у <img>?', opts:['Чтобы картинка грузилась быстрее','Чтобы браузер зарезервировал место и макет не прыгал при загрузке','Это нужно только для старых браузеров','Чтобы картинку нельзя было растянуть'], a:1, why:'Браузер вычисляет пропорцию заранее и не сдвигает контент. Это напрямую улучшает CLS — одну из Core Web Vitals.'},
+    {q:'Сколько h1 должно быть на промо-странице?', opts:['Ни одного, достаточно h2','Один — главный заголовок страницы','По одному в каждой section','Сколько угодно'], a:1, why:'Один h1 задаёт тему страницы для поисковиков и скринридеров. Остальные заголовки строят иерархию от него.'},
+    {q:'Какой alt у чисто декоративной картинки (фоновый узор)?', opts:['alt="узор"','Атрибут alt не нужен','alt=""','alt="image"'], a:2, why:'Пустой alt говорит скринридеру пропустить картинку. Без атрибута он может зачитать имя файла.'},
+    {q:'Что делают srcset и sizes?', opts:['Включают ленивую загрузку','Дают браузеру выбрать файл подходящего размера под ширину экрана и плотность пикселей','Сжимают картинку на лету','Подключают WebP'], a:1, why:'Браузер сам выбирает вариант из srcset, опираясь на sizes и DPR. Мобилка не качает картинку для 4K-монитора.'}
+  ],
+  interview:[
+    {q:'Что такое семантическая вёрстка и зачем она?', a:'Использование тегов по смыслу (header, main, nav, article, button), а не только div. Даёт доступность (скринридеры, клавиатура), SEO, понятный код и меньше кастомного JS: у button уже есть фокус и обработка Enter.'},
+    {q:'Чем <a> отличается от <button>?', a:'Ссылка — навигация, у неё есть href, её можно открыть в новой вкладке, она попадает в историю. Кнопка — действие на странице или отправка формы. Важно: у button внутри form по умолчанию type="submit".'},
+    {q:'Что такое Core Web Vitals и как вёрстка на них влияет?', a:'LCP — когда отрисовался главный контент (не лениво грузить hero-баннер, оптимизировать картинки). CLS — сдвиги макета (размеры у картинок, место под баннеры). INP — отзывчивость на действия (не блокировать главный поток тяжёлым JS).'},
+    {q:'Как сделать картинку адаптивной?', a:'max-width:100% и height:auto; srcset/sizes для разных разрешений; <picture> для разных кадрирований под мобилку и десктоп; современные форматы WebP/AVIF через source type.'}
+  ]
+},
+{
+  id:'css', title:'CSS: адаптив, мультибренд, CSS-модули', short:'Flex и Grid, mobile-first, темы брендов, кроссбраузерность', req:true,
+  theory:[
+    {h:'Flex или Grid', html:`<p>Flex раскладывает элементы в одну линию (меню, строка кнопок, карточка изнутри). Grid строит двумерную сетку (каталог, раскладка лендинга). Отступы между элементами задавай через <code>gap</code>, а не через margin у каждого ребёнка.</p>`,
+     code:`
+/* Сетка товаров: сколько влезет, но не уже 220px */
+.goods {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}`},
+    {h:'Mobile-first и адаптив', html:`<ul><li>Базовые стили пишутся для телефона, а <code>@media (min-width: …)</code> добавляет правила для больших экранов.</li><li><code>clamp()</code> даёт плавную типографику без кучи брейкпоинтов.</li><li><code>@container</code> адаптирует блок конструктора под ширину колонки, в которую его поставили, а не под ширину окна. Это очень полезно, когда один и тот же блок живёт в разных местах страницы.</li></ul>`,
+     code:`
+.title { font-size: clamp(1.5rem, 4vw, 2.5rem); }
+
+.banner { container-type: inline-size; }
+@container (min-width: 600px) {
+  .banner__inner { grid-template-columns: 1fr 1fr; }
+}`},
+    {h:'CSS-модули', html:`<p>Файл <code>Card.module.css</code> импортируется как объект. Сборщик превращает <code>.title</code> в уникальное имя вроде <code>Card_title__x7a2</code>, поэтому классы двух компонентов не конфликтуют. Глобальные стили пишутся через <code>:global</code>, переиспользование — через <code>composes</code>, условные классы — через <code>clsx</code>.</p>`,
+     code:`
+// Card.module.css
+.card { padding: 16px; border-radius: var(--radius); }
+.active { outline: 2px solid var(--color-primary); }
+
+// Card.tsx
+import styles from './Card.module.css';
+import clsx from 'clsx';
+
+export function Card({ active, children }: CardProps) {
+  return (
+    <div className={clsx(styles.card, active && styles.active)}>
+      {children}
+    </div>
+  );
+}`},
+    {h:'Один компонент — три бренда', html:`<p>У вакансии прямо написано: адаптировать вёрстку под три сети. Самый поддерживаемый способ — дизайн-токены в CSS-переменных. Компонент использует только <code>var(--color-primary)</code>, а значения переопределяются на корне по атрибуту бренда. Новый бренд — это новый набор токенов, а не переписывание компонентов. Посмотри, как это работает, во вкладке «Песочница» модуля про конструктор.</p>`,
+     code:`
+:root,
+[data-brand="discounter"] { --color-primary: #1B8A3A; --radius: 16px; }
+[data-brand="premium"]    { --color-primary: #0E4D3A; --radius: 4px;  }
+[data-brand="lowcost"]    { --color-primary: #FFD400; --radius: 0;    }
+
+.button {
+  background: var(--color-primary);
+  border-radius: var(--radius);
+}`},
+    {h:'Кроссбраузерность', html:`<ul><li>Перед использованием свойства проверь его на <a href="https://caniuse.com" target="_blank" rel="noopener">caniuse.com</a>.</li><li>Autoprefixer в сборке добавляет вендорные префиксы по списку browserslist.</li><li><code>@supports</code> даёт фолбэк для новых возможностей.</li><li>Типовые сюрпризы Safari на iOS: <code>100vh</code> учитывает место под адресной строкой (используй <code>100dvh</code>), зум страницы при фокусе на input со шрифтом меньше 16px, отличия в стилизации <code>input type="date"</code>.</li></ul>`},
+    {h:'Каскад и специфичность', html:`<p>Специфичность считается тройкой (id, классы/атрибуты/псевдоклассы, теги). <code>#promo .title</code> = (1,1,0) сильнее, чем <code>.card .title.active</code> = (0,3,0). В CSS-модулях почти всё — одиночные классы, поэтому конфликтов специфичности мало. Не используй <code>!important</code> для починки, ищи причину.</p>`}
+  ],
+  quiz:[
+    {q:'Что происходит с классом .title из Card.module.css после сборки?', opts:['Остаётся .title','Превращается в уникальное имя вида Card_title__x7a2','Удаляется, если не используется в HTML','Становится inline-стилем'], a:1, why:'В этом и смысл CSS-модулей: локальная область видимости классов без ручного БЭМ-префикса.'},
+    {q:'Сетка карточек: сколько влезет, но карточка не уже 220px. Что написать?', opts:['grid-template-columns: repeat(4, 1fr)','display: flex; flex-wrap: wrap','grid-template-columns: repeat(auto-fill, minmax(220px, 1fr))','columns: 220px'], a:2, why:'auto-fill + minmax сами пересчитывают число колонок под ширину контейнера без медиазапросов.'},
+    {q:'Какой селектор самый специфичный?', opts:['.card .title.active','#promo .title','div section p a','.title:hover'], a:1, why:'Один id перевешивает любое количество классов: (1,1,0) против (0,3,0).'},
+    {q:'Как лучше реализовать три бренда в одном конструкторе?', opts:['Три копии каждого компонента','CSS-переменные, переопределяемые на корне по атрибуту бренда','if (brand === …) внутри каждого компонента со стилями inline','Отдельный CSS-файл на бренд, подключаемый через !important'], a:1, why:'Компоненты остаются одни, бренд меняется набором токенов. Это масштабируется и легко ревьюится.'},
+    {q:'На iPhone блок с height: 100vh обрезается снизу. Что использовать?', opts:['height: 100%','height: 100dvh','height: 99vh','min-height: 100px'], a:1, why:'dvh (dynamic viewport height) учитывает появление и скрытие панелей браузера на мобильных.'},
+    {q:'Что значит mobile-first?', opts:['Сайт делают только для мобильных','Базовые стили для телефона, а min-width-медиазапросы добавляют правила для больших экранов','Сначала верстают десктоп, потом max-width для мобилок','Отдельный поддомен m.site.ru'], a:1, why:'Мобильный трафик у ритейла основной, а такой подход даёт меньше переопределений в CSS.'}
+  ],
+  interview:[
+    {q:'Чем отличаются Flexbox и Grid?', a:'Flex — одномерная раскладка вдоль оси, размеры идут от контента. Grid — двумерная сетка, размеры задаются от контейнера. Их часто комбинируют: grid для раскладки страницы, flex внутри карточки.'},
+    {q:'Как работают CSS-модули и какие у них плюсы и минусы?', a:'Классы хешируются при сборке, импортируются как объект. Плюсы: нет конфликтов имён, мёртвый CSS видно, стили рядом с компонентом. Минусы: сложнее переопределять снаружи (решается пропсом className и CSS-переменными), динамические стили всё равно нужны через переменные или inline.'},
+    {q:'Как сделать тёмную тему или мультибренд?', a:'Дизайн-токены в CSS custom properties на :root, переопределение по атрибуту ([data-brand], [data-theme]) или prefers-color-scheme. Компоненты ссылаются только на токены.'},
+    {q:'Как проверяешь кроссбраузерность?', a:'browserslist + autoprefixer, caniuse перед использованием нового свойства, @supports для фолбэков, проверка в реальных Safari/Chrome/Firefox и на телефоне (или BrowserStack), DevTools device mode для первичной проверки.'}
+  ],
+  playgroundLink:true
+},
+{
+  id:'js', title:'JavaScript ES6+', short:'Массивы, async/await, event loop, замыкания', req:true,
+  theory:[
+    {h:'Современный синтаксис', html:`<ul><li><code>const</code> по умолчанию, <code>let</code>, если переприсваиваешь, <code>var</code> не используй.</li><li>Деструктуризация, spread и rest.</li><li><code>?.</code> (optional chaining) и <code>??</code> (только для <code>null/undefined</code>, в отличие от <code>||</code>).</li><li>Модули: <code>export</code> / <code>import</code>.</li></ul>`,
+     code:`
+const { title, price = 0, ...rest } = product;
+const updated = { ...product, price: 99 };   // новый объект, исходный не меняется
+const items = [...cart, newItem];
+
+const city = user?.address?.city ?? 'Москва';
+0 || 'нет'   // 'нет'
+0 ?? 'нет'   // 0`},
+    {h:'Методы массивов', html:`<p>Вся работа со списками товаров и блоков — это <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>find</code>, <code>some</code>, <code>every</code>, <code>sort</code>. Помни: <code>sort</code> и <code>reverse</code> мутируют массив. В React копируй перед сортировкой: <code>[...arr].sort()</code> или <code>arr.toSorted()</code>.</p>`,
+     code:`
+const promoTotal = products
+  .filter(p => p.isPromo)
+  .map(p => p.price * p.qty)
+  .reduce((sum, x) => sum + x, 0);
+
+const sorted = [...products].sort((a, b) => a.price - b.price);`},
+    {h:'Асинхронность', html:`<p>Промисы и <code>async/await</code> — это загрузка данных страницы, блоков, товаров. Ошибки ловятся через <code>try/catch</code>. Параллельные запросы делаются через <code>Promise.all</code>.</p>`,
+     code:`
+async function loadPage(slug) {
+  try {
+    const res = await fetch('/api/pages/' + slug);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return await res.json();
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
+
+const [page, banners] = await Promise.all([loadPage('sale'), loadBanners()]);`},
+    {h:'Event loop', html:`<p>Сначала выполняется весь синхронный код, затем все микрозадачи (<code>Promise.then</code>, <code>queueMicrotask</code>), затем одна макрозадача (<code>setTimeout</code>, события), и снова микрозадачи. На собеседованиях любят задачи «в каком порядке выведется».</p>`,
+     code:`
+console.log(1);
+setTimeout(() => console.log(2), 0);
+Promise.resolve().then(() => console.log(3));
+console.log(4);
+// 1, 4, 3, 2`},
+    {h:'Замыкания и this', html:`<p>Функция помнит переменные места, где её создали. На этом построены <code>debounce</code>, кастомные хуки, фабрики. Стрелочная функция не имеет своего <code>this</code> и берёт его снаружи.</p>`,
+     code:`
+function debounce(fn, ms) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), ms);
+  };
+}
+const onSearch = debounce(q => fetchSuggestions(q), 300);`}
+  ],
+  quiz:[
+    {q:'В каком порядке выведется: console.log("A"); setTimeout(()=>console.log("B")); Promise.resolve().then(()=>console.log("C")); console.log("D")?', opts:['A B C D','A D C B','A D B C','A C D B'], a:1, why:'Синхронный код (A, D), затем микрозадачи (C), затем макрозадачи (B).'},
+    {q:'Что вернёт [1, 2, 3].map(x => x * 2).filter(x => x > 2)?', opts:['[2, 4, 6]','[4, 6]','[3]','[6]'], a:1, why:'map даёт [2, 4, 6], filter оставляет больше двух.'},
+    {q:'const obj = { a: 1 }; obj.a = 2; — что произойдёт?', opts:['TypeError','Сработает: const запрещает переприсвоить переменную, а не менять объект','obj станет undefined','Изменение молча проигнорируется'], a:1, why:'const фиксирует ссылку. Для неизменяемости объекта есть Object.freeze.'},
+    {q:'Чему равны 0 || "def" и 0 ?? "def"?', opts:['"def" и "def"','0 и 0','"def" и 0','0 и "def"'], a:2, why:'|| реагирует на любые ложные значения, ?? — только на null и undefined. Цена 0 ₽ — валидное значение, поэтому тут нужен ??.'},
+    {q:'for (var i = 0; i < 3; i++) setTimeout(() => console.log(i)); — что выведется?', opts:['0 1 2','3 3 3','undefined ×3','0 0 0'], a:1, why:'var один на весь цикл, к моменту срабатывания таймеров i = 3. С let у каждой итерации своя переменная, и выведется 0 1 2.'},
+    {q:'Какой метод мутирует исходный массив?', opts:['map','filter','sort','slice'], a:2, why:'sort меняет массив на месте. В React это частая причина «состояние поменялось, а экран нет».'}
+  ],
+  interview:[
+    {q:'Что такое замыкание? Приведи пример из практики.', a:'Функция вместе с лексическим окружением, в котором она создана. Примеры: debounce/throttle, счётчик, кастомный хук, обработчик в цикле с let.'},
+    {q:'Объясни event loop.', a:'Один поток выполняет call stack. Асинхронные колбэки ставятся в очереди: микрозадачи (промисы) выполняются все сразу после текущего кода, макрозадачи (таймеры, события) — по одной, после каждой снова очищаются микрозадачи, затем возможна отрисовка.'},
+    {q:'Чем отличаются == и ===?', a:'== приводит типы ("1" == 1 → true), === сравнивает без приведения. Используем ===, исключение — проверка x == null, которая ловит null и undefined.'},
+    {q:'Promise.all, allSettled, race — в чём разница?', a:'all падает на первой ошибке и возвращает массив результатов; allSettled ждёт все и возвращает статусы; race возвращает первый завершившийся; any — первый успешный.'}
+  ],
+  task:{
+    kind:'code', title:'Посчитай корзину с промокодом',
+    desc:`Напиши функцию <code>cartTotal(items, promo)</code>.<ul><li><code>items</code> — массив <code>{ price, qty }</code>.</li><li><code>promo</code> — <code>null</code>, <code>{ type: 'percent', value: 10 }</code> или <code>{ type: 'fixed', value: 150 }</code>.</li><li>Итог не может быть меньше 0, округляй до копеек (2 знака) и возвращай число.</li></ul>`,
+    fn:'cartTotal',
+    starter:`function cartTotal(items, promo) {
+  // твой код
+}`,
+    solution:`function cartTotal(items, promo) {
+  const sum = items.reduce((s, i) => s + i.price * i.qty, 0);
+  let total = sum;
+  if (promo?.type === 'percent') total = sum * (1 - promo.value / 100);
+  if (promo?.type === 'fixed') total = sum - promo.value;
+  return Math.max(0, Math.round(total * 100) / 100);
+}`,
+    tests:[
+      {name:'Без промокода', run:f=>eq(f([{price:100,qty:2},{price:49.9,qty:1}],null),249.9)},
+      {name:'Пустая корзина', run:f=>eq(f([],null),0)},
+      {name:'Скидка 10%', run:f=>eq(f([{price:199.99,qty:3}],{type:'percent',value:10}),539.97)},
+      {name:'Фиксированная скидка 150 ₽', run:f=>eq(f([{price:120,qty:2}],{type:'fixed',value:150}),90)},
+      {name:'Итог не уходит в минус', run:f=>eq(f([{price:50,qty:1}],{type:'fixed',value:300}),0)}
+    ]
+  }
+},
+{
+  id:'react', title:'React', short:'Компоненты, хуки, списки, состояние, ререндеры', req:true,
+  theory:[
+    {h:'Компоненты, props и state', html:`<p>Компонент — функция от props, которая возвращает JSX. Props приходят сверху и не меняются внутри компонента. State — внутренняя память, изменение которой вызывает перерисовку. Данные текут сверху вниз, события поднимаются наверх через колбэки.</p>`,
+     code:`
+type ProductCardProps = {
+  title: string;
+  price: number;
+  oldPrice?: number;
+  onAdd: () => void;
+};
+
+export function ProductCard({ title, price, oldPrice, onAdd }: ProductCardProps) {
+  return (
+    <article className={styles.card}>
+      <h3>{title}</h3>
+      <p>
+        {price} ₽ {oldPrice && <s>{oldPrice} ₽</s>}
+      </p>
+      <button type="button" onClick={onAdd}>В корзину</button>
+    </article>
+  );
+}`},
+    {h:'useState и неизменяемость', html:`<p>Состояние нельзя мутировать: React сравнивает ссылки. Создавай новый массив или объект. Если новое значение зависит от старого, используй функциональную форму <code>setX(prev =&gt; …)</code>.</p>`,
+     code:`
+const [items, setItems] = useState<Item[]>([]);
+
+setItems(prev => [...prev, item]);                          // добавить
+setItems(prev => prev.filter(i => i.id !== id));            // удалить
+setItems(prev => prev.map(i => i.id === id ? { ...i, qty: i.qty + 1 } : i)); // обновить`},
+    {h:'useEffect', html:`<p>Эффект синхронизирует компонент с внешним миром: запрос, подписка, таймер. Массив зависимостей говорит, когда перезапускать. Функция очистки отменяет подписку и защищает от гонок.</p>`,
+     code:`
+useEffect(() => {
+  const controller = new AbortController();
+  fetch('/api/banners?brand=' + brand, { signal: controller.signal })
+    .then(r => r.json())
+    .then(setBanners)
+    .catch(() => {});
+  return () => controller.abort();   // бренд сменился — старый запрос отменён
+}, [brand]);`},
+    {h:'Списки и key', html:`<p><code>key</code> помогает React понять, какой элемент какой. Бери стабильный id из данных. <code>key={index}</code> ломается, когда элементы переставляют или удаляют, а это ровно то, что делает конструктор с блоками.</p>`},
+    {h:'Производительность', html:`<ul><li><code>React.memo</code> пропускает перерисовку, если props не изменились.</li><li><code>useMemo</code> кэширует тяжёлое вычисление, <code>useCallback</code> — ссылку на функцию для мемо-детей.</li><li>Сначала измерь в React DevTools Profiler, потом оптимизируй.</li><li>Context удобен для темы и бренда, но все подписчики перерисуются при смене значения.</li></ul>`},
+    {h:'Композиция и кастомные хуки', html:`<p>Вместо огромных компонентов с десятком флагов используй <code>children</code> и маленькие компоненты. Повторяющуюся логику выноси в хук <code>useSomething</code>.</p>`,
+     code:`
+function useCountdown(endsAt: string) {
+  const [left, setLeft] = useState(() => Date.parse(endsAt) - Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setLeft(Date.parse(endsAt) - Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [endsAt]);
+  return Math.max(0, left);
+}`}
+  ],
+  quiz:[
+    {q:'Почему key={index} плохо в списке блоков, которые можно переставлять?', opts:['Это медленно','React свяжет состояние и DOM не с тем элементом после перестановки','Индекс не может быть ключом по спецификации','Будет ошибка TypeScript'], a:1, why:'Ключ привязывает внутреннее состояние к позиции, а не к блоку. Введённый текст или открытый аккордеон «переедут» к соседу.'},
+    {q:'Когда выполнится useEffect(() => { … }, [])?', opts:['На каждом рендере','Один раз после первого рендера, очистка при размонтировании','До первого рендера','Никогда'], a:1, why:'Пустой массив зависимостей — эффект срабатывает при монтировании. В StrictMode в dev он намеренно запускается дважды.'},
+    {q:'count = 0. В одном обработчике два раза вызвали setCount(count + 1). Чему будет равен count?', opts:['2','1','0','Ошибка'], a:1, why:'Оба вызова видят старое count = 0. Правильно: setCount(c => c + 1) дважды — получится 2.'},
+    {q:'items.push(newItem); setItems(items); — что не так?', opts:['Всё нормально','Мутация: ссылка та же, React может не перерисовать','push не работает в React','setItems принимает только функцию'], a:1, why:'Нужен новый массив: setItems([...items, newItem]).'},
+    {q:'Когда уместен useMemo?', opts:['Всегда, для любой переменной','Для тяжёлого вычисления, зависящего от редко меняющихся данных','Вместо useState','Для запросов к API'], a:1, why:'Мемоизация тоже стоит памяти и сравнений. Её применяют точечно, где Profiler показал проблему.'}
+  ],
+  interview:[
+    {q:'Что такое Virtual DOM и reconciliation?', a:'React строит дерево элементов, сравнивает его с предыдущим (diff по типу и key) и применяет к реальному DOM минимальные изменения. Ключи помогают сопоставить элементы списков.'},
+    {q:'Как жизненный цикл выражается через хуки?', a:'Монтирование — useEffect с []; обновление — useEffect с зависимостями; размонтирование — функция очистки. useLayoutEffect срабатывает синхронно до отрисовки, для измерений DOM.'},
+    {q:'Контролируемый и неконтролируемый инпут — разница?', a:'Контролируемый: value из state и onChange обновляет state, React — источник истины. Неконтролируемый: значение хранит DOM, читаем через ref. Формы настроек блока в конструкторе обычно контролируемые.'},
+    {q:'Как избежать лишних ререндеров?', a:'Держать state как можно ниже по дереву, не создавать новые объекты и функции в пропсах мемо-компонентов без нужды, React.memo/useMemo/useCallback точечно, разделять контексты, профилировать.'},
+    {q:'Что такое Error Boundary?', a:'Классовый компонент с componentDidCatch/getDerivedStateFromError, который ловит ошибки рендера потомков и показывает фолбэк. В конструкторе стоит оборачивать каждый блок, чтобы один сломанный не уронил всю страницу.'}
+  ],
+  task:{
+    kind:'code', title:'Редьюсер корзины для useReducer',
+    desc:`Напиши <code>cartReducer(state, action)</code>. Состояние — <code>{ items: [{ id, qty }] }</code>.<ul><li><code>{ type: 'add', id }</code> — если товар есть, увеличить qty на 1, иначе добавить с qty 1.</li><li><code>{ type: 'remove', id }</code> — уменьшить qty; при 0 убрать товар.</li><li><code>{ type: 'clear' }</code> — пустая корзина.</li><li>Неизвестный action — вернуть тот же state.</li><li><b>Нельзя мутировать</b> исходный state — тесты это проверяют.</li></ul>`,
+    fn:'cartReducer',
+    starter:`function cartReducer(state, action) {
+  switch (action.type) {
+    // твой код
+    default:
+      return state;
+  }
+}`,
+    solution:`function cartReducer(state, action) {
+  switch (action.type) {
+    case 'add': {
+      const exists = state.items.some(i => i.id === action.id);
+      return {
+        ...state,
+        items: exists
+          ? state.items.map(i => i.id === action.id ? { ...i, qty: i.qty + 1 } : i)
+          : [...state.items, { id: action.id, qty: 1 }]
+      };
+    }
+    case 'remove':
+      return {
+        ...state,
+        items: state.items
+          .map(i => i.id === action.id ? { ...i, qty: i.qty - 1 } : i)
+          .filter(i => i.qty > 0)
+      };
+    case 'clear':
+      return { ...state, items: [] };
+    default:
+      return state;
+  }
+}`,
+    tests:[
+      {name:'add добавляет новый товар', run:f=>eq(f({items:[]},{type:'add',id:'milk'}),{items:[{id:'milk',qty:1}]})},
+      {name:'add увеличивает qty существующего', run:f=>eq(f({items:[{id:'milk',qty:1}]},{type:'add',id:'milk'}),{items:[{id:'milk',qty:2}]})},
+      {name:'remove уменьшает и удаляет при 0', run:f=>eq(f({items:[{id:'a',qty:1},{id:'b',qty:3}]},{type:'remove',id:'a'}),{items:[{id:'b',qty:3}]})},
+      {name:'clear очищает', run:f=>eq(f({items:[{id:'a',qty:5}]},{type:'clear'}),{items:[]})},
+      {name:'Исходный state не мутирован', run:f=>{const s={items:[{id:'a',qty:1}]};const snap=JSON.stringify(s);const n=f(s,{type:'add',id:'a'});if(JSON.stringify(s)!==snap)return 'state изменился: '+JSON.stringify(s);if(n===s)return 'вернулся тот же объект';if(n.items===s.items)return 'массив items тот же';return true}},
+      {name:'Неизвестный action возвращает тот же объект', run:f=>{const s={items:[]};return f(s,{type:'nope'})===s||'ожидался тот же state'}}
+    ]
+  }
+},
+{
+  id:'ts', title:'TypeScript', short:'Типы, union, generics, utility types, пропсы', req:false,
+  theory:[
+    {h:'type и interface', html:`<p>Оба описывают форму объекта. <code>interface</code> можно расширять через <code>extends</code> и дополнять повторным объявлением. <code>type</code> умеет union, пересечения и вычисляемые типы. В React-проектах для пропсов часто используют <code>type</code>, главное — единообразие в команде.</p>`,
+     code:`
+type Brand = 'discounter' | 'premium' | 'lowcost';
+
+interface Product {
+  id: string;
+  title: string;
+  price: number;
+  oldPrice?: number;       // необязательное поле
+  readonly sku: string;    // нельзя менять
+}`},
+    {h:'Discriminated union — сердце конструктора', html:`<p>У каждого блока своё поле <code>type</code> и свой набор настроек. TypeScript по проверке <code>type</code> сам сужает тип и подсказывает нужные поля. Если добавишь новый блок и забудешь обработать его в switch, проверка <code>never</code> подсветит ошибку.</p>`,
+     code:`
+type HeroBlock    = { id: string; type: 'hero';    title: string; ctaUrl?: string };
+type ProductsBlock= { id: string; type: 'products'; categoryId: string; limit: number };
+type TimerBlock   = { id: string; type: 'timer';   endsAt: string };
+
+type Block = HeroBlock | ProductsBlock | TimerBlock;
+
+function blockLabel(b: Block): string {
+  switch (b.type) {
+    case 'hero':     return b.title;             // здесь b: HeroBlock
+    case 'products': return 'Товары: ' + b.limit;
+    case 'timer':    return 'До ' + b.endsAt;
+    default: {
+      const _exhaustive: never = b;              // ошибка, если забыли тип
+      return _exhaustive;
+    }
+  }
+}`},
+    {h:'Generics', html:`<p>Обобщённый тип — параметр для типа. Пишешь функцию или компонент один раз, а тип подставляется при использовании.</p>`,
+     code:`
+function first<T>(arr: T[]): T | undefined {
+  return arr[0];
+}
+const p = first(products);   // p: Product | undefined
+
+type ApiResponse<T> = { data: T; error: string | null };`},
+    {h:'Utility types', html:`<ul><li><code>Partial&lt;T&gt;</code> — все поля необязательные (патч настроек блока).</li><li><code>Required&lt;T&gt;</code>, <code>Readonly&lt;T&gt;</code>.</li><li><code>Pick&lt;T, 'a' | 'b'&gt;</code>, <code>Omit&lt;T, 'id'&gt;</code>.</li><li><code>Record&lt;Brand, Theme&gt;</code> — словарь с заданными ключами.</li><li><code>ReturnType</code>, <code>Parameters</code>, <code>keyof</code>, <code>typeof</code>.</li></ul>`,
+     code:`
+const themes: Record<Brand, { primary: string }> = {
+  discounter: { primary: '#1B8A3A' },
+  premium:    { primary: '#0E4D3A' },
+  lowcost:    { primary: '#FFD400' },   // забудешь бренд — ошибка компиляции
+};
+
+function updateBlock(id: string, patch: Partial<Omit<HeroBlock, 'id' | 'type'>>) { … }`},
+    {h:'Типизация React', html:`<p>Пропсы, события, рефы и расширение нативных атрибутов кнопки.</p>`,
+     code:`
+type ButtonProps = {
+  variant?: 'primary' | 'ghost';
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+export function Button({ variant = 'primary', className, ...rest }: ButtonProps) {
+  return <button className={clsx(styles[variant], className)} {...rest} />;
+}
+
+const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
+const ref = useRef<HTMLDivElement>(null);`},
+    {h:'any и unknown', html:`<p><code>any</code> выключает проверку. <code>unknown</code> — «что-то пришло», и прежде чем использовать, нужно сузить тип проверкой. Данные с бэкенда безопаснее типизировать как <code>unknown</code> и валидировать (например, через zod).</p>`}
+  ],
+  quiz:[
+    {q:'Какой приём TS лучше всего описывает блоки, у которых набор полей зависит от поля type?', opts:['any','Discriminated union','enum','Один интерфейс со всеми полями optional'], a:1, why:'По литеральному полю type компилятор сужает тип и проверяет полноту обработки.'},
+    {q:'Что делает Partial<Banner>?', opts:['Удаляет поля','Делает все поля необязательными','Делает все поля readonly','Берёт первое поле'], a:1, why:'Удобно для функций обновления, которые принимают только изменённые поля.'},
+    {q:'Чем unknown отличается от any?', opts:['Ничем','unknown требует проверки типа перед использованием','any безопаснее','unknown только для чисел'], a:1, why:'С unknown нельзя вызвать метод или обратиться к полю, пока не сузишь тип через typeof, in или type guard.'},
+    {q:'type Brand = "discounter" | "premium"; const b: Brand = "lowcost"; — что будет?', opts:['Всё скомпилируется','Ошибка: тип "lowcost" нельзя присвоить типу Brand','b станет undefined','Предупреждение только в рантайме'], a:1, why:'Литеральные union-типы ловят опечатки и несуществующие значения ещё в редакторе.'},
+    {q:'Как убрать поле onClick из типа Props?', opts:['Pick<Props, "onClick">','Omit<Props, "onClick">','Exclude<Props>','delete Props.onClick'], a:1, why:'Omit создаёт новый тип без указанных ключей. Pick, наоборот, оставляет только их.'},
+    {q:'Как правильно типизировать обработчик onChange у input?', opts:['(e: Event) => …','(e: any) => …','(e: React.ChangeEvent<HTMLInputElement>) => …','(e: InputEvent) => …'], a:2, why:'React оборачивает нативные события в SyntheticEvent, и у него свои типы.'}
+  ],
+  interview:[
+    {q:'Зачем TypeScript во фронтенде?', a:'Ошибки ловятся до запуска, автодополнение, самодокументируемые контракты между компонентами и с API, безопасный рефакторинг. Особенно ценно в конструкторе с десятками типов блоков.'},
+    {q:'interface или type — что выберешь?', a:'Для объектов и публичных контрактов подойдёт interface (расширяется, понятные ошибки), для union и вычисляемых типов — type. Главное — договорённость в команде и единообразие.'},
+    {q:'Что такое type guard?', a:'Функция-проверка с возвращаемым типом вида x is T, которая сужает тип в ветке if. Например isProductsBlock(b): b is ProductsBlock.'},
+    {q:'Что такое generics, приведи пример.', a:'Параметры типов. useState<T>, Array<T>, функция first<T>(arr: T[]): T | undefined, компонент Select<T> со списком опций любого типа.'}
+  ]
+},
+{
+  id:'builder', title:'Конструктор страниц и CMS', short:'JSON-схема, реестр блоков, рендерер, мультибренд', req:false,
+  theory:[
+    {h:'Как устроен конструктор лендингов', html:`<p>Это главное, чем занимается команда из вакансии. Почти любой конструктор состоит из одних и тех же частей:</p><ul><li><b>Схема страницы</b> — JSON с массивом блоков и их настройками. Хранится в бэкенде или CMS.</li><li><b>Реестр блоков</b> — словарь <code>type → { компонент, форма настроек, значения по умолчанию }</code>.</li><li><b>Рендерер</b> — проходит по схеме и рисует компоненты из реестра.</li><li><b>Редактор</b> — интерфейс для маркетолога: добавить блок, перетащить, заполнить поля, посмотреть превью.</li><li><b>Публикация</b> — версии, черновик/опубликовано, расписание показа.</li></ul>`},
+    {h:'Схема и рендерер', html:`<p>Рендерер не знает, какие блоки бывают. Он просто берёт компонент из реестра. Неизвестный тип не должен ронять страницу.</p>`,
+     code:`
+// page.json
+{
+  "slug": "fruit-week",
+  "brand": "discounter",
+  "blocks": [
+    { "id": "b1", "type": "hero", "title": "Неделя фруктов", "ctaUrl": "/catalog/fruits" },
+    { "id": "b2", "type": "products", "categoryId": "fruits", "limit": 8 },
+    { "id": "b3", "type": "timer", "endsAt": "2026-12-01T00:00:00+03:00" }
+  ]
+}
+
+// registry.ts
+export const registry = {
+  hero:     { Component: HeroBlock,     defaults: { title: 'Заголовок' } },
+  products: { Component: ProductsBlock, defaults: { limit: 8 } },
+  timer:    { Component: TimerBlock,    defaults: {} },
+} satisfies Record<Block['type'], BlockDefinition>;
+
+// PageRenderer.tsx
+export function PageRenderer({ blocks }: { blocks: Block[] }) {
+  return blocks.map(block => {
+    const def = registry[block.type];
+    if (!def) return null;                       // + лог в мониторинг
+    const { Component } = def;
+    return (
+      <ErrorBoundary key={block.id} fallback={null}>
+        <Component {...def.defaults} {...block} />
+      </ErrorBoundary>
+    );
+  });
+}`},
+    {h:'Чек-лист нового блока', html:`<p>«Развивать конструктор: добавлять новые блоки» на практике выглядит так:</p><ul><li>Описать тип в union <code>Block</code> и значения по умолчанию.</li><li>Сверстать компонент с CSS-модулем на токенах бренда.</li><li>Адаптив: мобилка, планшет, десктоп; проверка в Safari.</li><li>Форма настроек в редакторе: какие поля может менять маркетолог, валидация.</li><li>Пустые и крайние состояния: длинный заголовок, нет картинки, 0 товаров.</li><li>Обратная совместимость: старые страницы без нового поля должны открываться (дефолт или миграция).</li><li>Story в Storybook и тест, скриншоты в описании PR.</li></ul>`},
+    {h:'Видимость и расписание', html:`<p>Промо-блоки часто показываются по датам акции и только для определённых брендов или регионов. Эту логику выносят в чистую функцию, которую легко тестировать. Её и предстоит написать во вкладке «Практика».</p>`},
+    {h:'CMS и headless', html:`<p>Headless CMS (Strapi, Contentful, собственные решения) хранит контент и отдаёт его по API, а фронтенд сам решает, как рисовать. Конструктор поверх CMS даёт маркетологу собирать страницу из готовых блоков без релиза фронтенда. Именно это и означает «запускать кампании без долгого цикла разработки».</p>`}
+  ],
+  quiz:[
+    {q:'Рендерер встретил блок с type, которого нет в реестре. Как лучше поступить?', opts:['Бросить исключение, чтобы заметили','Пропустить блок на публичной странице, показать заглушку в редакторе и залогировать','Отрисовать первый блок из реестра','Перезагрузить страницу'], a:1, why:'Публичная страница не должна падать из-за одного блока. Ошибку видит редактор и мониторинг.'},
+    {q:'Где хранить текст и картинку промо-баннера?', opts:['Захардкодить в компоненте','В данных блока в схеме страницы','В CSS через content','В .env'], a:1, why:'Компонент отвечает за вид, контент приходит из схемы. Иначе каждое изменение текста потребует релиза.'},
+    {q:'В существующий блок добавили обязательное поле. Что сделать со старыми страницами?', opts:['Ничего','Дать значение по умолчанию или написать миграцию схемы','Удалить старые страницы','Попросить маркетологов пересобрать всё вручную'], a:1, why:'Обратная совместимость данных — одна из главных забот конструктора.'},
+    {q:'Зачем оборачивать каждый блок в Error Boundary?', opts:['Для SEO','Чтобы ошибка рендера одного блока не уронила всю страницу','Для анимаций','Чтобы блок грузился лениво'], a:1, why:'Без boundary исключение в одном компоненте размонтирует всё дерево React.'},
+    {q:'Как один и тот же блок должен выглядеть в разных брендах?', opts:['Отдельный компонент на бренд','Тот же компонент, оформление через токены бренда','if/else внутри JSX на каждый цвет','Через разные HTML-шаблоны'], a:1, why:'Токены отделяют вид бренда от логики блока. Попробуй это в песочнице.'}
+  ],
+  interview:[
+    {q:'Как бы ты спроектировал блок «Таймер акции»?', a:'Тип { type: "timer", endsAt, title?, hideAfterEnd }. Кастомный хук useCountdown с setInterval и очисткой. Серверное время или учёт часового пояса (ISO с offset). Поведение после окончания: скрыть или показать «акция завершена». Адаптив, aria-live="off", чтобы скринридер не зачитывал каждую секунду. Настройки в редакторе: дата, текст. Story и тесты на граничные даты.'},
+    {q:'Как сделать превью страницы в редакторе?', a:'Тот же PageRenderer с черновой схемой, переключатели ширины (mobile/tablet/desktop) и бренда. Часто превью рендерят в iframe, чтобы стили редактора не смешивались со стилями страницы и работали media queries по ширине.'},
+    {q:'Как обеспечить, чтобы маркетолог не сломал вёрстку?', a:'Ограничения в форме настроек (длина текста, обязательные поля, соотношение сторон картинки), валидация схемы (zod), устойчивые компоненты (обрезка, переносы, фолбэки), предпросмотр до публикации.'}
+  ],
+  task:{
+    kind:'code', title:'Какие блоки показать сейчас',
+    desc:`Напиши <code>visibleBlocks(blocks, brand, now)</code>, которая возвращает <b>массив id</b> блоков для показа:<ul><li>Убрать блоки с <code>hidden: true</code>.</li><li>Если у блока есть <code>brands</code> (массив), бренд должен в нём быть. Нет поля — блок для всех.</li><li>Если есть <code>startsAt</code> / <code>endsAt</code> (ISO-строки), то <code>now</code> (объект Date) должен быть в диапазоне <code>startsAt ≤ now &lt; endsAt</code>.</li><li>Отсортировать по <code>order</code> по возрастанию, не мутируя исходный массив.</li></ul>`,
+    fn:'visibleBlocks',
+    starter:`function visibleBlocks(blocks, brand, now) {
+  // твой код
+}`,
+    solution:`function visibleBlocks(blocks, brand, now) {
+  const t = now.getTime();
+  return blocks
+    .filter(b => !b.hidden)
+    .filter(b => !b.brands || b.brands.includes(brand))
+    .filter(b => !b.startsAt || Date.parse(b.startsAt) <= t)
+    .filter(b => !b.endsAt || t < Date.parse(b.endsAt))
+    .slice()
+    .sort((a, b) => a.order - b.order)
+    .map(b => b.id);
+}`,
+    tests:(()=>{
+      const B = () => [
+        {id:'timer', order:3, endsAt:'2026-12-01T00:00:00+03:00'},
+        {id:'hero', order:1},
+        {id:'secret', order:2, hidden:true},
+        {id:'prem', order:4, brands:['premium']},
+        {id:'ny', order:5, startsAt:'2026-12-20T00:00:00+03:00'},
+        {id:'grid', order:2, brands:['discounter','lowcost']}
+      ];
+      return [
+        {name:'Дискаунтер, 25 ноября', run:f=>eq(f(B(),'discounter',new Date('2026-11-25T12:00:00+03:00')),['hero','grid','timer'])},
+        {name:'Премиум после окончания таймера', run:f=>eq(f(B(),'premium',new Date('2026-12-05T12:00:00+03:00')),['hero','prem'])},
+        {name:'Лоукостер, новогодний блок уже начался', run:f=>eq(f(B(),'lowcost',new Date('2026-12-21T00:00:00+03:00')),['hero','grid','ny'])},
+        {name:'endsAt не включительно', run:f=>eq(f([{id:'x',order:1,endsAt:'2026-12-01T00:00:00Z'}],'a',new Date('2026-12-01T00:00:00Z')),[])},
+        {name:'Исходный массив не мутирован', run:f=>{const b=B();const ids=b.map(x=>x.id).join();f(b,'discounter',new Date('2026-11-25'));return b.map(x=>x.id).join()===ids||'порядок исходного массива изменился'}}
+      ];
+    })()
+  },
+  playground:true
+},
+{
+  id:'git', title:'Git и командная работа', short:'Ветки, PR, ревью, конфликты, спринт', req:true,
+  theory:[
+    {h:'Базовый цикл задачи', html:`<p>Типичный путь задачи в команде: взять тикет из спринта, создать ветку от актуальной main, делать небольшие осмысленные коммиты, открыть Pull Request, пройти CI и ревью, влить.</p>`,
+     code:`
+git switch main && git pull
+git switch -c feature/PROMO-123-timer-block
+# …работа…
+git add -p                      # добавлять кусками, видеть, что коммитишь
+git commit -m "feat(timer): add countdown block"
+git push -u origin feature/PROMO-123-timer-block
+# открыть Pull Request, привязать задачу, приложить скриншоты`},
+    {h:'merge и rebase', html:`<ul><li><code>merge</code> сохраняет историю как есть и создаёт merge-коммит.</li><li><code>rebase</code> переносит твои коммиты поверх свежей main и даёт линейную историю, но переписывает хеши.</li><li>Правило: rebase делай только в своей ветке, которую никто не трогает. Общие ветки не переписывай. После rebase уже запушенной ветки нужен <code>push --force-with-lease</code>.</li></ul>`},
+    {h:'Конфликты', html:`<p>Git показывает маркеры <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. Оставь правильный вариант (иногда оба), убери маркеры, проверь, что проект собирается, затем <code>git add</code> и <code>git commit</code> (или <code>git rebase --continue</code>).</p>`},
+    {h:'Отмена изменений', html:`<ul><li><code>git restore file</code> — откатить незакоммиченные правки.</li><li><code>git revert &lt;hash&gt;</code> — новый коммит, отменяющий старый. Безопасно для общих веток.</li><li><code>git reset</code> — двигает ветку назад. Только локально.</li><li><code>git stash</code> — убрать правки в сторону и переключиться на срочный баг.</li><li><code>git cherry-pick</code> — перенести один коммит в другую ветку (например, хотфикс).</li></ul>`},
+    {h:'Pull Request и code review', html:`<ul><li>Маленький PR на одну задачу ревьюят быстрее и тщательнее.</li><li>Описание: что и зачем сделано, как проверить, скриншоты для вёрстки (мобилка и десктоп, все бренды).</li><li>Получая замечания: не спорь эмоционально, уточняй, отвечай на каждое, благодари.</li><li>Ревьюя чужой код: комментируй код, а не человека, предлагай вариант, отделяй обязательное от вкусовщины («nit:»).</li></ul>`},
+    {h:'Conventional Commits', html:`<p><code>feat:</code> новая возможность, <code>fix:</code> исправление, <code>refactor:</code>, <code>style:</code>, <code>test:</code>, <code>chore:</code>, <code>docs:</code>. Скоуп в скобках: <code>fix(banner): correct mobile padding</code>. По таким коммитам автоматически собирают changelog.</p>`}
+  ],
+  quiz:[
+    {q:'Плохой коммит уже в общей ветке main. Как его отменить?', opts:['git reset --hard HEAD~1 && git push --force','git revert <hash>','Удалить файл и закоммитить','git stash'], a:1, why:'revert создаёт новый коммит и не переписывает историю, которой уже пользуются коллеги.'},
+    {q:'Когда rebase опасен?', opts:['В своей локальной ветке','Когда ветку уже используют другие — он переписывает историю','Rebase всегда безопасен','Только в больших репозиториях'], a:1, why:'Коллеги получат расходящуюся историю. Rebase — для своих веток.'},
+    {q:'Какой PR лучше?', opts:['Одна большая ветка за весь спринт','Небольшой PR на одну задачу с описанием и скриншотами','PR без описания, код и так понятен','Коммит прямо в main'], a:1, why:'Ревью небольших изменений быстрее и качественнее, а откатить такой PR проще.'},
+    {q:'Какое сообщение коммита соответствует Conventional Commits?', opts:['fixed stuff','feat(timer): add countdown block','Update Timer.tsx','WIP'], a:1, why:'Тип, скоуп и короткое описание в повелительном наклонении.'},
+    {q:'Ты в середине задачи, а нужно срочно починить баг в другой ветке. Что сделать с незакоммиченными правками?', opts:['Удалить','git stash, переключиться, потом git stash pop','Закоммитить в main','git reset --hard'], a:1, why:'stash временно убирает изменения без коммита.'}
+  ],
+  interview:[
+    {q:'Чем merge отличается от rebase?', a:'Merge объединяет истории merge-коммитом и ничего не переписывает. Rebase переносит коммиты поверх другой ветки, история линейная, но хеши новые. Rebase — для своей ветки перед PR, merge — для интеграции в общие ветки.'},
+    {q:'Как ты решаешь конфликты?', a:'Обновляю ветку, смотрю, чьи изменения и зачем (при сомнениях спрашиваю автора), вручную оставляю нужное, запускаю сборку и тесты, коммичу. Чтобы конфликтов было меньше: маленькие PR и частые обновления от main.'},
+    {q:'Что делаешь, если не согласен с замечанием на ревью?', a:'Уточняю аргументы, объясняю свои с фактами (доки, бенчмарк), если не сходимся — зову третьего или следую принятым в команде правилам. Цель — хороший код, а не победа в споре.'},
+    {q:'Как выглядит работа в спринте?', a:'Планирование → задачи в трекере → дейли → разработка, ревью, тестирование → демо → ретро. Общение с дизайнерами (уточнить макет, состояния), аналитиками (требования), бэкендом (контракт API).'}
+  ],
+  task:{
+    kind:'order', title:'Собери путь задачи от тикета до релиза',
+    desc:'Нажимай на команды в правильном порядке. Ошибся — нажми на шаг в списке, чтобы вернуть его.',
+    steps:['git switch main','git pull','git switch -c feature/PROMO-42-banner','git add -p','git commit -m "feat(banner): add promo banner"','git push -u origin feature/PROMO-42-banner','Открыть Pull Request','Исправить замечания ревью и дождаться зелёного CI','Merge в main']
+  }
+},
+{
+  id:'node', title:'Node.js, сборка и CI/CD', short:'npm, package.json, Vite/webpack, пайплайн', req:false,
+  theory:[
+    {h:'Node.js и npm', html:`<p>Node.js выполняет JavaScript вне браузера. Во фронтенде он нужен для сборки, dev-сервера, линтеров, тестов, SSR и небольших BFF-сервисов. <code>package.json</code> описывает проект:</p>`,
+     code:`
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "lint": "eslint src",
+    "test": "vitest run"
+  },
+  "dependencies":    { "react": "^18.3.1" },   // нужно в рантайме
+  "devDependencies": { "typescript": "~5.6.2" } // нужно только для разработки и сборки
+}`},
+    {h:'Версии и lock-файл', html:`<ul><li><code>^1.4.2</code> — любые <code>1.x.x</code> не ниже 1.4.2. <code>~1.4.2</code> — только <code>1.4.x</code>.</li><li><code>package-lock.json</code> фиксирует точные версии всего дерева, чтобы у всех и в CI стояло одинаковое. Коммитится в репозиторий.</li><li>В CI используют <code>npm ci</code>: чистая установка строго по lock-файлу.</li></ul>`},
+    {h:'Что делает сборщик', html:`<p>Vite или webpack превращают исходники в то, что понимает браузер: склеивают модули, компилируют TS и JSX, обрабатывают CSS-модули, минифицируют, делят код на чанки (code splitting), добавляют хеши в имена файлов для кэширования. Переменные окружения (<code>import.meta.env</code>) подставляются на этапе сборки, поэтому секреты во фронтенд класть нельзя.</p>`},
+    {h:'CI/CD', html:`<p>CI на каждый PR запускает проверки: установка → линтер → проверка типов → тесты → сборка. Красный CI — не мержим. CD после мержа выкладывает сборку на стенд (test/stage) и в прод. Pre-commit хуки (husky + lint-staged) ловят ошибки ещё до пуша.</p>`},
+    {h:'SSR и промо-страницы', html:`<p>Лендингам важны SEO и скорость первой отрисовки. Поэтому их часто рендерят на сервере (Next.js, свой SSR на Node) или генерируют статически. Пользователь сразу видит HTML, а React потом «оживляет» страницу (гидратация).</p>`,
+     code:`
+// минимальный сервер на Node (Express)
+import express from 'express';
+const app = express();
+app.get('/api/health', (req, res) => res.json({ ok: true }));
+app.use(express.static('dist'));
+app.listen(3000);`}
+  ],
+  quiz:[
+    {q:'Какие версии разрешает "^1.4.2"?', opts:['Только 1.4.2','1.4.x','1.x.x не ниже 1.4.2','Любые'], a:2, why:'Caret разрешает минорные и патч-обновления в рамках мажора.'},
+    {q:'Зачем коммитить package-lock.json?', opts:['Он не нужен','Чтобы у всех разработчиков и в CI стояли одинаковые версии зависимостей','Для скорости git','Его требует GitHub'], a:1, why:'Без lock-файла «у меня работает» превращается в лотерею.'},
+    {q:'Что положить в devDependencies?', opts:['react','typescript, eslint, vitest','axios','react-dom'], a:1, why:'Инструменты сборки и тестов не нужны в рантайме приложения.'},
+    {q:'CI упал на шаге проверки типов. Что делать?', opts:['Смержить, потом поправить','Исправить ошибку типов в своей ветке и дождаться зелёного CI','Отключить шаг в пайплайне','Добавить // @ts-ignore везде'], a:1, why:'Зелёный CI — минимальное условие для мержа.'},
+    {q:'Зачем промо-страницам SSR или статическая генерация?', opts:['Чтобы не писать CSS','Для SEO и быстрой первой отрисовки','Чтобы не нужен был React','Для работы офлайн'], a:1, why:'Поисковик и пользователь сразу получают готовый HTML.'}
+  ],
+  interview:[
+    {q:'Что происходит, когда ты запускаешь npm run build?', a:'npm запускает скрипт из package.json: например, проверку типов и сборщик. Сборщик строит граф модулей от точки входа, транспилирует TS/JSX, обрабатывает CSS, минифицирует, делит на чанки, кладёт файлы с хешами в dist.'},
+    {q:'Что такое CI/CD и какие шаги ты бы добавил?', a:'Continuous Integration: автоматические проверки на каждый PR (lint, typecheck, test, build). Continuous Delivery/Deployment: автоматическая выкладка на стенды и в прод. Можно добавить Lighthouse CI и скриншотные тесты для вёрстки.'},
+    {q:'Почему нельзя хранить секреты в переменных окружения фронтенда?', a:'Они подставляются в бандл при сборке, и любой увидит их в DevTools. Секреты живут на бэкенде.'}
+  ],
+  task:{
+    kind:'order', title:'Расставь шаги CI-пайплайна',
+    desc:'В каком порядке логично запускать шаги для Pull Request, а затем выкладку после мержа?',
+    steps:['npm ci','npm run lint','npm run typecheck','npm test','npm run build','Деплой на тестовый стенд','Деплой в прод']
+  }
+},
+{
+  id:'debug', title:'Отладка и тестирование', short:'DevTools, поиск багов, тесты, проверка в окружениях', req:true,
+  theory:[
+    {h:'Методика поиска бага', html:`<ul><li><b>Воспроизвести</b>: браузер, устройство, бренд, данные страницы, шаги.</li><li><b>Изолировать</b>: какой блок, какой коммит (<code>git bisect</code>), какие данные.</li><li><b>Гипотеза → проверка</b>: breakpoint, лог, правка стиля в DevTools.</li><li><b>Исправить причину</b>, а не симптом.</li><li><b>Защитить</b>: тест или story на этот случай.</li></ul>`},
+    {h:'DevTools', html:`<ul><li><b>Elements</b>: computed-стили, оверлеи flex/grid, кто перебил стиль.</li><li><b>Console</b>: ошибки, <code>console.table</code>, <code>$0</code> — выбранный элемент.</li><li><b>Sources</b>: breakpoints, условные breakpoints, <code>debugger</code>.</li><li><b>Network</b>: статусы, тело ответа, замедление сети (Slow 4G), отключение кэша.</li><li><b>Lighthouse / Performance</b>: LCP, CLS, долгие задачи.</li><li><b>React DevTools</b>: дерево, props, state, Profiler ререндеров.</li><li><b>Device mode</b>: ширины, DPR, тач. Но это не настоящий Safari, проверяй и на устройстве.</li></ul>`},
+    {h:'Тесты', html:`<p>Юнит-тесты (Vitest/Jest) — для чистых функций вроде видимости блоков. React Testing Library — для компонентов: ищи элементы так, как их видит пользователь (<code>getByRole</code>, <code>getByText</code>). E2E (Playwright) и скриншотные тесты ловят поломки вёрстки в разных браузерах.</p>`,
+     code:`
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+test('кнопка добавляет товар в корзину', async () => {
+  const onAdd = vi.fn();
+  render(<ProductCard title="Яблоки" price={89} onAdd={onAdd} />);
+  await userEvent.click(screen.getByRole('button', { name: 'В корзину' }));
+  expect(onAdd).toHaveBeenCalledTimes(1);
+});`},
+    {h:'Матрица проверки страницы', html:`<p>Перед тем как отдать промо-страницу, пройди хотя бы по такой матрице: 3 бренда × (iPhone Safari, Android Chrome, десктоп Chrome, десктоп Safari или Firefox) × (320, 768, 1280+ px). Плюс длинные тексты, отсутствие картинок, медленная сеть.</p>`}
+  ],
+  quiz:[
+    {q:'Что предпочтительнее для поиска кнопки в React Testing Library?', opts:['container.querySelector(".btn")','getByRole("button", { name: "В корзину" })','getByTestId везде','По индексу дочернего элемента'], a:1, why:'Поиск по роли тестирует так, как работает пользователь, и попутно проверяет доступность.'},
+    {q:'В Chrome всё хорошо, а на iPhone блок съехал. Первый шаг?', opts:['Сказать, что это баг Apple','Воспроизвести в реальном Safari или симуляторе и проверить свойство на caniuse','Добавить !important','Скрыть блок на мобильных'], a:1, why:'Device mode в Chrome не эмулирует движок WebKit.'},
+    {q:'Картинка баннера не отображается. Где смотреть в первую очередь?', opts:['Вкладка Network: статус запроса и URL','Performance','Application → Cookies','Lighthouse'], a:0, why:'404, CORS, неверный путь — всё видно в Network.'},
+    {q:'Страница тормозит при вводе в форму настроек блока. Чем найти причину?', opts:['console.log в каждом компоненте','React DevTools Profiler','Lighthouse SEO','Network'], a:1, why:'Profiler показывает, какие компоненты и почему перерисовываются.'},
+    {q:'Ты нашёл и починил баг. Что ещё стоит сделать?', opts:['Ничего','Добавить тест или story, которые воспроизводят этот случай','Удалить связанный код','Написать в общий чат'], a:1, why:'Регрессионный тест не даст багу вернуться.'}
+  ],
+  interview:[
+    {q:'Расскажи, как ты ищешь баг в незнакомом коде.', a:'Воспроизвожу, читаю ошибку и стек, ищу место через DevTools (React DevTools для компонента, breakpoints), смотрю историю файла (git blame/log), формулирую гипотезу, проверяю, чиню причину, добавляю тест, описываю в PR.'},
+    {q:'Какие виды тестов знаешь?', a:'Юнит (функции), интеграционные/компонентные (RTL), e2e (Playwright/Cypress), скриншотные, ручное тестирование по матрице устройств. Пирамида: больше быстрых юнитов, меньше медленных e2e.'},
+    {q:'Как проверить, что страница одинаково работает в разных браузерах?', a:'Матрица браузеров из аналитики, browserslist, реальные устройства или облачные фермы, скриншотные тесты в CI, проверка критичных сценариев вручную.'}
+  ],
+  task:{
+    kind:'code', title:'Найди и исправь баги в сортировке',
+    desc:`Коллега написал функцию, но цены на витрине стоят в странном порядке, а после сортировки ломается исходный список. Исправь <code>sortByPrice(products)</code>: должна вернуть <b>новый</b> массив, отсортированный по <code>price</code> по возрастанию. При равной цене порядок как в исходном массиве.`,
+    fn:'sortByPrice',
+    starter:`function sortByPrice(products) {
+  return products.sort((a, b) => String(a.price) > String(b.price) ? 1 : -1);
+}`,
+    solution:`function sortByPrice(products) {
+  return [...products].sort((a, b) => a.price - b.price);
+}`,
+    tests:[
+      {name:'Числа сравниваются как числа', run:f=>eq(f([{id:'a',price:1000},{id:'b',price:89},{id:'c',price:250}]).map(p=>p.id),['b','c','a'])},
+      {name:'Исходный массив не изменился', run:f=>{const arr=[{id:'a',price:3},{id:'b',price:1}];f(arr);return arr[0].id==='a'||'исходный массив отсортирован на месте'}},
+      {name:'Возвращается новый массив', run:f=>{const arr=[{id:'a',price:1}];return f(arr)!==arr||'вернулся тот же массив'}},
+      {name:'Стабильность при равных ценах', run:f=>eq(f([{id:'x',price:5},{id:'y',price:2},{id:'z',price:5}]).map(p=>p.id),['y','x','z'])}
+    ]
+  }
+},
+{
+  id:'interview', title:'Собеседование и портфолио', short:'Рассказ о проектах, вопросы, live coding', req:true,
+  theory:[
+    {h:'Как обычно проходит отбор', html:`<p>У крупных компаний отбор на стажировку чаще всего выглядит так: анкета и резюме → тест или тестовое задание → техническое интервью (теория + live coding или разбор кода) → встреча с командой. Конкретные этапы уточняй у рекрутера, это нормальный вопрос.</p>`},
+    {h:'Подача портфолио под эту вакансию', html:`<p>Вакансия про React, TypeScript, CSS-модули, адаптив под бренды и конструктор страниц. Перепакуй свои сайты под эти слова:</p><ul><li>Выбери 2–3 лучших проекта, а не все подряд.</li><li>Для каждого: задача → стек → <b>твоя</b> роль → самая сложная часть → результат. Ссылка на живой деплой и на код.</li><li>README с описанием, скриншотами мобилки и десктопа, инструкцией запуска.</li><li>Покажи цифры: Lighthouse 90+, адаптив с 320px, проверено в Safari.</li><li>Если проекты на чистом HTML/CSS/JS, перепиши один на React + TypeScript с CSS-модулями. Это прямое попадание в стек.</li><li>Лучший ход — проект «мини-конструктор промо-страниц». Задание на него есть в разделе «Проект для портфолио».</li></ul>`},
+    {h:'Рассказ о себе за 60 секунд', html:`<p>Кто ты и что изучаешь → что уже сделал (1–2 проекта с конкретикой) → почему именно эта команда (конструктор, вёрстка для миллионов покупателей, мультибренд) → чего хочешь на стажировке.</p><div class="callout">«Я изучаю фронтенд около года, сделал N сайтов, из них два — на React. Последний проект: лендинг с адаптивом от 320px и тёмной темой на CSS-переменных, Lighthouse 95. Мне интересна ваша команда тем, что вы делаете конструктор, где один блок работает для трёх брендов, — я как раз сделал похожую систему тем в пет-проекте. На стажировке хочу научиться работать в продуктовой команде с ревью и CI.»</div>`},
+    {h:'Метод STAR для поведенческих вопросов', html:`<p><b>S</b>ituation — контекст, <b>T</b>ask — что нужно было сделать, <b>A</b>ction — что сделал именно ты, <b>R</b>esult — результат, лучше с цифрой. Подготовь 3 истории: сложный баг, конфликт или фидбек, быстрое изучение новой технологии.</p>`},
+    {h:'Live coding', html:`<ul><li>Повтори задачу своими словами, уточни входные данные и крайние случаи.</li><li>Думай вслух, начни с простого рабочего решения, потом улучшай.</li><li>Проверь на примерах, включая пустой массив и null.</li><li>Застрял — скажи, что пробуешь. Подсказка интервьюера — это нормально.</li></ul>`},
+    {h:'Что спросить у команды', html:`<ul><li>Как устроен конструктор: свой или на базе готовой CMS? Есть ли Storybook или дизайн-система?</li><li>Как выглядит первая задача стажёра и кто наставник?</li><li>Как проходит ревью и сколько обычно живёт PR?</li><li>Как тестируете вёрстку под три бренда и разные устройства?</li><li>Какие критерии успешной стажировки для перехода в штат?</li></ul>`}
+  ],
+  quiz:[
+    {q:'Как лучше показать портфолио из 10 сайтов?', opts:['Все 10 списком ссылок','2–3 лучших с описанием задачи, стека, своей роли и результата','Только скриншоты','Не показывать, рассказать устно'], a:1, why:'Интервьюер потратит на портфолио несколько минут. Глубина важнее количества.'},
+    {q:'Тебя спросили про технологию, которую ты не знаешь. Как ответить?', opts:['Придумать что-нибудь уверенно','Честно сказать, что не работал, и рассказать, как бы разобрался или что знаешь о похожем','Сменить тему','Промолчать'], a:1, why:'Для стажёра ценится умение учиться и честность, а не знание всего.'},
+    {q:'Что из этого — хороший ответ на «Почему наша команда?»', opts:['Нужна работа','Вы большая компания','Мне интересен конструктор, где один блок работает для трёх брендов, — у меня был похожий опыт с темами','Не знаю, прислали вакансию'], a:2, why:'Конкретика из описания вакансии плюс связь со своим опытом.'},
+    {q:'На live coding ты не понял условие. Что делать?', opts:['Начать писать что-нибудь','Задать уточняющие вопросы и повторить задачу своими словами','Попросить другую задачу','Молча думать 10 минут'], a:1, why:'Уточнение требований — часть работы разработчика, и интервьюер это проверяет.'}
+  ],
+  interview:[
+    {q:'Расскажи о себе.', a:'Используй структуру: кто ты → что сделал (конкретно, с цифрами) → почему эта команда → чего хочешь. 60–90 секунд. Запиши свой вариант в поле ниже и проговори вслух.'},
+    {q:'Расскажи о самом сложном проекте или баге.', a:'STAR: ситуация, задача, твои действия (что пробовал, как искал), результат и что вынес. Выбери историю про вёрстку или React, это ближе к вакансии.'},
+    {q:'Как ты изучаешь новое?', a:'Официальная документация (react.dev, typescriptlang.org, MDN), маленький пет-проект для практики, разбор чужого кода, вопросы коллегам после самостоятельной попытки. Пример: как ты освоил конкретную технологию за N дней.'},
+    {q:'Как ты реагируешь на критику кода?', a:'Воспринимаю как помощь, уточняю, если непонятно, исправляю, записываю для себя, чтобы не повторять. Пример из учёбы или хакатона.'},
+    {q:'Где ты видишь себя через год?', a:'Уверенный джуниор в этой команде: самостоятельно делаю блоки конструктора от макета до прода, пишу тесты, ревьюю код других стажёров.'}
+  ]
+}
+];
+
+/* ---------- training: between quiz and interview ----------
+   terms: understand a term (plain words, analogy, what not to confuse it with)
+   cmp:   two variants side by side, predict the difference, then see the result
+   build: pick the points a strong interview answer contains */
+const TRAIN = {
+html:{
+  terms:[
+    {t:'Семантическая вёрстка', s:'Теги выбираются по смыслу блока, а не по тому, как он выглядит: шапка — header, навигация — nav, товар — article.', an:'Как оглавление в книге. Скринридер и поисковик «листают» страницу по этим тегам.', vs:'«Красивая» вёрстка. div можно оформить точно так же, но браузер не узнает, что это меню или заголовок.'},
+    {t:'alt у картинки', s:'Текст вместо картинки для тех, кто её не видит: скринридер, медленный интернет, поисковик.', an:'Подпись к фото для друга по телефону: «на баннере — корзина фруктов и скидка 40%».', vs:'title — всплывающая подсказка при наведении. Скринридеры читают её ненадёжно, на телефоне её не видно.'},
+    {t:'CLS — сдвиг макета', s:'Контент прыгает, когда сверху догружается картинка или реклама без заранее заданного размера.', an:'Целишься пальцем в кнопку, а её в последний момент сдвигает баннер.', vs:'LCP. Он про скорость появления главного контента, а CLS — про то, насколько страница стабильна.'},
+    {t:'srcset и sizes', s:'Даёшь браузеру несколько файлов одной картинки разной ширины, он сам берёт подходящий под экран.', an:'Меню размеров пиццы: браузер заказывает ту, что поместится на тарелку.', vs:'<picture>. Там ты сам решаешь, какую картинку показать (например, другой кроп для телефона), а srcset — это один и тот же кадр.'},
+    {t:'aria-label', s:'Имя элемента для скринридера, когда видимого текста нет, например у кнопки-иконки «×».', an:'Табличка на двери без надписи: «Выход».', vs:'<label for>. Для полей формы сначала используют обычный label, ARIA — запасной вариант, когда нативного способа нет.'}
+  ],
+  cmp:[
+    {q:'Пользователь без мыши нажимает Tab, потом Enter. В каком варианте он сможет купить товар?',
+     a:{code:`<div class="btn" onclick="buy()">
+  Купить
+</div>`, rows:[[0,'Tab: фокус проскакивает мимо'],[0,'Enter: ничего не происходит'],[0,'Скринридер: «Купить» — просто текст']]},
+     b:{code:`<button type="button" onclick="buy()">
+  Купить
+</button>`, rows:[[1,'Tab: фокус встаёт на кнопку'],[1,'Enter или Пробел: вызывается buy()'],[1,'Скринридер: «Купить, кнопка»']]},
+     ans:'b', why:'Кнопка из коробки умеет фокус, клавиатуру и роль для скринридера. div придётся учить всему этому вручную: tabindex, role, обработка клавиш — и легко что-то забыть.'},
+    {q:'Картинка загружается через секунду после текста. В каком варианте текст под ней прыгнет вниз?',
+     a:{code:`<img src="banner.jpg" alt="Скидки">
+<p>Акция до воскресенья</p>`, html:{css:`.st{display:flex;gap:10px}.ph{flex:1;font-size:11px;color:#666}.box{border:1px dashed #bbb;border-radius:6px;padding:6px;height:120px;display:flex;flex-direction:column;gap:4px}.img{background:linear-gradient(135deg,#7bc47f,#2e7d32);border-radius:4px}.t{background:#eee;border-radius:3px;padding:2px 4px;font-size:11px}.mv{color:#c2412d;font-weight:700}`, html:`<div class="st"><div class="ph">До загрузки<div class="box"><div class="t">Акция до воскресенья</div></div></div><div class="ph">После<div class="box"><div class="img" style="height:70px"></div><div class="t">Акция до… <span class="mv">↓ прыжок</span></div></div></div></div>`}},
+     b:{code:`<img src="banner.jpg" alt="Скидки"
+     width="1200" height="400">
+<p>Акция до воскресенья</p>`, html:{css:`.st{display:flex;gap:10px}.ph{flex:1;font-size:11px;color:#666}.box{border:1px dashed #bbb;border-radius:6px;padding:6px;height:120px;display:flex;flex-direction:column;gap:4px}.img{border-radius:4px;height:70px}.e{background:repeating-linear-gradient(45deg,#f0f0f0 0 6px,#e4e4e4 6px 12px)}.f{background:linear-gradient(135deg,#7bc47f,#2e7d32)}.t{background:#eee;border-radius:3px;padding:2px 4px;font-size:11px}.ok{color:#1e8a4c;font-weight:700}`, html:`<div class="st"><div class="ph">До загрузки<div class="box"><div class="img e"></div><div class="t">Акция до воскресенья</div></div></div><div class="ph">После<div class="box"><div class="img f"></div><div class="t">Акция до… <span class="ok">✓ на месте</span></div></div></div></div>`}},
+     ans:'a', why:'Без размеров браузер не знает высоту картинки и отдаёт ей 0 пикселей, пока файл не пришёл. С width и height он сразу резервирует место по пропорции 1200:400, и ничего не прыгает. Это и есть CLS.'}
+  ],
+  build:[
+    {q:'Чем <a> отличается от <button>?', pts:[
+      [1,'Ссылка ведёт на другой адрес и у неё есть href, кнопка выполняет действие на этой странице'],
+      [1,'Ссылку можно открыть в новой вкладке и скопировать, кнопку — нет'],
+      [1,'Скринридер объявляет их по-разному: «ссылка» и «кнопка»'],
+      [1,'Кнопка внутри формы по умолчанию отправляет её, поэтому пишут type="button"'],
+      [0,'Кнопку берут, когда элемент должен выглядеть как кнопка','Внешний вид задаёт CSS. Тег выбирают по поведению: переход или действие.'],
+      [0,'<a> без href — нормальная замена кнопке','Без href ссылка не получает фокус с клавиатуры и не воспринимается как интерактивный элемент.']]},
+    {q:'Как сделать картинку на промо адаптивной и не испортить метрики?', pts:[
+      [1,'Задать width и height или aspect-ratio, чтобы не было сдвига макета'],
+      [1,'srcset и sizes, чтобы браузер выбрал файл под экран и плотность пикселей'],
+      [1,'loading="lazy" для картинок ниже первого экрана'],
+      [1,'Главный баннер грузить без lazy, он определяет LCP'],
+      [0,'Одна картинка 4000px на все экраны — браузер сам уменьшит','Уменьшит визуально, но телефон всё равно скачает мегабайты.'],
+      [0,'Поставить lazy вообще на все картинки','Баннер первого экрана появится позже, и LCP вырастет.']]}
+  ]
+},
+css:{
+  terms:[
+    {t:'Специфичность', s:'«Вес» селектора. Побеждает более тяжёлый, а при равном весе — тот, что ниже в файле.', an:'Голосование, где один id весит больше, чем любое количество классов.', vs:'Порядок в файле. Он решает только при равной специфичности.'},
+    {t:'CSS-переменные', s:'--p: green; задаёт значение, которое наследуется вниз по дереву и может быть переопределено на любом контейнере.', an:'Настройка «тема» на папке, которая действует на все файлы внутри.', vs:'Переменные Sass. Они подставляются при сборке, и в браузере их уже нельзя поменять для отдельного бренда.'},
+    {t:'fr в Grid', s:'Доля свободного места в сетке. 1fr 2fr — второй столбец вдвое шире первого.', an:'Делим пиццу после того, как отложили фиксированные куски.', vs:'Проценты. Они считаются от всей ширины, не учитывают gap и легко дают переполнение.'},
+    {t:'Mobile-first', s:'Сначала стили для узкого экрана, потом @media (min-width) добавляет правила для широких.', an:'Собираешь рюкзак на минимум, а для длинного похода докладываешь.', vs:'Desktop-first с max-width: пишешь всё для десктопа, а потом отменяешь лишнее на телефоне — правил больше.'},
+    {t:'CSS-модули', s:'Сборщик делает имена классов уникальными (.title → .Card_title_x7f2), стили одного компонента не задевают другой.', an:'У каждого сотрудника своя полка с подписью, а не общий шкаф.', vs:'БЭМ. Цель та же, но изоляция держится на дисциплине в названиях, а не на сборщике.'}
+  ],
+  cmp:[
+    {q:'Пять карточек, ширина каждой не меньше 120px. В каком варианте последняя карточка в неполном ряду растянется на всю ширину?',
+     a:{code:`.list { display: flex;
+  flex-wrap: wrap; gap: 8px; }
+.card { flex: 1 1 120px; }`, html:{css:`.list{display:flex;flex-wrap:wrap;gap:8px}.card{flex:1 1 120px;background:#dcefe3;border:1px solid #16794a;border-radius:6px;padding:10px 6px;text-align:center;font:600 12px system-ui}`, html:`<div class="list"><div class="card">1</div><div class="card">2</div><div class="card">3</div><div class="card">4</div><div class="card">5</div></div>`}},
+     b:{code:`.list { display: grid; gap: 8px;
+  grid-template-columns:
+    repeat(auto-fill, minmax(120px, 1fr)); }`, html:{css:`.list{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}.card{background:#dcefe3;border:1px solid #16794a;border-radius:6px;padding:10px 6px;text-align:center;font:600 12px system-ui}`, html:`<div class="list"><div class="card">1</div><div class="card">2</div><div class="card">3</div><div class="card">4</div><div class="card">5</div></div>`}},
+     ans:'a', why:'Flex думает об одной строке: в последней строке одна карточка, и flex-grow отдаёт ей всё место. Grid сначала строит столбцы для всего контейнера, и карточка встаёт в свою ячейку. Поэтому сетку карточек делают на Grid.'},
+    {q:'У заголовка id="promo-title" и классы "title active". В каком варианте он будет красным?',
+     a:{code:`.title.active { color: crimson; }
+.title        { color: seagreen; }`, html:{css:`.title{color:seagreen;font:700 18px system-ui;margin:0}.title.active{color:crimson}.w{font:12px system-ui;color:#666;margin-top:6px}`, html:`<h2 class="title active">Неделя фруктов</h2><div class="w">.title.active = (0,2,0) &gt; .title = (0,1,0)</div>`}},
+     b:{code:`#promo-title       { color: seagreen; }
+.title.active.big  { color: crimson; }`, html:{css:`#promo-title{color:seagreen;font:700 18px system-ui;margin:0}.title.active.big{color:crimson}.w{font:12px system-ui;color:#666;margin-top:6px}`, html:`<h2 id="promo-title" class="title active big">Неделя фруктов</h2><div class="w">#promo-title = (1,0,0) &gt; три класса (0,3,0)</div>`}},
+     ans:'a', why:'Специфичность сравнивают по разрядам слева направо. Два класса тяжелее одного, поэтому в варианте {a} побеждает красный, хоть он и выше в файле. В варианте {b} один id перевешивает любое число классов. Поэтому в компонентах избегают id в стилях.'}
+  ],
+  build:[
+    {q:'Чем отличаются Flexbox и Grid?', pts:[
+      [1,'Flex раскладывает по одной оси, размеры идут от контента'],
+      [1,'Grid работает сразу в двух осях, сетку задаёт контейнер'],
+      [1,'Flex — для строки кнопок, меню, внутренностей карточки; Grid — для сетки карточек и раскладки страницы'],
+      [1,'Их часто сочетают: Grid снаружи, Flex внутри карточки'],
+      [0,'Grid новее, поэтому Flex устарел','Оба актуальны и решают разные задачи.'],
+      [0,'Flex не умеет переносить элементы на новую строку','Умеет: flex-wrap: wrap.']]},
+    {q:'Как сделать вёрстку под три бренда?', pts:[
+      [1,'Вынести цвета, радиусы и шрифты в CSS-переменные (токены)'],
+      [1,'Бренд переопределяет токены на контейнере, например [data-brand="b"]'],
+      [1,'Компоненты одни и те же и читают только var(--…)'],
+      [1,'Новый бренд — это новый набор значений без правок компонентов'],
+      [0,'Сделать копию компонентов для каждого бренда','Тройная поддержка: исправил баг в одном — забыл в двух других.'],
+      [0,'Перебивать стили бренда через !important','Начнётся война специфичности. Переменные решают задачу без неё.']]}
+  ]
+},
+js:{
+  terms:[
+    {t:'Замыкание', s:'Функция помнит переменные места, где её создали, даже когда то место уже отработало.', an:'Рюкзак, который функция уносит с собой: внутри — переменные из дома.', vs:'Глобальная переменная. Она одна на всех, а замыкание у каждого вызова своё.'},
+    {t:'Микрозадачи и макрозадачи', s:'then и await — микрозадачи: выполняются все сразу после текущего кода. setTimeout и события — макрозадачи: по одной, после микрозадач.', an:'Микро — «доделать до перерыва», макро — «следующая встреча в календаре».', vs:'Порядок строк в коде. Важно не где написано, а в какую очередь попало.'},
+    {t:'Мутация', s:'Изменение объекта или массива на месте: push, sort, obj.a = 2.', an:'Дописать ручкой в документ, который уже раздали коллегам: у всех поменялось.', vs:'Новая копия: [...arr, x], {...obj, a: 2}. Старая ссылка не меняется, и React видит, что данные новые.'},
+    {t:'Promise', s:'Объект-обещание результата в будущем: ждёт (pending), выполнено (fulfilled) или ошибка (rejected).', an:'Номерок в гардеробе: куртки пока нет, но ты её точно получишь или узнаешь, что её потеряли.', vs:'async/await. Это не другая технология, а удобная запись тех же промисов.'},
+    {t:'Оператор ??', s:'Подставляет значение по умолчанию, только если слева null или undefined.', an:'«Если поля нет вообще — возьми стандартное».', vs:'||. Он срабатывает на любое ложное значение: 0, пустую строку, false. 0 товаров превратится в значение по умолчанию.'}
+  ],
+  cmp:[
+    {q:'Какой вариант выведет 0 1 2?',
+     a:{code:`for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i));
+}`, out:'3\n3\n3'},
+     b:{code:`for (let i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i));
+}`, out:'0\n1\n2'},
+     ans:'b', why:'var — одна переменная на весь цикл. Колбэки запускаются после цикла и видят её финальное значение 3. let создаёт новую i на каждую итерацию, и каждое замыкание держит свою.'},
+    {q:'В каком варианте "then" выведется раньше "timeout"?',
+     a:{code:`setTimeout(() => console.log('timeout'));
+Promise.resolve()
+  .then(() => console.log('then'));`, out:'then\ntimeout'},
+     b:{code:`Promise.resolve()
+  .then(() => console.log('then'));
+setTimeout(() => console.log('timeout'));`, out:'then\ntimeout'},
+     ans:'same', why:'Порядок строк не важен. После синхронного кода движок сначала разбирает все микрозадачи (then), и только потом берёт макрозадачу (setTimeout). Поэтому результат одинаковый.'},
+    {q:'В корзине 0 штук товара. Где покупатель увидит 0, как и задумано?',
+     a:{code:`const qty = 0;
+show(qty || 1);`, out:'1'},
+     b:{code:`const qty = 0;
+show(qty ?? 1);`, out:'0'},
+     ans:'b', why:'|| считает 0 «ложным» и подставляет 1. ?? подставляет значение только для null и undefined, а 0 — нормальное число.'}
+  ],
+  build:[
+    {q:'Что такое замыкание? Приведи пример.', pts:[
+      [1,'Функция запоминает переменные из места, где её создали'],
+      [1,'Эти переменные живут, пока жива сама функция'],
+      [1,'Пример: debounce хранит таймер между вызовами'],
+      [1,'Хуки React тоже работают на замыканиях — отсюда «устаревший state» в эффектах'],
+      [0,'Замыкание — это когда функцию вызывают внутри цикла','Цикл ни при чём. Он лишь часто встречается в примерах с var.'],
+      [0,'Замыкания бывают только у стрелочных функций','Замыкание есть у любой функции в JavaScript.']]},
+    {q:'Объясни event loop.', pts:[
+      [1,'Поток один: сначала выполняется весь синхронный код'],
+      [1,'Затем все микрозадачи: then, код после await'],
+      [1,'Затем одна макрозадача (setTimeout, событие) и снова все микрозадачи'],
+      [1,'Поэтому then срабатывает раньше, чем setTimeout(…, 0)'],
+      [0,'setTimeout(fn, 0) выполняет fn сразу','Только после синхронного кода и всех микрозадач.'],
+      [0,'async-функции выполняются в отдельном потоке','Поток один. async лишь откладывает продолжение в очередь микрозадач.']]}
+  ]
+},
+react:{
+  terms:[
+    {t:'Рендер', s:'React вызывает функцию компонента и получает новый JSX — описание того, что должно быть на экране.', an:'Художник заново рисует эскиз, а потом сравнивает его со старым.', vs:'Изменение DOM. Рендер может пройти, а DOM не поменяется, если результат тот же.'},
+    {t:'State', s:'Память компонента между рендерами. Изменил через setState — компонент перерисуется.', an:'Заметки повара на кухне.', vs:'Props. Это заказ от клиента: приходит сверху, и компонент его не меняет.'},
+    {t:'key в списке', s:'Постоянное имя элемента списка, по которому React понимает, какой элемент какой после изменений.', an:'Паспорт. По нему узнают человека, даже если он пересел на другое место.', vs:'Индекс массива. Это номер места, а не человек: после перестановки «паспорт» переходит к другому элементу.'},
+    {t:'useEffect', s:'Код, который синхронизирует компонент с внешним миром после отрисовки: запрос, подписка, таймер.', an:'«Когда переехали — подключи интернет; когда съезжаем — отключи».', vs:'Обработчик события. Если что-то происходит из-за клика, это делают в onClick, а не в эффекте.'},
+    {t:'Контролируемый инпут', s:'Значение поля живёт в state: value={name} и onChange обновляет state.', an:'Ты держишь руль сам.', vs:'Неконтролируемый: значение хранит сам DOM, читаешь через ref, когда понадобится.'},
+    {t:'Мемоизация', s:'Запомнить результат и не пересчитывать, пока входные данные те же: useMemo, React.memo.', an:'Записать ответ задачи на полях, чтобы не решать снова.', vs:'useCallback. То же самое, но запоминается сама функция, а не результат.'}
+  ],
+  cmp:[
+    {q:'В строке «Яблоки» ввели 2, в «Бананах» — 5. Удалили «Яблоки». Где у бананов осталось 5?',
+     a:{code:`{items.map((it, i) => (
+  <Row key={i} title={it.title} />
+))}`, html:{css:`.r{display:flex;justify-content:space-between;align-items:center;border:1px solid #ddd;border-radius:6px;padding:5px 8px;margin-bottom:4px;font:13px system-ui}.v{border:1px solid #aaa;border-radius:4px;padding:1px 8px;font-weight:700}.bad{border-color:#c2412d;background:#fbe4df}.h{font:600 11px system-ui;color:#666;margin:6px 0 3px}`, html:`<div class="h">До</div><div class="r">Яблоки <span class="v">2</span></div><div class="r">Бананы <span class="v">5</span></div><div class="h">После удаления «Яблок»</div><div class="r bad">Бананы <span class="v">2</span></div>`}},
+     b:{code:`{items.map(it => (
+  <Row key={it.id} title={it.title} />
+))}`, html:{css:`.r{display:flex;justify-content:space-between;align-items:center;border:1px solid #ddd;border-radius:6px;padding:5px 8px;margin-bottom:4px;font:13px system-ui}.v{border:1px solid #aaa;border-radius:4px;padding:1px 8px;font-weight:700}.ok{border-color:#1e8a4c;background:#dcefe3}.h{font:600 11px system-ui;color:#666;margin:6px 0 3px}`, html:`<div class="h">До</div><div class="r">Яблоки <span class="v">2</span></div><div class="r">Бананы <span class="v">5</span></div><div class="h">После удаления «Яблок»</div><div class="r ok">Бананы <span class="v">5</span></div>`}},
+     ans:'b', why:'С key={i} у «Бананов» после удаления стал ключ 0 — тот же, что был у «Яблок». React решает, что строка 0 осталась, меняет только текст, а внутреннее состояние (введённое 2) оставляет. С id ключ едет вместе с товаром.'},
+    {q:'count = 0. По клику дважды вызываем обновление. Где счётчик станет 2?',
+     a:{code:`setCount(count + 1);
+setCount(count + 1);`, out:'count: 1'},
+     b:{code:`setCount(c => c + 1);
+setCount(c => c + 1);`, out:'count: 2'},
+     ans:'b', why:'В обработчике count — снимок значения на момент рендера, то есть 0. Оба вызова говорят «поставь 0 + 1». Функция-обновлятор получает актуальное значение из очереди: 0 → 1 → 2.'},
+    {q:'Добавляем товар в список. Где он появится на экране?',
+     a:{code:`items.push(newItem);
+setItems(items);`, rows:[[0,'Ссылка на массив та же'],[0,'React сравнивает ссылки и пропускает рендер'],[0,'Товар в данных есть, на экране — нет']]},
+     b:{code:`setItems([...items, newItem]);`, rows:[[1,'Создан новый массив'],[1,'Ссылка другая — React перерисовывает'],[1,'Товар на экране']]},
+     ans:'b', why:'React не заглядывает внутрь массива, он проверяет «тот же объект или нет» (Object.is). Мутация оставляет тот же объект, поэтому состояние всегда обновляют копией.'}
+  ],
+  build:[
+    {q:'Контролируемый и неконтролируемый инпут — в чём разница?', pts:[
+      [1,'Контролируемый: value берётся из state, onChange обновляет state'],
+      [1,'Неконтролируемый: значение хранит DOM, читаем через ref или при отправке формы'],
+      [1,'Контролируемый удобен для валидации и зависимых полей на лету'],
+      [1,'Неконтролируемый проще и не перерисовывает компонент на каждый символ'],
+      [0,'Неконтролируемые инпуты устарели, их нельзя использовать','Это нормальный инструмент, например для простых форм и загрузки файлов.'],
+      [0,'value без onChange — тоже контролируемый инпут','Поле станет только для чтения, и React выведет предупреждение.']]},
+    {q:'Как избежать лишних ререндеров?', pts:[
+      [1,'Держать state как можно ближе к месту, где он нужен'],
+      [1,'React.memo для тяжёлых компонентов и стабильные props через useCallback/useMemo'],
+      [1,'Сначала измерить в React Profiler, потом оптимизировать'],
+      [1,'Не создавать новые объекты и функции в props без нужды'],
+      [0,'Обернуть все вычисления в useMemo','У мемоизации есть цена. Без измерений это лишний код.'],
+      [0,'Хранить всё состояние приложения в одном объекте наверху','Каждое изменение будет перерисовывать всех, кто от него зависит.']]}
+  ]
+},
+ts:{
+  terms:[
+    {t:'Union (A | B)', s:'Значение — одно из перечисленного: \'hero\' | \'timer\'.', an:'Меню: суп или салат.', vs:'Пересечение (A & B) — «всё сразу»: и поля A, и поля B.'},
+    {t:'Discriminated union', s:'Объединение объектов с общим полем-меткой (обычно type). Проверил метку — TS знает остальные поля.', an:'Этикетка на коробке: «посуда» — значит, внутри тарелки, а не книги.', vs:'Один объект со всеми полями необязательными: TS не знает, какие поля есть у конкретного блока.'},
+    {t:'Generic', s:'Параметр для типа. Функцию пишешь один раз, тип подставляется при вызове.', an:'Коробка «для чего угодно»: положил яблоки — достанешь яблоки.', vs:'any. Из такой коробки может выпасть что угодно, и TS не предупредит.'},
+    {t:'unknown', s:'«Пришло что-то». Пока не проверишь тип, пользоваться значением нельзя.', an:'Посылка без подписи: сначала открой и посмотри.', vs:'any — «верь мне на слово»: TS выключает все проверки.'},
+    {t:'Сужение типа', s:'После проверки typeof, in или === TS знает точный тип внутри этой ветки кода.', an:'Узнав, что гость — вегетарианец, ты уже знаешь, что ему не предлагать.', vs:'Приведение через as. Оно не проверяет, а приказывает TS поверить.'}
+  ],
+  cmp:[
+    {q:'Где ошибку поймают до запуска, при компиляции?',
+     a:{code:`function shout(x: any) {
+  return x.toUpperCase();
+}
+shout(42);`, rows:[[0,'Компилируется без ошибок'],[0,'В браузере: TypeError: x.toUpperCase is not a function']]},
+     b:{code:`function shout(x: unknown) {
+  return x.toUpperCase();
+}
+shout(42);`, rows:[[1,'Ошибка компиляции: \'x\' is of type \'unknown\''],[1,'Исправление: if (typeof x === \'string\') …']]},
+     ans:'b', why:'any выключает проверку, и ошибка всплывает уже у пользователя. unknown заставляет сначала проверить тип, поэтому для данных из API и JSON он безопаснее.'},
+    {q:'Разработчик опечатался: if (b.type === \'timr\'). Где TS это заметит?',
+     a:{code:`type Block = {
+  type: string;
+  title?: string;
+  endsAt?: string;
+};`, rows:[[0,'\'timr\' — тоже string, ошибки нет'],[0,'b.endsAt может быть undefined, нужны проверки'],[0,'Блок таймера молча не рисуется']]},
+     b:{code:`type Block =
+  | { type: 'hero'; title: string }
+  | { type: 'timer'; endsAt: string };`, rows:[[1,'Ошибка: \'timr\' не входит в \'hero\' | \'timer\''],[1,'После проверки type TS знает, что endsAt — string'],[1,'Новый тип блока — TS подсветит все switch']]},
+     ans:'b', why:'Литеральные типы в метке type превращают опечатку в ошибку компиляции и сужают тип в каждой ветке. Ровно так описывают блоки конструктора.'}
+  ],
+  build:[
+    {q:'interface или type — что выберешь?', pts:[
+      [1,'Оба описывают форму объекта'],
+      [1,'interface расширяется через extends и сливается при повторном объявлении'],
+      [1,'type умеет union, пересечения, mapped- и условные типы'],
+      [1,'Главное — единый стиль в проекте'],
+      [0,'interface быстрее работает в браузере','Типы стираются при компиляции, в рантайме их нет вообще.'],
+      [0,'Через type нельзя описать пропсы компонента','Можно. Это частый выбор в React-проектах.']]},
+    {q:'Что такое generics? Приведи пример.', pts:[
+      [1,'Параметр для типа: пишешь один раз, тип подставляется при использовании'],
+      [1,'Примеры: useState<T>, first<T>(arr: T[]): T | undefined'],
+      [1,'В отличие от any сохраняют связь между входом и выходом'],
+      [1,'Можно ограничить: <T extends { id: string }>'],
+      [0,'Generic — то же самое, что any','any теряет тип, generic его сохраняет и проверяет.'],
+      [0,'Generics проверяют данные с сервера во время работы','В рантайме типов нет. Для проверки данных нужна валидация, например zod.']]}
+  ]
+},
+builder:{
+  terms:[
+    {t:'Схема страницы', s:'JSON со списком блоков и их настройками. Её редактирует маркетолог, её же читает сайт.', an:'Рецепт блюда.', vs:'Готовый HTML. Схема — только данные, вид определяют компоненты.'},
+    {t:'Реестр блоков', s:'Словарь «тип → компонент»: { hero: Hero, timer: Timer }.', an:'Телефонная книга: по имени находишь номер.', vs:'Большой switch в рендерере. С реестром новый блок добавляется без правки рендерера.'},
+    {t:'Рендерер', s:'Компонент, который идёт по схеме и для каждого блока берёт компонент из реестра.', an:'Повар, который готовит по рецепту.', vs:'Сам блок. Рендерер не знает, как выглядит баннер, он только раскладывает блоки по порядку.'},
+    {t:'Дизайн-токены', s:'Именованные значения дизайна: --color-primary, --radius. Компоненты используют имена, а не числа.', an:'«Фирменный цвет» вместо конкретного кода краски.', vs:'Захардкоженный #1B8A3A в компоненте — не поменять для другого бренда.'},
+    {t:'Миграция схемы', s:'Функция, которая приводит старые сохранённые страницы к новой версии блока.', an:'Переходник для старой вилки в новую розетку.', vs:'Правка компонента. Компонент ждёт новое поле, а старые страницы о нём не знают.'},
+    {t:'Headless CMS', s:'Хранит контент и отдаёт его по API, а как показать — решает фронтенд.', an:'Склад продуктов без собственной кухни.', vs:'Классическая CMS вроде WordPress сама собирает HTML страницы по теме.'}
+  ],
+  cmp:[
+    {q:'Маркетолог сохранил страницу с новым блоком "quiz", а код ещё не выкатили. Где страница не упадёт целиком?',
+     a:{code:`switch (b.type) {
+  case 'hero':  return <Hero {...b} />;
+  case 'timer': return <Timer {...b} />;
+  default: throw new Error('Unknown');
+}`, rows:[[0,'Неизвестный тип — исключение'],[0,'Падает вся страница, а не один блок'],[0,'Новый блок — правка рендерера']]},
+     b:{code:`const Block = registry[b.type];
+return Block
+  ? <Block {...b} />
+  : <UnknownBlock type={b.type} />;`, rows:[[1,'Неизвестный тип — заглушка (в проде можно скрыть)'],[1,'Остальные блоки рисуются'],[1,'Новый блок — одна строка в реестре']]},
+     ans:'b', why:'Рендерер не должен падать из-за данных. Реестр плюс заглушка изолируют проблему одним блоком, а Error Boundary вокруг каждого блока защищает от ошибок внутри компонента.'},
+    {q:'Одна и та же кнопка в трёх брендах. Где она сама подстроится под бренды B и C?',
+     a:{code:`.cta {
+  background: #1B8A3A;
+  border-radius: 16px;
+}`, html:{css:`.row{display:flex;gap:6px;flex-wrap:wrap}.b{flex:1;min-width:70px;padding:8px;border-radius:6px;border:1px solid #ddd;font:600 10px system-ui;color:#666;display:flex;flex-direction:column;gap:6px;align-items:flex-start}.cta{background:#1B8A3A;color:#fff;border-radius:16px;padding:6px 10px;font:700 11px system-ui}`, html:`<div class="row"><div class="b">A<span class="cta">Купить</span></div><div class="b">B<span class="cta">Купить</span></div><div class="b">C<span class="cta">Купить</span></div></div>`}},
+     b:{code:`.cta {
+  background: var(--p);
+  border-radius: var(--pr);
+}`, html:{css:`.row{display:flex;gap:6px;flex-wrap:wrap}.b{flex:1;min-width:70px;padding:8px;border-radius:6px;border:1px solid #ddd;font:600 10px system-ui;color:#666;display:flex;flex-direction:column;gap:6px;align-items:flex-start}.cta{background:var(--p);color:var(--pf);border-radius:var(--pr);padding:6px 10px;font:700 11px system-ui}`, html:`<div class="row"><div class="b" style="--p:#1B8A3A;--pf:#fff;--pr:16px">A<span class="cta">Купить</span></div><div class="b" style="--p:#0E4D3A;--pf:#F3EBDD;--pr:3px">B<span class="cta">Купить</span></div><div class="b" style="--p:#FFD400;--pf:#111;--pr:0">C<span class="cta">Купить</span></div></div>`}},
+     ans:'b', why:'Компонент из варианта {b} не знает конкретных цветов, он читает токены. Бренд-контейнер переопределяет --p и --pr, и та же кнопка выглядит по-разному. В варианте {a} цвет зашит, и для каждого бренда пришлось бы писать отдельные стили.'}
+  ],
+  build:[
+    {q:'Как бы ты спроектировал блок «Таймер акции»?', pts:[
+      [1,'Описать тип в схеме: { type: "timer", endsAt, title?, hideAfterEnd }'],
+      [1,'Хук useCountdown с очисткой интервала при размонтировании'],
+      [1,'Продумать, что показывать после окончания: скрыть или «акция завершена»'],
+      [1,'Зарегистрировать в реестре, добавить форму настроек и стили через токены'],
+      [1,'Проверить в трёх брендах и покрыть логику тестом'],
+      [0,'Захардкодить дату окончания в компоненте','Дату должен менять маркетолог в редакторе, без релиза.'],
+      [0,'Посчитать оставшееся время один раз при сборке сайта','Таймер не будет идти у пользователя и покажет неверное время.']]},
+    {q:'Как сделать, чтобы маркетолог не сломал вёрстку?', pts:[
+      [1,'Ограничения в форме: длина текста, обязательные поля, выбор из списка'],
+      [1,'Превью в трёх ширинах и трёх брендах'],
+      [1,'Вёрстка устойчива к длинным текстам: перенос, обрезка, min/max'],
+      [1,'Error Boundary на каждый блок и заглушка для неизвестного типа'],
+      [0,'Дать поле для собственного CSS','Пропадает любая гарантия, что страница выглядит правильно.'],
+      [0,'Запретить менять тексты','Тогда конструктор теряет смысл.']]}
+  ]
+},
+git:{
+  terms:[
+    {t:'Коммит', s:'Снимок проекта с сообщением и ссылкой на предыдущий снимок.', an:'Сохранение в игре с подписью.', vs:'Отправка на сервер. Коммит живёт локально, пока не сделаешь push.'},
+    {t:'Ветка', s:'Подвижная метка, которая указывает на последний коммит линии работы.', an:'Закладка в книге, а не копия книги.', vs:'Папка-копия проекта. Ветка ничего не копирует, это просто указатель.'},
+    {t:'rebase', s:'Переигрывает твои коммиты поверх свежей main. Коммиты получают новые хеши, история становится прямой.', an:'Переписать черновик так, будто начал его уже после последних правок коллег.', vs:'merge. Он ничего не переписывает и добавляет коммит слияния.'},
+    {t:'revert', s:'Новый коммит, который отменяет изменения старого. История не переписывается.', an:'Опубликовать опровержение, а не вырывать страницу из газеты.', vs:'reset. Двигает ветку назад и стирает коммиты; на общей ветке ломает работу коллег.'},
+    {t:'Pull Request', s:'Запрос влить ветку в main и место для ревью, обсуждения и проверок CI.', an:'Отдать черновик редактору перед печатью.', vs:'Прямой push в main. Без ревью и проверок, в командах обычно запрещён.'},
+    {t:'stash', s:'Временно убрать незакоммиченные правки «в карман», чтобы переключиться на другую задачу.', an:'Сдвинуть бумаги в ящик стола, чтобы освободить место.', vs:'Коммит. stash не попадает в историю и легко забывается.'}
+  ],
+  cmp:[
+    {q:'Пока ты делал фичу (C, D), в main появился коммит E. После какого варианта история станет одной прямой линией?',
+     a:{code:`git checkout main
+git merge feature`, out:`      C───D
+     /     \\
+A───B───E───M   ← main`},
+     b:{code:`git checkout feature
+git rebase main`, out:`A───B───E───C'───D'   ← feature`},
+     ans:'b', why:'merge сохраняет реальную историю и добавляет коммит слияния M. rebase переносит C и D поверх E, создавая новые коммиты C\' и D\' с другими хешами. Поэтому rebase делают только в своей ветке, пока её не используют другие.'},
+    {q:'Плохой коммит уже в main, коллеги его стянули. Где у них ничего не сломается?',
+     a:{code:`git revert a1b2c3
+git push`, rows:[[1,'Появился новый коммит-отмена'],[1,'История не переписана'],[1,'Коллеги делают обычный pull']]},
+     b:{code:`git reset --hard HEAD~1
+git push --force`, rows:[[0,'Коммит исчез из истории main'],[0,'У коллег история расходится с сервером'],[0,'Их следующий push может вернуть коммит или затереть чужую работу']]},
+     ans:'a', why:'Общую историю не переписывают. revert безопасен, потому что только добавляет коммит. reset с force-push годится лишь для своей неопубликованной ветки.'}
+  ],
+  build:[
+    {q:'Чем merge отличается от rebase?', pts:[
+      [1,'merge объединяет истории коммитом слияния и ничего не переписывает'],
+      [1,'rebase переносит коммиты поверх другой ветки, у них новые хеши, история прямая'],
+      [1,'rebase — для своей ветки до публикации, общие ветки не переписывают'],
+      [1,'Способ вливания PR обычно договорён в команде, например squash'],
+      [0,'rebase всегда безопаснее merge','Переписывание общей истории ломает работу коллег.'],
+      [0,'merge удаляет коммиты из ветки фичи','Все коммиты остаются в истории.']]},
+    {q:'Как ты решаешь конфликты?', pts:[
+      [1,'Подтягиваю свежую main и смотрю, чьи изменения и зачем'],
+      [1,'Объединяю смысл обеих правок, а не просто выбираю «мою» или «их» версию'],
+      [1,'После разрешения запускаю тесты и проверяю руками'],
+      [1,'Если не уверен — спрашиваю автора второй правки'],
+      [0,'Всегда оставляю свою версию','Так можно затереть чужую работу.'],
+      [0,'Удаляю ветку и делаю задачу заново','Долго, и конфликт с тем же кодом, скорее всего, повторится.']]}
+  ]
+},
+node:{
+  terms:[
+    {t:'package.json', s:'Паспорт проекта: название, зависимости с диапазонами версий и скрипты (dev, build, test).', an:'Список покупок и инструкция «как готовить».', vs:'lock-файл. В package.json — диапазоны, в lock — точные версии.'},
+    {t:'lock-файл', s:'package-lock.json фиксирует точные версии всего дерева зависимостей.', an:'Чек из магазина: что именно купили, вплоть до партии.', vs:'node_modules. Его не коммитят: он восстанавливается из lock-файла.'},
+    {t:'devDependencies', s:'Пакеты, нужные только для разработки и сборки: typescript, eslint, vitest.', an:'Строительные леса: нужны для стройки, жильцам не достаются.', vs:'dependencies — то, что код использует при работе: react, react-dom.'},
+    {t:'Сборщик (бандлер)', s:'Vite или webpack: проходит по импортам, превращает TS/JSX в JS, склеивает, минифицирует, добавляет хеши к именам файлов.', an:'Упаковщик, который собирает сотню мелких вещей в пару удобных коробок.', vs:'Транспилятор (tsc, babel) — только переводит синтаксис и не собирает файлы вместе.'},
+    {t:'CI / CD', s:'CI — автоматические проверки на каждый PR: линтер, типы, тесты, сборка. CD — автоматическая выкладка после проверок.', an:'Контроль качества на конвейере и отгрузка со склада.', vs:'Проверка «у меня работает» на своём компьютере.'},
+    {t:'SSR', s:'HTML страницы собирается на сервере и сразу приходит с текстом. Потом React «оживляет» его (гидратация).', an:'Готовое блюдо, а не набор продуктов с рецептом.', vs:'CSR. Браузер получает пустой div и строит страницу JavaScript-ом.'}
+  ],
+  cmp:[
+    {q:'Сейчас стоит версия 1.4.2. Какой диапазон не пустит 1.5.0?',
+     a:{code:`"lib": "^1.4.2"`, rows:[[1,'1.4.9 — можно'],[1,'1.5.0 — можно'],[0,'2.0.0 — нельзя']]},
+     b:{code:`"lib": "~1.4.2"`, rows:[[1,'1.4.9 — можно'],[0,'1.5.0 — нельзя'],[0,'2.0.0 — нельзя']]},
+     ans:'b', why:'^ (caret) разрешает новые минорные и патч-версии внутри той же мажорной: 1.x.x. ~ (tilde) — только патчи: 1.4.x. Точные версии у всей команды всё равно держит lock-файл.'},
+    {q:'В каком варианте поисковик и пользователь увидят текст акции ещё до загрузки JavaScript?',
+     a:{code:`// Клиентский рендер (CSR)
+createRoot(root).render(<Page />);`, out:`<body>
+  <div id="root"></div>
+  <script src="/app.js"><\/script>
+</body>`},
+     b:{code:`// Серверный рендер (SSR)
+res.send(renderToString(<Page />));`, out:`<body>
+  <div id="root">
+    <h1>Неделя фруктов</h1>
+    <p>Скидки до 40%</p>
+  </div>
+  <script src="/app.js"><\/script>
+</body>`},
+     ans:'b', why:'При SSR сервер присылает готовую разметку, и текст виден сразу: это хорошо для SEO и для LCP. При CSR до загрузки и выполнения app.js страница пустая.'}
+  ],
+  build:[
+    {q:'Что происходит, когда ты запускаешь npm run build?', pts:[
+      [1,'npm берёт скрипт build из package.json и запускает его'],
+      [1,'Часто это проверка типов (tsc) и сборка (vite build)'],
+      [1,'Сборщик проходит по импортам, превращает TS/JSX в JS и минифицирует'],
+      [1,'На выходе папка dist с файлами, у которых хеш в имени — для кэша'],
+      [0,'Код отправляется на сервер компании','Сборка идёт локально или в CI. Выкладка — отдельный шаг.'],
+      [0,'npm скачивает свежие версии всех пакетов','Это делает install или update, а версии фиксирует lock-файл.']]},
+    {q:'Почему нельзя хранить секреты в переменных окружения фронтенда?', pts:[
+      [1,'Переменные окружения подставляются в бандл при сборке'],
+      [1,'Бандл скачивает любой пользователь, ключ виден в DevTools'],
+      [1,'Секреты держат на сервере или в BFF, фронтенд обращается через него'],
+      [0,'Если назвать переменную VITE_SECRET, она зашифруется','Наоборот: префикс VITE_ как раз делает переменную доступной в клиентском коде.'],
+      [0,'Минификация прячет ключи','Строки после минификации остаются как есть.']]}
+  ]
+},
+debug:{
+  terms:[
+    {t:'Воспроизведение бага', s:'Точные шаги, браузер и данные, при которых баг появляется каждый раз.', an:'Рецепт, по которому ошибку можно «приготовить» снова.', vs:'«Иногда не работает». С этим нельзя проверить, что исправление помогло.'},
+    {t:'Breakpoint', s:'Точка остановки кода в DevTools: видно значения всех переменных и стек вызовов в этот момент.', an:'Пауза в фильме, чтобы рассмотреть кадр.', vs:'console.log — нужно заранее угадать, что печатать, и перезапускать.'},
+    {t:'Юнит-тест', s:'Проверяет одну функцию или маленький кусок в изоляции. Быстрый.', an:'Проверить каждую деталь до сборки машины.', vs:'e2e-тест — проходит сценарий в настоящем браузере. Медленнее, но ближе к пользователю.'},
+    {t:'getByRole', s:'Поиск элемента в тесте так, как его видит пользователь и скринридер: роль и доступное имя.', an:'Искать «кнопку Купить», а не «третий div слева».', vs:'querySelector(\'.btn\') — привязан к классу, ломается при рефакторинге и не проверяет доступность.'},
+    {t:'Регрессия', s:'Старое перестало работать после нового изменения.', an:'Починили кран — потёк соседний.', vs:'Новый баг в новой фиче. Защита от регрессий — тест на каждый исправленный баг.'}
+  ],
+  cmp:[
+    {q:'Кнопку «Купить» случайно сделали тегом <div>. Какой тест это заметит?',
+     a:{code:`const btn = container
+  .querySelector('.btn-primary');
+expect(btn).toBeInTheDocument();`, rows:[[0,'<div class="btn-primary"> — тест зелёный, баг пропущен'],[0,'Переименовали класс — тест красный, хотя всё работает']]},
+     b:{code:`const btn = screen.getByRole(
+  'button', { name: /купить/i });
+expect(btn).toBeInTheDocument();`, rows:[[1,'<div> — тест красный: кнопки нет'],[1,'Переименовали класс — тест зелёный']]},
+     ans:'b', why:'Тест должен проверять то, что видит пользователь, а не детали реализации. getByRole ловит проблемы доступности и переживает рефакторинг стилей.'},
+    {q:'Ошибка появляется редко. Где можно посмотреть все переменные в момент ошибки без перезапуска с новыми логами?',
+     a:{code:`console.log('blocks', blocks);
+console.log('brand', brand);`, rows:[[0,'Видно только то, что заранее вывел'],[0,'Не угадал — дописываешь логи и ловишь баг заново'],[0,'Логи легко забыть в коде']]},
+     b:{code:`// Sources → Pause on exceptions
+// или строка с debugger;`, rows:[[1,'Код остановится ровно на ошибке'],[1,'Видны все переменные и стек вызовов'],[1,'Можно шагать по строкам дальше']]},
+     ans:'b', why:'console.log хорош для быстрой проверки догадки. Когда догадки нет, breakpoint или пауза на исключениях показывают всё состояние сразу.'}
+  ],
+  build:[
+    {q:'Расскажи, как ты ищешь баг в незнакомом коде.', pts:[
+      [1,'Сначала стабильно воспроизвожу: шаги, браузер, данные'],
+      [1,'Читаю текст ошибки и стек, смотрю Network'],
+      [1,'Сужаю место: breakpoint, отключаю половину кода, git bisect'],
+      [1,'Исправляю причину и добавляю тест на этот случай'],
+      [0,'Сразу переписываю подозрительный модуль','Можно не найти настоящую причину и добавить новых багов.'],
+      [0,'Оборачиваю код в try/catch, чтобы ошибка не показывалась','Так прячется симптом, а сама проблема остаётся.']]},
+    {q:'Какие виды тестов ты знаешь?', pts:[
+      [1,'Юнит-тесты — для чистых функций, быстрые'],
+      [1,'Компонентные — React Testing Library, проверяют поведение глазами пользователя'],
+      [1,'e2e — Playwright или Cypress, сценарий в настоящем браузере'],
+      [1,'Визуальные — сравнение скриншотов, ловят съехавшую вёрстку'],
+      [0,'Чем больше e2e-тестов, тем лучше','Они медленные и хрупкие. Обычно больше всего юнит-тестов, e2e — на главные сценарии.'],
+      [0,'Хороший тест проверяет внутренний state компонента','Лучше проверять поведение: что видно на экране и что происходит по клику.']]}
+  ]
+},
+interview:{
+  terms:[
+    {t:'STAR', s:'Структура ответа на вопрос о прошлом опыте: Situation, Task, Action, Result.', an:'Короткая история с завязкой, целью, действиями и развязкой.', vs:'Поток воспоминаний без вывода — интервьюер не понимает, что сделал именно ты.'},
+    {t:'Рассказ о себе', s:'60 секунд: кто ты → что сделал (конкретно) → почему эта команда.', an:'Трейлер к фильму, а не пересказ.', vs:'Пересказ резюме по пунктам — долго и без главного.'},
+    {t:'Live coding', s:'Решение задачи вслух при интервьюере. Оценивают ход мысли, вопросы и проверку решения.', an:'Готовить на кухне при открытой двери и комментировать.', vs:'Контрольная, где важен только ответ. Здесь молчаливое правильное решение ценится меньше, чем рассуждение.'},
+    {t:'Поведенческий вопрос', s:'«Расскажи о случае, когда…» — проверяют, как ты работаешь в команде и с трудностями.', an:'Вопрос не «что бы ты сделал», а «что ты уже делал».', vs:'Технический вопрос — проверяет знания, а не поведение.'},
+    {t:'Вопрос команде', s:'Вопрос, который ты задаёшь в конце. Показывает интерес и помогает понять, подходит ли тебе работа.', an:'Тест-драйв перед покупкой.', vs:'«Вопросов нет» — упущенная возможность показать мотивацию.'}
+  ],
+  cmp:[
+    {q:'Вопрос: «Расскажи о самом сложном баге». Какой ответ показывает, как ты думаешь?',
+     a:{code:`«Ну, багов было много.
+Обычно гуглю и как-то чиню.»`, rows:[[0,'Нет конкретной ситуации'],[0,'Непонятно, что делал именно ты'],[0,'Нет результата и вывода']]},
+     b:{code:`«На лендинге в Safari съезжала сетка.
+Нужно было починить до запуска акции.
+Воспроизвёл, в DevTools нашёл gap
+у flex, которого не было в старом Safari,
+заменил на margin. Добавил браузер
+в чек-лист проверки.»`, rows:[[1,'Ситуация и задача понятны'],[1,'Видны конкретные шаги поиска'],[1,'Есть результат и вывод на будущее']]},
+     ans:'b', why:'Ответ {b} построен по STAR: ситуация, задача, действия, результат. Интервьюер видит твой процесс, а не только то, что баги бывают.'},
+    {q:'Спросили про технологию, с которой ты не работал. Какой ответ сильнее?',
+     a:{code:`«Не знаю.»`, rows:[[0,'Разговор обрывается'],[0,'Интервьюер не видит, как ты рассуждаешь']]},
+     b:{code:`«С Next.js не работал. Понимаю,
+что это фреймворк над React с SSR
+и роутингом по файлам. Разбирался бы
+по официальному туториалу и сделал
+маленькую страницу.»`, rows:[[1,'Честно признал пробел'],[1,'Показал смежные знания'],[1,'Есть план, как разобраться']]},
+     ans:'b', why:'Не знать — нормально для стажёра. Сильный ответ честный и показывает, что ты понимаешь контекст и умеешь учиться.'}
+  ],
+  build:[
+    {q:'Расскажи о себе.', pts:[
+      [1,'Кто ты и что изучаешь сейчас'],
+      [1,'1–2 проекта с конкретикой: что сделал, на каком стеке, какой результат'],
+      [1,'Почему именно эта команда и вакансия'],
+      [1,'Уложиться примерно в минуту'],
+      [0,'Подробно пересказать резюме по годам','Долго, и главное теряется.'],
+      [0,'Перечислить все технологии, о которых слышал','Интервьюер начнёт спрашивать по каждой, а глубины не будет.']]},
+    {q:'Расскажи о самом сложном баге или проекте.', pts:[
+      [1,'Ситуация: где и как проявилась проблема'],
+      [1,'Задача: чего нужно было добиться'],
+      [1,'Действия: что пробовал и как сузил причину'],
+      [1,'Результат и вывод: что изменил, чтобы не повторилось'],
+      [0,'Сказать, что сложных багов не было','Звучит как нехватка опыта или нежелание рефлексировать.'],
+      [0,'Объяснить, что виноват коллега или библиотека','Ищут, как ты берёшь ответственность, а не кто виноват.']]}
+  ]
+}
+};
+
+const WEEKS = [
+  {t:'Неделя 1', s:'База вёрстки', items:['HTML и CSS модули курса','Сверстать адаптивную карточку товара с 320px','Пройти квизы на 80%+']},
+  {t:'Неделя 2', s:'JS и React', items:['Модули JS и React','Решить задачи на корзину и редьюсер','Переписать один сайт из портфолио на React']},
+  {t:'Неделя 3', s:'TypeScript и конструктор', items:['Модули TS и конструктора','Начать проект «мини-конструктор»','Типизировать блоки через union']},
+  {t:'Неделя 4', s:'Команда и интервью', items:['Git, CI, отладка','Задеплоить проект, README, Lighthouse','Отрепетировать рассказ о себе вслух']}
+];
+
+const CHECKLIST = [
+  'В портфолио 2–3 лучших проекта, у каждого живой деплой и ссылка на код',
+  'У каждого проекта README: задача, стек, моя роль, скриншоты мобилки и десктопа',
+  'Хотя бы один проект на React + TypeScript',
+  'В проекте используются CSS-модули (или есть осознанный выбор другого подхода)',
+  'Вёрстка проверена с 320px до 1440px и в Safari',
+  'Lighthouse 90+ на главной странице проекта',
+  'Есть темизация через CSS-переменные (тёмная тема или несколько брендов)',
+  'Сделан проект «мини-конструктор промо-страниц»',
+  'Аккуратная история коммитов, есть хотя бы пара PR (можно в своём репо)',
+  'Подготовлен рассказ о себе на 60–90 секунд',
+  'Подготовлены 3 истории по STAR',
+  'Подготовлены 3–5 вопросов команде',
+  'Резюме на одну страницу со ссылками на GitHub и проекты'
+];
+
+/* ---------- state ---------- */
+const KEY = 'fe-intern-course-v1';
+let S = {read:{}, quiz:{}, task:{}, code:{}, check:{}, notes:{}};
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch(e) {}
+const save = () => { S.savedAt = Date.now(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} scheduleFileWrite(); };
+
+/* ---------- progress file ---------- */
+const FS_OK = typeof window.showSaveFilePicker === 'function';
+let fileHandle = null;     // handle with write permission
+let pendingHandle = null;  // remembered handle that needs a click to re-grant permission
+let fileMsg = '';
+let writeTimer = null;
+
+function idb(op, val){
+  return new Promise(res => {
+    try {
+      const r = indexedDB.open('fe-intern-course', 1);
+      r.onupgradeneeded = () => r.result.createObjectStore('h');
+      r.onsuccess = () => {
+        const tx = r.result.transaction('h', op === 'get' ? 'readonly' : 'readwrite');
+        const st = tx.objectStore('h');
+        const q = op === 'get' ? st.get('file') : op === 'set' ? st.put(val, 'file') : st.delete('file');
+        q.onsuccess = () => res(q.result); q.onerror = () => res(null);
+      };
+      r.onerror = () => res(null);
+    } catch(e) { res(null); }
+  });
+}
+function exportData(){
+  return JSON.stringify({app:'fe-intern-course', version:1, savedAt:new Date().toISOString(), progress:S, playground:typeof pg !== 'undefined' ? pg : null}, null, 2);
+}
+function applyData(text){
+  const d = JSON.parse(text);
+  if (!d || d.app !== 'fe-intern-course') throw new Error('Это не файл прогресса курса');
+  S = Object.assign({read:{}, quiz:{}, task:{}, code:{}, check:{}, notes:{}}, d.progress || {});
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {}
+  if (d.playground && Array.isArray(d.playground.blocks)) { pg = d.playground; try { localStorage.setItem(KEY+'-pg', JSON.stringify(pg)); } catch(e) {} }
+  state.quiz = {}; state.order = {}; state.train = {};
+}
+function scheduleFileWrite(){
+  if (!fileHandle) return;
+  clearTimeout(writeTimer);
+  writeTimer = setTimeout(writeFile, 400);
+}
+async function writeFile(){
+  if (!fileHandle) return;
+  try {
+    const w = await fileHandle.createWritable();
+    await w.write(exportData()); await w.close();
+    fileMsg = 'Сохранено в файл в ' + new Date().toLocaleTimeString('ru-RU', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  } catch(e) { fileMsg = 'Не удалось записать файл: ' + e.message; }
+  updateFileUI();
+}
+async function connectNewFile(){
+  try {
+    const h = await window.showSaveFilePicker({suggestedName:'fe-course-progress.json', types:[{description:'Прогресс курса', accept:{'application/json':['.json']}}]});
+    fileHandle = h; pendingHandle = null; await idb('set', h); await writeFile();
+  } catch(e) { if (e.name !== 'AbortError') { fileMsg = 'Ошибка: ' + e.message; updateFileUI(); } }
+}
+async function openExistingFile(){
+  try {
+    const [h] = await window.showOpenFilePicker({types:[{description:'Прогресс курса', accept:{'application/json':['.json']}}]});
+    const text = await (await h.getFile()).text();
+    applyData(text);
+    if ((await h.requestPermission({mode:'readwrite'})) === 'granted') { fileHandle = h; pendingHandle = null; await idb('set', h); fileMsg = 'Прогресс загружен, изменения пишутся в этот файл'; }
+    else fileMsg = 'Прогресс загружен, но запись в файл не разрешена';
+    render();
+  } catch(e) { if (e.name !== 'AbortError') { fileMsg = 'Ошибка: ' + e.message; updateFileUI(); } }
+}
+async function resumeFile(){
+  if (!pendingHandle) return;
+  try {
+    if ((await pendingHandle.requestPermission({mode:'readwrite'})) !== 'granted') return;
+    const h = pendingHandle; pendingHandle = null;
+    await loadFromHandle(h);
+  } catch(e) { fileMsg = 'Ошибка: ' + e.message; updateFileUI(); }
+}
+async function loadFromHandle(h){
+  fileHandle = h;
+  try {
+    const text = await (await h.getFile()).text();
+    if (text.trim()) {
+      const d = JSON.parse(text);
+      if ((d.progress?.savedAt || 0) >= (S.savedAt || 0)) applyData(text); else await writeFile();
+    }
+    fileMsg = 'Файл подключён, изменения сохраняются автоматически';
+  } catch(e) { fileMsg = 'Файл подключён, но прочитать его не удалось: ' + e.message; }
+  render();
+}
+async function disconnectFile(){
+  fileHandle = null; pendingHandle = null; await idb('del'); fileMsg = 'Файл отключён, прогресс хранится только в браузере'; updateFileUI();
+}
+function downloadCopy(){
+  const blob = new Blob([exportData()], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'fe-course-progress.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  fileMsg = 'Копия скачана в папку загрузок'; updateFileUI();
+}
+function loadFromInput(input){
+  const f = input.files && input.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => { try { applyData(r.result); fileMsg = 'Прогресс загружен из «' + f.name + '»'; render(); } catch(e) { fileMsg = 'Ошибка: ' + e.message; updateFileUI(); } };
+  r.readAsText(f);
+}
+function fileBoxHtml(){
+  const name = fileHandle?.name || pendingHandle?.name;
+  const cls = fileHandle ? 'ok' : pendingHandle ? 'warn' : '';
+  const status = fileHandle ? 'Пишется в файл «' + esc(name) + '»' : pendingHandle ? 'Файл «' + esc(name) + '» ждёт разрешения' : 'Файл не подключён, прогресс только в браузере';
+  return `
+    <div class="fstat ${cls}"><i></i><span>${status}</span></div>
+    <div class="btns">
+      ${FS_OK ? (pendingHandle ? `<button class="btn primary" data-fa="resume">Продолжить запись в «${esc(name)}»</button>` : '') +
+        (!fileHandle ? `<button class="btn ${pendingHandle?'':'primary'}" data-fa="new">Создать файл прогресса</button><button class="btn" data-fa="open">Открыть существующий файл</button>` : `<button class="btn" data-fa="off">Отключить файл</button>`) : ''}
+      <button class="btn" data-fa="dl">Скачать копию</button>
+      <label class="btn" for="progressUpload" style="cursor:pointer">Загрузить из файла</label>
+      <input type="file" id="progressUpload" accept=".json,application/json" hidden>
+    </div>
+    ${fileMsg ? `<small>${esc(fileMsg)}</small>` : ''}
+    <small>${FS_OK ? 'Подключённый файл обновляется сам после каждого действия. Работает в Chrome, Edge и Яндекс Браузере, если открыть course.html с диска.' : 'Этот браузер не умеет писать в файл напрямую. Нажимай «Скачать копию», чтобы сохранить прогресс, и «Загрузить из файла», чтобы восстановить.'}</small>`;
+}
+function updateFileUI(){
+  document.querySelectorAll('.filebox').forEach(box => {
+    box.innerHTML = fileBoxHtml();
+    box.querySelectorAll('[data-fa]').forEach(b => b.onclick = () => ({new:connectNewFile, open:openExistingFile, resume:resumeFile, off:disconnectFile, dl:downloadCopy})[b.dataset.fa]());
+    const inp = box.querySelector('#progressUpload'); if (inp) inp.onchange = () => loadFromInput(inp);
+  });
+  const rs = document.getElementById('railFile');
+  if (rs) rs.textContent = fileHandle ? 'Прогресс пишется в «' + fileHandle.name + '».' : 'Прогресс хранится в браузере. Файл можно подключить на странице «Обзор».';
+}
+async function initFile(){
+  if (!FS_OK) return;
+  const h = await idb('get');
+  if (!h || typeof h.queryPermission !== 'function') return;
+  try {
+    if ((await h.queryPermission({mode:'readwrite'})) === 'granted') await loadFromHandle(h);
+    else { pendingHandle = h; updateFileUI(); }
+  } catch(e) {}
+}
+
+function modProgress(m){
+  let got = 0, max = 0;
+  max += 1; if (S.read[m.id]) got += 1;
+  max += 2; got += 2 * (S.quiz[m.id] || 0);
+  if (m.task){ max += 2; if (S.task[m.id]) got += 2; }
+  if (TRAIN[m.id]){ max += 2; got += 2 * trainProgress(m); }
+  return got / max;
+}
+function totalProgress(){
+  const mods = MODULES.reduce((s,m)=>s+modProgress(m),0) / MODULES.length;
+  const chk = Object.values(S.check).filter(Boolean).length / CHECKLIST.length;
+  return Math.round((mods * 0.8 + chk * 0.2) * 100);
+}
+
+/* ---------- test helpers ---------- */
+function eq(got, exp){
+  const g = JSON.stringify(got), e = JSON.stringify(exp);
+  return g === e || ('ожидалось ' + e + ', получено ' + g);
+}
+
+/* ---------- nav ---------- */
+function renderNav(){
+  const route = currentRoute();
+  const link = (hash, label, dotHtml) => `<a href="#${hash}" class="${route===hash?'on':''}">${dotHtml}<span class="t">${label}</span></a>`;
+  let h = `<div class="nav-group">Старт</div>`;
+  h += link('home','Обзор и план',`<span class="dot full">${totalProgress()}</span>`);
+  h += `<div class="nav-group">Модули</div>`;
+  MODULES.forEach((m,i)=>{
+    const p = Math.round(modProgress(m)*100);
+    h += link('m-'+m.id, m.title, `<span class="dot ${p===100?'full':''}">${p===100?'✓':i+1}</span>`);
+  });
+  h += `<div class="nav-group">Практика</div>`;
+  h += link('project','Проект для портфолио',`<span class="dot">★</span>`);
+  h += link('playground','Песочница конструктора',`<span class="dot">▦</span>`);
+  $('#nav').innerHTML = h;
+  // mobile top bar: where am I + overall progress
+  const mi = MODULES.findIndex(m=>'m-'+m.id===route);
+  const titles = {home:['Фронтенд-стажёр','Обзор и план'], project:['Практика','Проект для портфолио'], playground:['Практика','Песочница конструктора']};
+  const [eb, tt] = mi>=0 ? ['Модуль '+(mi+1)+' из '+MODULES.length, MODULES[mi].title] : (titles[route] || titles.home);
+  $('#tbEyebrow').textContent = eb; $('#tbTitle').textContent = tt;
+  $('#tbProg').textContent = totalProgress() + '%';
+}
+
+/* ---------- mobile drawer ---------- */
+const isNarrow = () => window.matchMedia('(max-width:860px)').matches;
+function setMenu(open){
+  document.body.classList.toggle('nav-open', open);
+  $('#menuBtn').setAttribute('aria-expanded', open);
+  if (open){ const on = $('#nav a.on'); if (on) on.scrollIntoView({block:'center'}); (on || $('#menuClose')).focus({preventScroll:true}); }
+  else if (isNarrow()) $('#menuBtn').focus({preventScroll:true});
+}
+$('#menuBtn').onclick = () => setMenu(true);
+$('#menuClose').onclick = () => setMenu(false);
+$('#scrim').onclick = () => setMenu(false);
+$('#nav').addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+document.addEventListener('keydown', e => { if (e.key==='Escape' && document.body.classList.contains('nav-open')) setMenu(false); });
+window.matchMedia('(max-width:860px)').addEventListener('change', e => { if (!e.matches) document.body.classList.remove('nav-open'); });
+
+/* ---------- views ---------- */
+function viewHome(){
+  const p = totalProgress();
+  const reqRows = [
+    ['HTML, CSS и JavaScript (ES6+)','Обязательно',['html','css','js']],
+    ['Основы React','Обязательно',['react']],
+    ['Git, ветки, merge, pull request','Обязательно',['git']],
+    ['Внимательность к вёрстке, отладка багов','Обязательно',['css','debug']],
+    ['Учебные проекты, готовность к фидбеку','Обязательно',['interview']],
+    ['TypeScript и система типов','Плюс',['ts']],
+    ['CMS и конструкторы страниц','Плюс',['builder']],
+    ['Адаптивная и кроссбраузерная вёрстка','Плюс',['css','debug']],
+    ['Основы Node.js','Плюс',['node']]
+  ];
+  const byId = id => MODULES.find(m=>m.id===id);
+  return `
+  <div class="hero">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <span class="eyebrow">Стажировка, фронтенд, витрины ритейла</span>
+      <h1>Готовимся к стажировке в команду конструктора промо-страниц</h1>
+      <p class="lead">Курс собран по тексту вакансии: React, TypeScript, CSS-модули, адаптив под три бренда, Git и конструктор лендингов. В каждом модуле теория, квиз с разбором, тренировка на понимание терминов, практическая задача с автопроверкой и вопросы с собеседований.</p>
+    </div>
+    <div class="ready">
+      <span class="eyebrow">Готовность</span>
+      <span class="tag"><big>${p}</big>%</span>
+    </div>
+  </div>
+
+  ${installHintHtml()}
+  <section class="stack" style="gap:14px">
+    <h2>Сохранение прогресса</h2>
+    <div class="panel filebox"></div>
+  </section>
+
+  <section class="stack" style="gap:14px">
+    <h2>Модули</h2>
+    <div class="grid2">
+      ${MODULES.map((m,i)=>{const mp=Math.round(modProgress(m)*100);return `
+      <a class="mod-card" href="#m-${m.id}">
+        <div class="row"><span class="eyebrow">Модуль ${i+1}</span><span class="pill ${m.req?'req':'plus'}">${m.req?'обязательно':'будет плюсом'}</span></div>
+        <h3>${m.title}</h3>
+        <p>${m.short}</p>
+        <div class="row"><div class="bar" style="flex:1"><i style="width:${mp}%"></i></div><span style="font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums">${mp}%</span></div>
+      </a>`}).join('')}
+    </div>
+  </section>
+
+  <section class="stack" style="gap:14px">
+    <h2>Требования вакансии и где их закрыть</h2>
+    <div class="panel tscroll" style="padding:6px 8px">
+      <table class="req-table">
+        <thead><tr><th>Требование</th><th>Статус</th><th>Модули</th></tr></thead>
+        <tbody>${reqRows.map(r=>`<tr><td>${r[0]}</td><td><span class="pill ${r[1]==='Обязательно'?'req':'plus'}">${r[1]}</span></td><td>${r[2].map(id=>`<a href="#m-${id}">${byId(id).title}</a>`).join('<br>')}</td></tr>`).join('')}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="stack" style="gap:14px">
+    <h2>План на 4 недели</h2>
+    <div class="weeks">${WEEKS.map(w=>`<div class="week"><span class="eyebrow">${w.t}</span><b>${w.s}</b><ul>${w.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`).join('')}</div>
+  </section>
+
+  <section class="stack" style="gap:14px">
+    <h2>Чек-лист портфолио и отклика</h2>
+    <p class="lead" style="font-size:.95rem">У тебя уже есть сайты. Отметь, что из этого готово: чек-лист даёт 20% общей готовности.</p>
+    <div class="panel check" id="checklist">
+      ${CHECKLIST.map((c,i)=>`<label for="ck${i}"><input type="checkbox" id="ck${i}" data-i="${i}" ${S.check[i]?'checked':''}><span>${c}</span></label>`).join('')}
+    </div>
+  </section>`;
+}
+
+function viewProject(){
+  return `
+  <div class="stack" style="gap:12px">
+    <span class="eyebrow">Проект для портфолио</span>
+    <h1>Мини-конструктор промо-страниц</h1>
+    <p class="lead">Один пет-проект, который закрывает почти все пункты вакансии сразу: React, TypeScript, CSS-модули, мультибренд, адаптив, Git-процесс и CI. На собеседовании его можно показать вживую и рассказать, как он устроен.</p>
+  </div>
+  <div class="panel proj stack" style="gap:16px">
+    <h2>Что должно работать</h2>
+    <ol>
+      <li>Страница описывается JSON-схемой: массив блоков с <code>id</code>, <code>type</code> и настройками.</li>
+      <li>Минимум 4 типа блоков: hero-баннер, сетка товаров, полоса с промокодом, таймер акции. Типы описаны discriminated union.</li>
+      <li>Реестр блоков и рендерер, неизвестный тип не роняет страницу, каждый блок в Error Boundary.</li>
+      <li>Редактор: добавить, удалить, переставить блок, изменить поля выбранного блока (контролируемые инпуты).</li>
+      <li>Переключатель трёх брендов через CSS-переменные и <code>data-brand</code>. Компоненты одни и те же.</li>
+      <li>Превью в трёх ширинах: 375, 768, 1280.</li>
+      <li>Схема сохраняется в localStorage, есть экспорт и импорт JSON.</li>
+      <li>Функция видимости блоков по датам и брендам покрыта юнит-тестами.</li>
+    </ol>
+  </div>
+  <div class="grid2">
+    <div class="panel stack" style="gap:10px"><h3>Стек</h3><p style="color:var(--muted);font-size:.93rem">Vite + React + TypeScript, CSS-модули, Vitest + React Testing Library, ESLint + Prettier, GitHub Actions (lint → typecheck → test → build), деплой на GitHub Pages или Vercel.</p></div>
+    <div class="panel stack" style="gap:10px"><h3>Процесс</h3><p style="color:var(--muted);font-size:.93rem">Работай как в команде: задачи в GitHub Issues, ветка на каждую задачу, PR с описанием и скриншотами, Conventional Commits. Ревьюер может быть и ты сам через день.</p></div>
+    <div class="panel stack" style="gap:10px"><h3>Структура</h3>
+${code(`src/
+  blocks/
+    Hero/ Hero.tsx  Hero.module.css  Hero.test.tsx
+    Products/ …
+    registry.ts
+  editor/ Editor.tsx  BlockForm.tsx
+  renderer/ PageRenderer.tsx  ErrorBoundary.tsx
+  lib/ visibleBlocks.ts  visibleBlocks.test.ts
+  themes/ tokens.css
+  types.ts`)}
+    </div>
+    <div class="panel stack" style="gap:10px"><h3>Что рассказать на интервью</h3><ul style="margin:0;padding-left:18px;color:var(--muted);font-size:.93rem;display:flex;flex-direction:column;gap:4px"><li>Почему discriminated union и как TS ловит необработанный блок.</li><li>Как устроены токены брендов и как добавить четвёртый бренд.</li><li>Как сделана обратная совместимость схемы.</li><li>Что бы улучшил: drag-and-drop, SSR, валидация через zod.</li></ul></div>
+  </div>
+  <div class="btns"><a class="btn primary" href="#playground">Посмотреть прототип в песочнице</a><a class="btn" href="#m-builder">Теория по конструктору</a></div>`;
+}
+
+function viewModule(m){
+  const idx = MODULES.indexOf(m);
+  const tab = state.tab[m.id] || 'theory';
+  const tabs = [['theory','Теория',''],['quiz','Квиз',m.quiz.length],['interview','Собеседование',m.interview.length]];
+  if (m.task) tabs.splice(2,0,['task','Практика',S.task[m.id]?'✓':'']);
+  if (TRAIN[m.id]) tabs.splice(2,0,['train','Тренировка',trainProgress(m)===1?'✓':'']);
+  if (m.playground) tabs.push(['pg','Песочница','']);
+  const prev = MODULES[idx-1], next = MODULES[idx+1];
+  return `
+  <div class="stack" style="gap:10px">
+    <div class="btns" style="justify-content:space-between"><span class="eyebrow">Модуль ${idx+1} из ${MODULES.length}</span><span class="pill ${m.req?'req':'plus'}">${m.req?'обязательно по вакансии':'будет плюсом'}</span></div>
+    <h1>${m.title}</h1>
+    <p class="lead">${m.short}</p>
+  </div>
+  <div class="tabs" role="tablist">${tabs.map(t=>`<button role="tab" data-tab="${t[0]}" class="${tab===t[0]?'on':''}" aria-selected="${tab===t[0]}">${t[1]}${t[2]!==''?`<span class="n">${t[2]}</span>`:''}</button>`).join('')}</div>
+  <div id="tabBody"></div>
+  <div class="foot-nav">
+    ${prev?`<a class="btn" href="#m-${prev.id}">← ${prev.title}</a>`:'<a class="btn" href="#home">← Обзор</a>'}
+    ${next?`<a class="btn" href="#m-${next.id}">${next.title} →</a>`:'<a class="btn" href="#project">Проект для портфолио →</a>'}
+  </div>`;
+}
+
+function renderTab(m){
+  const tab = state.tab[m.id] || 'theory';
+  const body = $('#tabBody');
+  if (tab==='theory'){
+    body.innerHTML = `<div class="stack">${m.theory.map(t=>`<section class="section"><h2>${t.h}</h2>${t.html}${t.code?code(t.code):''}</section>`).join('')}
+      ${m.playgroundLink?`<div class="callout">Тему брендов на CSS-переменных можно потрогать руками в <a href="#playground">песочнице конструктора</a>.</div>`:''}
+      <div class="btns">${S.read[m.id]?'<span class="solved">✓ Теория прочитана</span>':`<button class="btn primary" id="markRead">Прочитал, перейти к квизу</button>`}</div></div>`;
+    const b = $('#markRead'); if (b) b.onclick = () => { S.read[m.id]=true; save(); state.tab[m.id]='quiz'; render(); window.scrollTo(0,0); };
+  }
+  if (tab==='quiz') renderQuiz(m, body);
+  if (tab==='train') renderTrain(m, body);
+  if (tab==='task') m.task.kind==='code' ? renderCode(m, body) : renderOrder(m, body);
+  if (tab==='interview'){
+    body.innerHTML = `<div class="stack" style="gap:10px"><p class="lead" style="font-size:.95rem">Сначала ответь вслух или запиши ответ, потом открой подсказку. Заметки сохраняются в этом браузере.</p>
+    ${m.interview.map((q,i)=>`<details class="iq"><summary>${esc(q.q)}</summary><div class="a"><textarea id="note-${m.id}-${i}" data-k="${m.id}-${i}" placeholder="Мой ответ…">${esc(S.notes[m.id+'-'+i]||'')}</textarea><p><b>Что хотят услышать:</b> ${esc(q.a)}</p></div></details>`).join('')}</div>`;
+    body.querySelectorAll('textarea').forEach(t=>t.oninput=()=>{S.notes[t.dataset.k]=t.value; save();});
+  }
+  if (tab==='pg') renderPlayground(body);
+}
+
+/* training tab */
+const TS = () => S.train || (S.train = {terms:{}, cmp:{}, build:{}});
+const trCount = (m, arr, store) => arr.filter((_,i)=>store[m.id+':'+i]).length;
+function trainProgress(m){
+  const t = TRAIN[m.id]; if (!t) return 0; const s = TS();
+  return (trCount(m,t.terms,s.terms)/t.terms.length + trCount(m,t.cmp,s.cmp)/t.cmp.length + trCount(m,t.build,s.build)/t.build.length) / 3;
+}
+function trState(m){
+  const t = TRAIN[m.id];
+  return state.train[m.id] || (state.train[m.id] = {
+    mode:'terms', queue:null, qi:0, flip:false,
+    ci:0, swap:t.cmp.map(()=>Math.random()<.5), pick:{},
+    bi:0, order:t.build.map(b=>shuffle(b.pts.map((_,i)=>i))), sel:{}, checked:{}
+  });
+}
+function renderTrain(m, body){
+  const t = TRAIN[m.id], st = trState(m), s = TS();
+  const modes = [['terms','Термины',trCount(m,t.terms,s.terms)+'/'+t.terms.length],['cmp','Сравни',trCount(m,t.cmp,s.cmp)+'/'+t.cmp.length],['build','Собери ответ',trCount(m,t.build,s.build)+'/'+t.build.length]];
+  body.innerHTML = `<div class="stack" style="gap:16px">
+    <p class="lead" style="font-size:.95rem">Шаг между квизом и собеседованием. Разбери термины своими словами, сравни похожие варианты и посмотри на разницу в результате, потом собери каркас ответа для интервьюера.</p>
+    <div class="seg tr-seg">${modes.map(x=>`<button data-mode="${x[0]}" class="${st.mode===x[0]?'on':''}" aria-pressed="${st.mode===x[0]}">${x[1]}<small>${x[2]}</small></button>`).join('')}</div>
+    <div id="trBody"></div></div>`;
+  body.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{st.mode=b.dataset.mode; renderTrain(m, body);});
+  const tb = $('#trBody');
+  const rer = () => { save(); renderNav(); renderTrain(m, body); };
+  if (st.mode==='terms') trTerms(m, t, st, s, tb, rer);
+  if (st.mode==='cmp') trCmp(m, t, st, s, tb, rer, body);
+  if (st.mode==='build') trBuild(m, t, st, s, tb, rer);
+}
+function trTerms(m, t, st, s, tb, rer){
+  const known = i => s.terms[m.id+':'+i];
+  if (!st.queue){ st.queue = t.terms.map((_,i)=>i).sort((a,b)=>(known(a)?1:0)-(known(b)?1:0)); st.qi = 0; st.flip = false; }
+  const n = trCount(m, t.terms, s.terms);
+  if (st.qi >= st.queue.length){
+    const weak = t.terms.map((_,i)=>i).filter(i=>!known(i));
+    tb.innerHTML = `<div class="panel result"><span class="eyebrow">Карточки пройдены</span><span class="tag"><big>${n}/${t.terms.length}</big></span>
+      <p>${weak.length?'Вернись к оставшимся терминам — лучше короткими подходами в разные дни, чем всё за раз.':'Все термины понятны. Проверь себя в сравнениях: там те же идеи, но на коде.'}</p>
+      <div class="btns">${weak.length?`<button class="btn primary" id="tWeak">Повторить непонятые (${weak.length})</button>`:`<button class="btn primary" id="tCmp">К сравнениям →</button>`}<button class="btn" id="tAll">Пройти все заново</button></div></div>`;
+    const w = $('#tWeak'); if (w) w.onclick = () => { st.queue = weak; st.qi = 0; st.flip = false; rer(); };
+    const c = $('#tCmp'); if (c) c.onclick = () => { st.mode = 'cmp'; rer(); };
+    $('#tAll').onclick = () => { st.queue = shuffle(t.terms.map((_,i)=>i)); st.qi = 0; st.flip = false; rer(); };
+    return;
+  }
+  const i = st.queue[st.qi], x = t.terms[i];
+  tb.innerHTML = `<div class="panel term">
+    <div class="q-head"><span>Карточка ${st.qi+1} из ${st.queue.length}</span><span>понятно ${n} из ${t.terms.length}</span></div>
+    <div class="term-t">${esc(x.t)}</div>
+    ${st.flip ? `<div class="term-parts">
+        <div class="term-part"><b>Простыми словами</b>${esc(x.s)}</div>
+        <div class="term-part"><b>Представь</b>${esc(x.an)}</div>
+        <div class="term-part vs"><b>Не путай с</b>${esc(x.vs)}</div></div>
+      <div class="btns"><button class="btn" id="tAgain">Ещё не уверен</button><button class="btn primary" id="tGot">Понятно, могу объяснить</button></div>`
+    : `<p class="hint">Сначала попробуй объяснить сам: что это такое и с чем это легко перепутать? Потом открой подсказку и сравни.</p>
+      <div class="btns"><button class="btn primary" id="tFlip">Показать объяснение</button></div>`}
+  </div>`;
+  const f = $('#tFlip'); if (f) f.onclick = () => { st.flip = true; rer(); };
+  const a = $('#tAgain'); if (a) a.onclick = () => { s.terms[m.id+':'+i] = false; st.queue.push(i); st.qi++; st.flip = false; rer(); };
+  const g = $('#tGot'); if (g) g.onclick = () => { s.terms[m.id+':'+i] = true; st.qi++; st.flip = false; rer(); };
+}
+function trRes(x, id){
+  if (x.out) return `<pre class="cmp-out"><code>${esc(x.out)}</code></pre>`;
+  if (x.rows) return `<ul class="rows">${x.rows.map(r=>`<li class="${r[0]?'y':'n'}"><i>${r[0]?'✓':'✗'}</i><span>${esc(r[1])}</span></li>`).join('')}</ul>`;
+  return `<div class="cmp-live" data-live="${id}"></div>`;
+}
+function trCmp(m, t, st, s, tb, rer, body){
+  const i = st.ci, c = t.cmp[i], sw = st.swap[i];
+  const side = {L: sw ? c.b : c.a, R: sw ? c.a : c.b};
+  const right = c.ans==='same' ? 'same' : ((c.ans==='a') !== sw ? 'L' : 'R');
+  const pick = st.pick[i];
+  const label = {L:'Вариант А', R:'Вариант Б', same:'Одинаково'};
+  const col = k => `<div class="cmp-col ${pick ? (right===k||right==='same' ? 'win' : (pick===k ? 'lose' : '')) : ''}">
+    <div class="cmp-h"><span>${label[k]}</span>${pick && pick===k ? '<span class="pill plus">твой выбор</span>' : ''}</div>
+    ${code(side[k].code)}
+    <div class="cmp-res"><span class="eyebrow">Результат</span>${pick ? trRes(side[k], k) : '<div class="cmp-hidden">Сначала сделай прогноз</div>'}</div></div>`;
+  const last = i === t.cmp.length-1;
+  tb.innerHTML = `<div class="panel cmp">
+    <div class="q-head"><span>Сравнение ${i+1} из ${t.cmp.length}</span><div class="dots">${t.cmp.map((_,k)=>`<button data-ci="${k}" class="${k===i?'on':''} ${s.cmp[m.id+':'+k]?'done':''}" aria-label="Сравнение ${k+1}">${s.cmp[m.id+':'+k]?'✓':k+1}</button>`).join('')}</div></div>
+    <p class="q-text">${esc(c.q)}</p>
+    <div class="cmp-grid">${col('L')}${col('R')}</div>
+    ${!pick ? `<div class="stack" style="gap:8px"><span class="eyebrow">Твой прогноз</span><div class="btns">${['L','R','same'].map(k=>`<button class="btn" data-pick="${k}">${label[k]}</button>`).join('')}</div></div>`
+    : `<div class="why"><b>${pick===right?'Верно.':'Не совсем: правильный ответ — '+label[right].toLowerCase()+'.'}</b> ${esc(c.why).replace(/\{a\}/g, sw?'Б':'А').replace(/\{b\}/g, sw?'А':'Б')}</div>
+       <div class="btns">${pick!==right?'<button class="btn" id="cRetry">Ещё раз</button>':''}<button class="btn primary" id="cNext">${last?'К сборке ответа →':'Следующее сравнение'}</button></div>`}
+  </div>`;
+  tb.querySelectorAll('[data-live]').forEach(el=>{
+    const h = side[el.dataset.live].html, root = el.attachShadow({mode:'open'});
+    root.innerHTML = `<style>:host{display:block}.lv{background:#fff;color:#1a1a1a;padding:10px;font:13px/1.4 system-ui,sans-serif}${h.css}</style><div class="lv">${h.html}</div>`;
+  });
+  tb.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{ st.pick[i] = b.dataset.pick; if (b.dataset.pick===right) s.cmp[m.id+':'+i] = true; rer(); });
+  tb.querySelectorAll('[data-ci]').forEach(b=>b.onclick=()=>{ st.ci = +b.dataset.ci; delete st.pick[st.ci]; rer(); });
+  const r = $('#cRetry'); if (r) r.onclick = () => { delete st.pick[i]; st.swap[i] = Math.random()<.5; rer(); };
+  const n = $('#cNext'); if (n) n.onclick = () => { if (last){ st.mode='build'; } else { st.ci = i+1; delete st.pick[st.ci]; } rer(); };
+}
+function trBuild(m, t, st, s, tb, rer){
+  const i = st.bi, b = t.build[i], order = st.order[i];
+  const sel = st.sel[i] || (st.sel[i] = []), checked = st.checked[i];
+  const good = b.pts.filter(p=>p[0]).length;
+  const got = sel.filter(j=>b.pts[j][0]).length, extra = sel.filter(j=>!b.pts[j][0]).length;
+  const last = i === t.build.length-1;
+  const pt = j => { const p = b.pts[j], on = sel.includes(j);
+    let cls = '', mark = on ? '✓' : '';
+    if (checked){ if (on && p[0]) cls='right'; else if (on) { cls='wrong'; mark='✗'; } else if (p[0]) { cls='miss'; mark='!'; } else cls='skip'; }
+    const note = checked ? (p[0] ? (on ? '' : 'Пропущен — это стоит сказать.') : (on ? p[2] : 'Верно, что не выбрал: '+p[2].charAt(0).toLowerCase()+p[2].slice(1))) : '';
+    return `<button class="pt ${cls}" data-j="${j}" aria-pressed="${on}" ${checked?'disabled':''}><span class="k">${mark}</span><span>${esc(p[1])}${note?`<small>${esc(note)}</small>`:''}</span></button>`; };
+  tb.innerHTML = `<div class="panel build">
+    <div class="q-head"><span>Вопрос ${i+1} из ${t.build.length}</span><div class="dots">${t.build.map((_,k)=>`<button data-bi="${k}" class="${k===i?'on':''} ${s.build[m.id+':'+k]?'done':''}" aria-label="Вопрос ${k+1}">${s.build[m.id+':'+k]?'✓':k+1}</button>`).join('')}</div></div>
+    <p class="q-text">«${esc(b.q)}»</p>
+    <p class="hint">Отметь тезисы, из которых сложится сильный ответ. Среди них есть популярные ошибки — их не бери.</p>
+    <div class="pts">${order.map(pt).join('')}</div>
+    ${!checked ? `<div class="btns"><button class="btn primary" id="bCheck" ${sel.length?'':'disabled'}>Проверить</button></div>`
+    : `<div class="why"><b>Собрано ${got} из ${good}${extra?`, лишних: ${extra}`:''}.</b> ${got===good&&!extra?'Отличный каркас ответа.':'Посмотри пояснения под тезисами и попробуй ещё раз.'}</div>
+       <div class="callout"><b>Каркас ответа</b><ol>${b.pts.filter(p=>p[0]).map(p=>`<li>${esc(p[1])}</li>`).join('')}</ol>Закрой экран и скажи ответ вслух своими словами за минуту. Если получилось — сверься во вкладке «Собеседование».</div>
+       <div class="btns"><button class="btn" id="bRetry">Собрать заново</button><button class="btn primary" id="bNext">${last?(m.task?'К практике →':'К вопросам собеседования →'):'Следующий вопрос'}</button></div>`}
+  </div>`;
+  tb.querySelectorAll('[data-j]').forEach(el=>el.onclick=()=>{ const j=+el.dataset.j, k=sel.indexOf(j); if (k<0) sel.push(j); else sel.splice(k,1); rer(); });
+  tb.querySelectorAll('[data-bi]').forEach(el=>el.onclick=()=>{ st.bi = +el.dataset.bi; rer(); });
+  const c = $('#bCheck'); if (c) c.onclick = () => { st.checked[i] = true; if (got===good && !extra) s.build[m.id+':'+i] = true; rer(); };
+  const r = $('#bRetry'); if (r) r.onclick = () => { st.sel[i] = []; st.checked[i] = false; st.order[i] = shuffle(b.pts.map((_,j)=>j)); rer(); };
+  const n = $('#bNext'); if (n) n.onclick = () => { if (last){ state.tab[m.id] = m.task ? 'task' : 'interview'; render(); window.scrollTo(0,0); } else { st.bi = i+1; rer(); } };
+}
+
+/* quiz */
+function renderQuiz(m, body){
+  const qs = state.quiz[m.id] || (state.quiz[m.id] = {i:0, answers:[]});
+  if (qs.i >= m.quiz.length){
+    const right = qs.answers.filter((a,i)=>a===m.quiz[i].a).length;
+    const best = Math.round((S.quiz[m.id]||0)*m.quiz.length);
+    body.innerHTML = `<div class="panel result">
+      <span class="eyebrow">Результат</span>
+      <span class="tag"><big>${right}/${m.quiz.length}</big></span>
+      <p>${right===m.quiz.length?'Отлично, модуль закрыт.':right/m.quiz.length>=.7?'Хорошо. Перечитай теорию по ошибкам и пройди ещё раз.':'Стоит вернуться к теории и пройти квиз снова.'} Лучший результат: ${Math.max(best,right)}/${m.quiz.length}.</p>
+      <div class="btns"><button class="btn primary" id="again">Пройти заново</button><button class="btn" id="toTrain">К тренировке →</button></div></div>`;
+    $('#again').onclick = () => { state.quiz[m.id] = {i:0, answers:[]}; renderQuiz(m, body); };
+    $('#toTrain').onclick = () => { state.tab[m.id]='train'; render(); window.scrollTo(0,0); };
+    return;
+  }
+  const q = m.quiz[qs.i];
+  const ans = qs.answers[qs.i];
+  const answered = ans !== undefined;
+  body.innerHTML = `<div class="panel q">
+    <div class="q-head"><span>Вопрос ${qs.i+1} из ${m.quiz.length}</span><div class="bar" style="width:120px"><i style="width:${(qs.i)/m.quiz.length*100}%"></i></div></div>
+    <p class="q-text">${esc(q.q)}</p>
+    <div class="opts">${q.opts.map((o,i)=>{let c='';if(answered){if(i===q.a)c='right';else if(i===ans)c='wrong';}return `<button class="opt ${c}" data-i="${i}" ${answered?'disabled':''}><span class="k">${'АБВГ'[i]}</span><span>${esc(o)}</span></button>`}).join('')}</div>
+    ${answered?`<div class="why"><b>${ans===q.a?'Верно.':'Неверно.'}</b> ${esc(q.why)}</div><div class="btns"><button class="btn primary" id="nextQ">${qs.i+1<m.quiz.length?'Следующий вопрос':'Посмотреть результат'}</button></div>`:''}
+  </div>`;
+  body.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    qs.answers[qs.i] = +b.dataset.i;
+    if (qs.answers.length === m.quiz.length && qs.answers.every(a=>a!==undefined)){
+      const score = qs.answers.filter((a,i)=>a===m.quiz[i].a).length / m.quiz.length;
+      S.quiz[m.id] = Math.max(S.quiz[m.id]||0, score); save(); renderNav();
+    }
+    renderQuiz(m, body);
+  });
+  const n = $('#nextQ'); if (n) n.onclick = () => { qs.i++; renderQuiz(m, body); };
+}
+
+/* code task */
+function renderCode(m, body){
+  const t = m.task;
+  const src = S.code[m.id] ?? t.starter;
+  body.innerHTML = `<div class="stack" style="gap:14px">
+    <div class="section"><h2>${t.title}</h2><div>${t.desc}</div></div>
+    <textarea class="editor" id="ed-${m.id}" spellcheck="false" aria-label="Редактор кода">${esc(src)}</textarea>
+    <div class="btns"><button class="btn primary" id="run">Запустить тесты</button><button class="btn" id="resetCode">Вернуть исходный код</button><button class="btn" id="showSol">Показать решение</button>${S.task[m.id]?'<span class="solved">✓ Задача решена</span>':''}</div>
+    <div class="tests" id="tests"></div>
+    <div id="sol" hidden>${code(t.solution)}</div>
+  </div>`;
+  const ed = $('#ed-'+m.id);
+  ed.addEventListener('keydown', e=>{
+    if (e.key==='Tab'){ e.preventDefault(); const s=ed.selectionStart; ed.value=ed.value.slice(0,s)+'  '+ed.value.slice(ed.selectionEnd); ed.selectionStart=ed.selectionEnd=s+2; S.code[m.id]=ed.value; save(); }
+    if ((e.metaKey||e.ctrlKey) && e.key==='Enter'){ e.preventDefault(); run(); }
+  });
+  ed.oninput = () => { S.code[m.id] = ed.value; save(); };
+  $('#resetCode').onclick = () => { ed.value = t.starter; S.code[m.id]=t.starter; save(); $('#tests').innerHTML=''; };
+  $('#showSol').onclick = () => { $('#sol').hidden = !$('#sol').hidden; };
+  $('#run').onclick = run;
+  function run(){
+    const out = $('#tests'); let fn;
+    try { fn = new Function(ed.value + '\n;return typeof ' + t.fn + ' === "function" ? ' + t.fn + ' : null;')(); }
+    catch(e){ out.innerHTML = `<div class="test fail"><span class="s">✗</span><div>Ошибка синтаксиса<div class="m">${esc(e.message)}</div></div></div>`; return; }
+    if (!fn){ out.innerHTML = `<div class="test fail"><span class="s">✗</span><div>Функция <code>${t.fn}</code> не найдена</div></div>`; return; }
+    let pass = 0;
+    out.innerHTML = t.tests.map(tc=>{
+      let r; try { r = tc.run(fn); } catch(e){ r = 'исключение: ' + e.message; }
+      const ok = r === true; if (ok) pass++;
+      return `<div class="test ${ok?'pass':'fail'}"><span class="s">${ok?'✓':'✗'}</span><div>${esc(tc.name)}${ok?'':`<div class="m">${esc(r)}</div>`}</div></div>`;
+    }).join('') + `<div style="font-weight:700;padding:6px 2px">${pass} из ${t.tests.length} тестов пройдено${pass===t.tests.length?' — задача решена!':''}</div>`;
+    if (pass === t.tests.length && !S.task[m.id]){ S.task[m.id]=true; save(); renderNav(); }
+  }
+}
+
+/* order task */
+function renderOrder(m, body){
+  const t = m.task;
+  const st = state.order[m.id] || (state.order[m.id] = {pool: shuffle(t.steps.map((s,i)=>i)), out:[]});
+  const done = st.out.length === t.steps.length;
+  const correct = done && st.out.every((v,i)=>v===i);
+  body.innerHTML = `<div class="stack" style="gap:14px">
+    <div class="section"><h2>${t.title}</h2><p>${t.desc}</p></div>
+    <div><span class="eyebrow">Варианты</span><div class="order-pool">${st.pool.map(i=>`<button class="chip" data-p="${i}">${esc(t.steps[i])}</button>`).join('') || '<span style="color:var(--muted);font-size:.9rem;padding:6px">Все шаги расставлены</span>'}</div></div>
+    <div><span class="eyebrow">Твой порядок</span><div class="order-out">${st.out.map((i,k)=>`<button class="chip" data-o="${k}"><i>${k+1}.</i>${esc(t.steps[i])}</button>`).join('') || '<span style="color:var(--muted);font-size:.9rem;padding:6px">Нажимай на шаги сверху</span>'}</div></div>
+    ${done?(correct?`<div class="why"><span class="solved">✓ Всё верно!</span></div>`:`<div class="why"><b>Пока не так.</b> Первая ошибка на шаге ${st.out.findIndex((v,i)=>v!==i)+1}. Нажми на шаги, чтобы вернуть их, или начни заново.</div>`):''}
+    <div class="btns"><button class="btn" id="ordReset">Начать заново</button>${S.task[m.id]?'<span class="solved">✓ Задание выполнено</span>':''}</div>
+  </div>`;
+  body.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{const v=+b.dataset.p;st.pool=st.pool.filter(x=>x!==v);st.out.push(v);finish();});
+  body.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>{const k=+b.dataset.o;st.pool.push(st.out[k]);st.out.splice(k,1);renderOrder(m,body);});
+  $('#ordReset').onclick=()=>{state.order[m.id]=null;renderOrder(m,body);};
+  function finish(){ if (st.out.length===t.steps.length && st.out.every((v,i)=>v===i) && !S.task[m.id]){ S.task[m.id]=true; save(); renderNav(); } renderOrder(m,body); }
+}
+function shuffle(a){ a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} if(a.every((v,i)=>v===i)&&a.length>1)[a[0],a[1]]=[a[1],a[0]]; return a; }
+
+/* ---------- playground ---------- */
+const BLOCK_TYPES = {
+  hero:{label:'Hero-баннер', defaults:{title:'Неделя фруктов', subtitle:'Скидки до 40% на сезонные товары', cta:'Смотреть акции'}, fields:[['title','Заголовок'],['subtitle','Подзаголовок'],['cta','Текст кнопки']]},
+  promo:{label:'Полоса с промокодом', defaults:{text:'Промокод на первый заказ', code:'FRUIT40'}, fields:[['text','Текст'],['code','Промокод']]},
+  products:{label:'Сетка товаров', defaults:{title:'Товары недели', limit:'4'}, fields:[['title','Заголовок'],['limit','Сколько товаров (1–8)']]},
+  text:{label:'Текстовый блок', defaults:{title:'Условия акции', body:'Акция действует с 25 ноября по 1 декабря во всех магазинах сети и в приложении.'}, fields:[['title','Заголовок'],['body','Текст']]}
+};
+const GOODS = [['Яблоки Гала, 1 кг',129,159],['Бананы, 1 кг',99,119],['Мандарины, 1 кг',189,249],['Груши Конференция',219,269],['Киви, 500 г',149,179],['Гранат, 1 шт',119,139],['Хурма, 1 кг',199,259],['Апельсины, 1 кг',139,169]];
+const BRANDS = {a:'Бренд A: дискаунтер', b:'Бренд B: премиум', c:'Бренд C: лоукостер'};
+const WIDTHS = {375:'375', 768:'768', 1100:'1280'};
+let pg = null;
+try { pg = JSON.parse(localStorage.getItem(KEY+'-pg')); } catch(e) {}
+if (!pg || !Array.isArray(pg.blocks)) pg = {brand:'a', width:375, sel:'b1', json:false, blocks:[
+  {id:'b1', type:'hero', ...BLOCK_TYPES.hero.defaults},
+  {id:'b2', type:'promo', ...BLOCK_TYPES.promo.defaults},
+  {id:'b3', type:'products', ...BLOCK_TYPES.products.defaults},
+  {id:'b4', type:'text', ...BLOCK_TYPES.text.defaults}
+]};
+const savePg = () => { try { localStorage.setItem(KEY+'-pg', JSON.stringify(pg)); } catch(e) {} scheduleFileWrite(); };
+
+function renderBlock(b){
+  const s = b.id===pg.sel ? ' sel' : '';
+  if (b.type==='hero') return `<section class="pv-block pv-hero${s}" data-id="${b.id}"><h4>${esc(b.title)}</h4><p>${esc(b.subtitle)}</p><span class="pv-cta">${esc(b.cta)}</span></section>`;
+  if (b.type==='promo') return `<section class="pv-block pv-promo${s}" data-id="${b.id}"><span>${esc(b.text)}</span><b>${esc(b.code)}</b></section>`;
+  if (b.type==='products'){ const n = Math.min(8, Math.max(1, parseInt(b.limit)||4)); return `<section class="pv-block${s}" data-id="${b.id}"><div class="pv-text" style="padding-bottom:0"><h5>${esc(b.title)}</h5></div><div class="pv-grid">${GOODS.slice(0,n).map(g=>`<div class="pv-card"><div class="pv-img"></div><span>${g[0]}</span><span class="pv-price">${g[1]} ₽<span class="pv-old">${g[2]} ₽</span></span></div>`).join('')}</div></section>`; }
+  if (b.type==='text') return `<section class="pv-block pv-text${s}" data-id="${b.id}"><h5>${esc(b.title)}</h5><p>${esc(b.body)}</p></section>`;
+  return '';
+}
+
+function renderPlayground(body){
+  const sel = pg.blocks.find(b=>b.id===pg.sel);
+  const schema = {brand:pg.brand, blocks:pg.blocks.map(({hidden,...b})=>hidden?{...b,hidden:true}:b)};
+  body.innerHTML = `<div class="stack" style="gap:14px">
+  <p class="lead" style="font-size:.95rem">Прототип того, что делает команда: страница — это JSON из блоков, а бренд меняет только CSS-переменные. Компоненты при этом одни и те же. Кликни по блоку в превью, чтобы редактировать его поля.</p>
+  <div class="pg">
+    <div class="pg-side">
+      <div class="field">Бренд<div class="seg" id="seg-brand">${Object.keys(BRANDS).map(k=>`<button data-v="${k}" class="${pg.brand===k?'on':''}">${k.toUpperCase()}</button>`).join('')}</div><span style="font-weight:400;color:var(--muted);font-size:.8rem">${BRANDS[pg.brand]}</span></div>
+      <div class="field">Ширина экрана<div class="seg" id="seg-w">${Object.keys(WIDTHS).map(k=>`<button data-v="${k}" class="${+pg.width===+k?'on':''}">${WIDTHS[k]}</button>`).join('')}</div></div>
+      <div class="field">Блоки страницы<div class="blist">${pg.blocks.map((b,i)=>`<div class="bitem ${b.id===pg.sel?'sel':''} ${b.hidden?'hid':''}"><span class="nm" data-sel="${b.id}">${BLOCK_TYPES[b.type].label}</span><button class="ib" title="Выше" aria-label="Переместить выше" data-up="${i}">↑</button><button class="ib" title="Ниже" aria-label="Переместить ниже" data-down="${i}">↓</button><button class="ib" title="${b.hidden?'Показать':'Скрыть'}" aria-label="${b.hidden?'Показать блок':'Скрыть блок'}" data-hide="${i}">${b.hidden?'◌':'●'}</button><button class="ib" title="Удалить" aria-label="Удалить блок" data-del="${i}">✕</button></div>`).join('')}</div></div>
+      <div class="field"><label for="addType">Добавить блок</label><div class="btns" style="flex-wrap:nowrap"><select id="addType" style="flex:1;min-width:0">${Object.entries(BLOCK_TYPES).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('')}</select><button class="btn" id="addBlock">+</button></div></div>
+      ${sel?`<div class="panel stack" style="gap:10px;padding:14px"><span class="eyebrow">Настройки: ${BLOCK_TYPES[sel.type].label}</span>${BLOCK_TYPES[sel.type].fields.map(([k,l])=>`<label class="field" for="f-${k}">${l}${k==='body'?`<textarea id="f-${k}" data-f="${k}" rows="3">${esc(sel[k])}</textarea>`:`<input id="f-${k}" data-f="${k}" value="${esc(sel[k])}">`}</label>`).join('')}</div>`:''}
+      <div class="btns"><button class="btn" id="toggleJson">${pg.json?'Скрыть JSON':'Показать JSON-схему'}</button><button class="btn" id="pgReset">Сбросить</button></div>
+    </div>
+    <div class="stack" style="gap:12px;min-width:0">
+      <div class="stage"><div class="device pv" data-brand="${pg.brand}" id="pv" style="width:${pg.width}px">${pg.blocks.filter(b=>!b.hidden).map(renderBlock).join('') || '<div class="pv-empty">На странице нет видимых блоков. Добавь блок в настройках.</div>'}</div></div>
+      <div class="pg-scale" id="pgScale" hidden></div>
+      ${pg.json?code(JSON.stringify(schema,null,2)).replace('<pre>','<pre class="json">'):''}
+    </div>
+  </div></div>`;
+  const rer = () => { savePg(); renderPlayground(body); };
+  fitDevice();
+  body.querySelectorAll('#seg-brand button').forEach(b=>b.onclick=()=>{pg.brand=b.dataset.v;rer();});
+  body.querySelectorAll('#seg-w button').forEach(b=>b.onclick=()=>{pg.width=+b.dataset.v;rer();});
+  body.querySelectorAll('[data-sel]').forEach(b=>b.onclick=()=>{pg.sel=b.dataset.sel;rer();});
+  body.querySelectorAll('.pv-block').forEach(b=>b.onclick=()=>{pg.sel=b.dataset.id;rer();});
+  body.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>{const i=+b.dataset.up;if(i>0){[pg.blocks[i-1],pg.blocks[i]]=[pg.blocks[i],pg.blocks[i-1]];rer();}});
+  body.querySelectorAll('[data-down]').forEach(b=>b.onclick=()=>{const i=+b.dataset.down;if(i<pg.blocks.length-1){[pg.blocks[i+1],pg.blocks[i]]=[pg.blocks[i],pg.blocks[i+1]];rer();}});
+  body.querySelectorAll('[data-hide]').forEach(b=>b.onclick=()=>{const x=pg.blocks[+b.dataset.hide];x.hidden=!x.hidden;rer();});
+  body.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const [x]=pg.blocks.splice(+b.dataset.del,1);if(x.id===pg.sel)pg.sel=pg.blocks[0]?.id;rer();});
+  $('#addBlock').onclick=()=>{const type=$('#addType').value;const id='b'+Date.now().toString(36);pg.blocks.push({id,type,...BLOCK_TYPES[type].defaults});pg.sel=id;rer();};
+  $('#toggleJson').onclick=()=>{pg.json=!pg.json;rer();};
+  $('#pgReset').onclick=()=>{try{localStorage.removeItem(KEY+'-pg')}catch(e){};pg={brand:'a',width:375,sel:'b1',json:false,blocks:[{id:'b1',type:'hero',...BLOCK_TYPES.hero.defaults},{id:'b2',type:'promo',...BLOCK_TYPES.promo.defaults},{id:'b3',type:'products',...BLOCK_TYPES.products.defaults},{id:'b4',type:'text',...BLOCK_TYPES.text.defaults}]};rer();};
+  body.querySelectorAll('[data-f]').forEach(inp=>inp.oninput=()=>{
+    sel[inp.dataset.f]=inp.value; savePg();
+    const pv=$('#pv'); const old=pv.querySelector(`[data-id="${sel.id}"]`);
+    if (old){ const tmp=document.createElement('div'); tmp.innerHTML=renderBlock(sel); const nb=tmp.firstElementChild; nb.onclick=()=>{pg.sel=sel.id;rer();}; old.replaceWith(nb); }
+    const j = body.querySelector('pre.json code'); if (j) j.textContent = JSON.stringify({brand:pg.brand, blocks:pg.blocks}, null, 2);
+  });
+}
+
+/* shrink a wide preview (768/1280) to fit a phone screen instead of letting it reflow */
+function fitDevice(){
+  const d = $('#pv'), note = $('#pgScale'); if (!d) return;
+  const avail = d.parentNode.clientWidth - parseFloat(getComputedStyle(d.parentNode).paddingLeft) * 2;
+  const w = +pg.width;
+  if (w > avail + 1){ const k = avail / w; d.style.maxWidth = 'none'; d.style.zoom = k; note.hidden = false; note.textContent = `Превью ${WIDTHS[w]||w}px уменьшено до ${Math.round(k*100)}%`; }
+  else { d.style.maxWidth = ''; d.style.zoom = ''; note.hidden = true; }
+}
+let fitT; window.addEventListener('resize', () => { clearTimeout(fitT); fitT = setTimeout(fitDevice, 100); });
+
+function viewPlayground(){
+  return `<div class="stack" style="gap:10px"><span class="eyebrow">Практика</span><h1>Песочница конструктора</h1></div><div id="tabBody"></div>`;
+}
+
+/* ---------- PWA: offline + install ---------- */
+const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const isIOS = () => /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+let installEvt = null;
+const hintOff = () => { try { return localStorage.getItem(KEY+'-hint') === 'off'; } catch(e) { return false; } };
+function installHintHtml(){
+  if (!/^https?:$/.test(location.protocol) || isStandalone() || hintOff()) return '';
+  if (!isIOS() && !installEvt) return '';
+  return `<div class="callout install-hint" id="installHint"><b>Курс можно поставить на телефон как приложение</b> — он откроется с главного экрана и будет работать без интернета.
+    ${isIOS() ? '<p style="margin-top:6px">В Safari нажми «Поделиться» <span aria-hidden="true">⎙</span>, затем «На экран „Домой“».</p>' : ''}
+    <div class="btns" style="margin-top:10px">${installEvt ? '<button class="btn primary" id="installBtn">Установить</button>' : ''}<button class="btn" id="installNo">Скрыть</button></div></div>`;
+}
+function wireInstallHint(){
+  const b = $('#installBtn'); if (b) b.onclick = async () => { installEvt.prompt(); await installEvt.userChoice.catch(()=>{}); installEvt = null; $('#installHint')?.remove(); };
+  const n = $('#installNo'); if (n) n.onclick = () => { try { localStorage.setItem(KEY+'-hint','off'); } catch(e) {} $('#installHint')?.remove(); };
+}
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; if (currentRoute()==='home' && !$('#installHint')) render(); });
+window.addEventListener('appinstalled', () => { installEvt = null; $('#installHint')?.remove(); });
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+    // ask the browser not to evict saved progress
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{});
+  });
+}
+
+/* ---------- router ---------- */
+const state = {tab:{}, quiz:{}, order:{}, train:{}};
+function currentRoute(){ const h = location.hash.slice(1); return h || 'home'; }
+function render(){
+  const r = currentRoute();
+  const view = $('#view');
+  if (r.startsWith('m-')){
+    const m = MODULES.find(x=>'m-'+x.id===r);
+    if (m){ view.innerHTML = viewModule(m); view.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{state.tab[m.id]=b.dataset.tab; const tb=view.querySelector('.tabs'); const stuck=isNarrow()&&tb.getBoundingClientRect().top<=tb.offsetHeight+80; render(); if(stuck) view.querySelector('.tabs').scrollIntoView({block:'start'});}); renderTab(m); renderNav(); const ot=view.querySelector('.tabs button.on'); if(ot&&ot.offsetLeft) ot.parentNode.scrollLeft=ot.offsetLeft-ot.parentNode.clientWidth/2+ot.clientWidth/2; return; }
+  }
+  if (r==='project') view.innerHTML = viewProject();
+  else if (r==='playground'){ view.innerHTML = viewPlayground(); renderPlayground($('#tabBody')); }
+  else {
+    view.innerHTML = viewHome();
+    wireInstallHint();
+    view.querySelectorAll('#checklist input').forEach(c=>c.onchange=()=>{S.check[c.dataset.i]=c.checked; save(); renderNav(); const t=view.querySelector('.ready .tag big'); if(t) t.textContent=totalProgress();});
+  }
+  renderNav();
+  updateFileUI();
+}
+let lastRoute = null;
+window.addEventListener('hashchange', ()=>{ render(); if (currentRoute()!==lastRoute) window.scrollTo(0,0); lastRoute=currentRoute(); });
+lastRoute = currentRoute();
+render();
+initFile();
+
+$('#reset').onclick = () => { $('#resetConfirm').hidden = false; $('#reset').hidden = true; };
+$('#resetNo').onclick = () => { $('#resetConfirm').hidden = true; $('#reset').hidden = false; };
+$('#resetYes').onclick = () => { S = {read:{}, quiz:{}, task:{}, code:{}, check:{}, notes:{}}; save(); state.quiz = {}; state.order = {}; state.train = {}; $('#resetConfirm').hidden = true; $('#reset').hidden = false; render(); };
+</script>
