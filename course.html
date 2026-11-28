@@ -41,6 +41,8 @@ h1{font-size:clamp(1.6rem,3.4vw,2.3rem)} h2{font-size:1.35rem} h3{font-size:1.05
 p{margin:0}
 a{color:var(--accent)}
 code{font-family:var(--f-mono);font-size:.88em;background:var(--code-bg);padding:.1em .35em;border-radius:5px}
+.code-file{font:600 .78rem/1 var(--f-mono);color:var(--muted);margin:14px 0 6px}
+.code-file:first-child{margin-top:0}
 pre{margin:0;background:var(--code-bg);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--f-mono)}
 pre code{background:none;padding:0;font-size:inherit}
 button{font:inherit;color:inherit;cursor:pointer}
@@ -346,6 +348,8 @@ pre.cmp-out{background:#0F1A14;color:#CFE8D8;border-color:#0F1A14}
   .mod-card:hover{transform:none}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* JetBrains Mono draws => != >= as arrow ligatures: show code exactly as typed */
+code,pre,pre *,.editor,.chip,.test .m{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
 </style>
 
 <div class="shell">
@@ -440,14 +444,14 @@ const MODULES = [
   .banner__inner { grid-template-columns: 1fr 1fr; }
 }`},
     {h:'CSS-модули', html:`<p>Файл <code>Card.module.css</code> импортируется как объект. Сборщик превращает <code>.title</code> в уникальное имя вроде <code>Card_title__x7a2</code>, поэтому классы двух компонентов не конфликтуют. Глобальные стили пишутся через <code>:global</code>, переиспользование — через <code>composes</code>, условные классы — через <code>clsx</code>.</p>`,
-     code:`
-// Card.module.css
+     code:[{f:'Card.module.css', s:`
 .card { padding: 16px; border-radius: var(--radius); }
-.active { outline: 2px solid var(--color-primary); }
-
-// Card.tsx
-import styles from './Card.module.css';
+.active { outline: 2px solid var(--color-primary); }`}, {f:'Card.tsx', s:`
+import type { ReactNode } from 'react';
 import clsx from 'clsx';
+import styles from './Card.module.css';
+
+type CardProps = { active?: boolean; children: ReactNode };
 
 export function Card({ active, children }: CardProps) {
   return (
@@ -455,7 +459,7 @@ export function Card({ active, children }: CardProps) {
       {children}
     </div>
   );
-}`},
+}`}]},
     {h:'Один компонент — три бренда', html:`<p>У вакансии прямо написано: адаптировать вёрстку под три сети. Самый поддерживаемый способ — дизайн-токены в CSS-переменных. Компонент использует только <code>var(--color-primary)</code>, а значения переопределяются на корне по атрибуту бренда. Новый бренд — это новый набор токенов, а не переписывание компонентов. Посмотри, как это работает, во вкладке «Песочница» модуля про конструктор.</p>`,
      code:`
 :root,
@@ -491,21 +495,32 @@ export function Card({ active, children }: CardProps) {
   theory:[
     {h:'Современный синтаксис', html:`<ul><li><code>const</code> по умолчанию, <code>let</code>, если переприсваиваешь, <code>var</code> не используй.</li><li>Деструктуризация, spread и rest.</li><li><code>?.</code> (optional chaining) и <code>??</code> (только для <code>null/undefined</code>, в отличие от <code>||</code>).</li><li>Модули: <code>export</code> / <code>import</code>.</li></ul>`,
      code:`
-const { title, price = 0, ...rest } = product;
-const updated = { ...product, price: 99 };   // новый объект, исходный не меняется
+const product = { title: 'Яблоки', price: 89, sku: 'A-1', isPromo: true };
+const cart = [{ id: 'milk', qty: 1 }];
+const newItem = { id: 'apples', qty: 2 };
+const user = { name: 'Аня' };                  // адреса нет
+
+const { title, price = 0, ...rest } = product; // rest = { sku: 'A-1', isPromo: true }
+const updated = { ...product, price: 99 };     // новый объект, исходный не меняется
 const items = [...cart, newItem];
 
-const city = user?.address?.city ?? 'Москва';
-0 || 'нет'   // 'нет'
-0 ?? 'нет'   // 0`},
+const city = user?.address?.city ?? 'Москва';  // 'Москва'
+console.log(0 || 'нет');                       // 'нет'
+console.log(0 ?? 'нет');                       // 0`},
     {h:'Методы массивов', html:`<p>Вся работа со списками товаров и блоков — это <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>find</code>, <code>some</code>, <code>every</code>, <code>sort</code>. Помни: <code>sort</code> и <code>reverse</code> мутируют массив. В React копируй перед сортировкой: <code>[...arr].sort()</code> или <code>arr.toSorted()</code>.</p>`,
      code:`
+const products = [
+  { title: 'Яблоки', price: 89,  qty: 2, isPromo: true },
+  { title: 'Сыр',    price: 450, qty: 1, isPromo: false },
+  { title: 'Молоко', price: 79,  qty: 3, isPromo: true },
+];
+
 const promoTotal = products
   .filter(p => p.isPromo)
   .map(p => p.price * p.qty)
-  .reduce((sum, x) => sum + x, 0);
+  .reduce((sum, x) => sum + x, 0);             // 89*2 + 79*3 = 415
 
-const sorted = [...products].sort((a, b) => a.price - b.price);`},
+const sorted = [...products].sort((a, b) => a.price - b.price); // Молоко, Яблоки, Сыр`},
     {h:'Асинхронность', html:`<p>Промисы и <code>async/await</code> — это загрузка данных страницы, блоков, товаров. Ошибки ловятся через <code>try/catch</code>. Параллельные запросы делаются через <code>Promise.all</code>.</p>`,
      code:`
 async function loadPage(slug) {
@@ -519,7 +534,11 @@ async function loadPage(slug) {
   }
 }
 
-const [page, banners] = await Promise.all([loadPage('sale'), loadBanners()]);`},
+// оба запроса идут параллельно, ждём, пока придут оба
+async function loadSale() {
+  const [page, banners] = await Promise.all([loadPage('sale'), loadPage('sale-banners')]);
+  return { page, banners };
+}`},
     {h:'Event loop', html:`<p>Сначала выполняется весь синхронный код, затем все микрозадачи (<code>Promise.then</code>, <code>queueMicrotask</code>), затем одна макрозадача (<code>setTimeout</code>, события), и снова микрозадачи. На собеседованиях любят задачи «в каком порядке выведется».</p>`,
      code:`
 console.log(1);
@@ -536,7 +555,8 @@ function debounce(fn, ms) {
     timer = setTimeout(() => fn(...args), ms);
   };
 }
-const onSearch = debounce(q => fetchSuggestions(q), 300);`}
+const onSearch = debounce(q => console.log('Ищем:', q), 300);
+onSearch('я'); onSearch('яб'); onSearch('ябл');  // через 300 мс: Ищем: ябл`}
   ],
   quiz:[
     {q:'В каком порядке выведется: console.log("A"); setTimeout(()=>console.log("B")); Promise.resolve().then(()=>console.log("C")); console.log("D")?', opts:['A B C D','A D C B','A D B C','A C D B'], a:1, why:'Синхронный код (A, D), затем микрозадачи (C), затем макрозадачи (B).'},
@@ -580,6 +600,8 @@ const onSearch = debounce(q => fetchSuggestions(q), 300);`}
   theory:[
     {h:'Компоненты, props и state', html:`<p>Компонент — функция от props, которая возвращает JSX. Props приходят сверху и не меняются внутри компонента. State — внутренняя память, изменение которой вызывает перерисовку. Данные текут сверху вниз, события поднимаются наверх через колбэки.</p>`,
      code:`
+import styles from './ProductCard.module.css';
+
 type ProductCardProps = {
   title: string;
   price: number;
@@ -592,7 +614,7 @@ export function ProductCard({ title, price, oldPrice, onAdd }: ProductCardProps)
     <article className={styles.card}>
       <h3>{title}</h3>
       <p>
-        {price} ₽ {oldPrice && <s>{oldPrice} ₽</s>}
+        {price} ₽ {oldPrice !== undefined && <s>{oldPrice} ₽</s>}
       </p>
       <button type="button" onClick={onAdd}>В корзину</button>
     </article>
@@ -600,25 +622,46 @@ export function ProductCard({ title, price, oldPrice, onAdd }: ProductCardProps)
 }`},
     {h:'useState и неизменяемость', html:`<p>Состояние нельзя мутировать: React сравнивает ссылки. Создавай новый массив или объект. Если новое значение зависит от старого, используй функциональную форму <code>setX(prev =&gt; …)</code>.</p>`,
      code:`
-const [items, setItems] = useState<Item[]>([]);
+import { useState } from 'react';
 
-setItems(prev => [...prev, item]);                          // добавить
-setItems(prev => prev.filter(i => i.id !== id));            // удалить
-setItems(prev => prev.map(i => i.id === id ? { ...i, qty: i.qty + 1 } : i)); // обновить`},
+type Item = { id: string; qty: number };
+
+function useCart() {
+  const [items, setItems] = useState<Item[]>([]);
+
+  const add = (item: Item) => setItems(prev => [...prev, item]);
+  const remove = (id: string) => setItems(prev => prev.filter(i => i.id !== id));
+  const inc = (id: string) =>
+    setItems(prev => prev.map(i => i.id === id ? { ...i, qty: i.qty + 1 } : i));
+
+  return { items, add, remove, inc };
+}`},
     {h:'useEffect', html:`<p>Эффект синхронизирует компонент с внешним миром: запрос, подписка, таймер. Массив зависимостей говорит, когда перезапускать. Функция очистки отменяет подписку и защищает от гонок.</p>`,
      code:`
-useEffect(() => {
-  const controller = new AbortController();
-  fetch('/api/banners?brand=' + brand, { signal: controller.signal })
-    .then(r => r.json())
-    .then(setBanners)
-    .catch(() => {});
-  return () => controller.abort();   // бренд сменился — старый запрос отменён
-}, [brand]);`},
+import { useEffect, useState } from 'react';
+
+type Banner = { id: string; title: string };
+
+export function Banners({ brand }: { brand: string }) {
+  const [banners, setBanners] = useState<Banner[]>([]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch('/api/banners?brand=' + brand, { signal: controller.signal })
+      .then(r => r.json())
+      .then(setBanners)
+      .catch(() => {});
+    return () => controller.abort();   // бренд сменился — старый запрос отменён
+  }, [brand]);
+
+  return <ul>{banners.map(b => <li key={b.id}>{b.title}</li>)}</ul>;
+}`},
     {h:'Списки и key', html:`<p><code>key</code> помогает React понять, какой элемент какой. Бери стабильный id из данных. <code>key={index}</code> ломается, когда элементы переставляют или удаляют, а это ровно то, что делает конструктор с блоками.</p>`},
     {h:'Производительность', html:`<ul><li><code>React.memo</code> пропускает перерисовку, если props не изменились.</li><li><code>useMemo</code> кэширует тяжёлое вычисление, <code>useCallback</code> — ссылку на функцию для мемо-детей.</li><li>Сначала измерь в React DevTools Profiler, потом оптимизируй.</li><li>Context удобен для темы и бренда, но все подписчики перерисуются при смене значения.</li></ul>`},
     {h:'Композиция и кастомные хуки', html:`<p>Вместо огромных компонентов с десятком флагов используй <code>children</code> и маленькие компоненты. Повторяющуюся логику выноси в хук <code>useSomething</code>.</p>`,
      code:`
+import { useEffect, useState } from 'react';
+
 function useCountdown(endsAt: string) {
   const [left, setLeft] = useState(() => Date.parse(endsAt) - Date.now());
   useEffect(() => {
@@ -725,20 +768,30 @@ function blockLabel(b: Block): string {
 function first<T>(arr: T[]): T | undefined {
   return arr[0];
 }
-const p = first(products);   // p: Product | undefined
+const p = first(['молоко', 'сыр']);   // p: string | undefined
 
 type ApiResponse<T> = { data: T; error: string | null };`},
     {h:'Utility types', html:`<ul><li><code>Partial&lt;T&gt;</code> — все поля необязательные (патч настроек блока).</li><li><code>Required&lt;T&gt;</code>, <code>Readonly&lt;T&gt;</code>.</li><li><code>Pick&lt;T, 'a' | 'b'&gt;</code>, <code>Omit&lt;T, 'id'&gt;</code>.</li><li><code>Record&lt;Brand, Theme&gt;</code> — словарь с заданными ключами.</li><li><code>ReturnType</code>, <code>Parameters</code>, <code>keyof</code>, <code>typeof</code>.</li></ul>`,
      code:`
+type Brand = 'discounter' | 'premium' | 'lowcost';
+type HeroBlock = { id: string; type: 'hero'; title: string; ctaUrl?: string };
+
 const themes: Record<Brand, { primary: string }> = {
   discounter: { primary: '#1B8A3A' },
   premium:    { primary: '#0E4D3A' },
   lowcost:    { primary: '#FFD400' },   // забудешь бренд — ошибка компиляции
 };
 
-function updateBlock(id: string, patch: Partial<Omit<HeroBlock, 'id' | 'type'>>) { … }`},
+// можно менять любые поля, кроме id и type
+function updateHero(block: HeroBlock, patch: Partial<Omit<HeroBlock, 'id' | 'type'>>): HeroBlock {
+  return { ...block, ...patch };
+}`},
     {h:'Типизация React', html:`<p>Пропсы, события, рефы и расширение нативных атрибутов кнопки.</p>`,
      code:`
+import { useRef, useState } from 'react';
+import clsx from 'clsx';
+import styles from './Button.module.css';
+
 type ButtonProps = {
   variant?: 'primary' | 'ghost';
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
@@ -747,8 +800,12 @@ export function Button({ variant = 'primary', className, ...rest }: ButtonProps)
   return <button className={clsx(styles[variant], className)} {...rest} />;
 }
 
-const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
-const ref = useRef<HTMLDivElement>(null);`},
+export function TitleField() {
+  const [title, setTitle] = useState('');
+  const ref = useRef<HTMLInputElement>(null);
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
+  return <input ref={ref} value={title} onChange={onChange} />;
+}`},
     {h:'any и unknown', html:`<p><code>any</code> выключает проверку. <code>unknown</code> — «что-то пришло», и прежде чем использовать, нужно сузить тип проверкой. Данные с бэкенда безопаснее типизировать как <code>unknown</code> и валидировать (например, через zod).</p>`}
   ],
   quiz:[
@@ -771,8 +828,7 @@ const ref = useRef<HTMLDivElement>(null);`},
   theory:[
     {h:'Как устроен конструктор лендингов', html:`<p>Это главное, чем занимается команда из вакансии. Почти любой конструктор состоит из одних и тех же частей:</p><ul><li><b>Схема страницы</b> — JSON с массивом блоков и их настройками. Хранится в бэкенде или CMS.</li><li><b>Реестр блоков</b> — словарь <code>type → { компонент, форма настроек, значения по умолчанию }</code>.</li><li><b>Рендерер</b> — проходит по схеме и рисует компоненты из реестра.</li><li><b>Редактор</b> — интерфейс для маркетолога: добавить блок, перетащить, заполнить поля, посмотреть превью.</li><li><b>Публикация</b> — версии, черновик/опубликовано, расписание показа.</li></ul>`},
     {h:'Схема и рендерер', html:`<p>Рендерер не знает, какие блоки бывают. Он просто берёт компонент из реестра. Неизвестный тип не должен ронять страницу.</p>`,
-     code:`
-// page.json
+     code:[{f:'page.json', s:`
 {
   "slug": "fruit-week",
   "brand": "discounter",
@@ -781,16 +837,25 @@ const ref = useRef<HTMLDivElement>(null);`},
     { "id": "b2", "type": "products", "categoryId": "fruits", "limit": 8 },
     { "id": "b3", "type": "timer", "endsAt": "2026-12-01T00:00:00+03:00" }
   ]
-}
+}`}, {f:'registry.ts', s:`
+import type { ComponentType } from 'react';
+import type { Block } from './types';
+import { HeroBlock, ProductsBlock, TimerBlock } from './blocks';
 
-// registry.ts
-export const registry = {
+export type BlockDefinition = {
+  Component: ComponentType<any>;
+  defaults: Record<string, unknown>;
+};
+
+export const registry: Record<Block['type'], BlockDefinition> = {
   hero:     { Component: HeroBlock,     defaults: { title: 'Заголовок' } },
   products: { Component: ProductsBlock, defaults: { limit: 8 } },
   timer:    { Component: TimerBlock,    defaults: {} },
-} satisfies Record<Block['type'], BlockDefinition>;
+};`}, {f:'PageRenderer.tsx', s:`
+import type { Block } from './types';
+import { registry } from './registry';
+import { ErrorBoundary } from './ErrorBoundary';
 
-// PageRenderer.tsx
 export function PageRenderer({ blocks }: { blocks: Block[] }) {
   return blocks.map(block => {
     const def = registry[block.type];
@@ -802,7 +867,7 @@ export function PageRenderer({ blocks }: { blocks: Block[] }) {
       </ErrorBoundary>
     );
   });
-}`},
+}`}]},
     {h:'Чек-лист нового блока', html:`<p>«Развивать конструктор: добавлять новые блоки» на практике выглядит так:</p><ul><li>Описать тип в union <code>Block</code> и значения по умолчанию.</li><li>Сверстать компонент с CSS-модулем на токенах бренда.</li><li>Адаптив: мобилка, планшет, десктоп; проверка в Safari.</li><li>Форма настроек в редакторе: какие поля может менять маркетолог, валидация.</li><li>Пустые и крайние состояния: длинный заголовок, нет картинки, 0 товаров.</li><li>Обратная совместимость: старые страницы без нового поля должны открываться (дефолт или миграция).</li><li>Story в Storybook и тест, скриншоты в описании PR.</li></ul>`},
     {h:'Видимость и расписание', html:`<p>Промо-блоки часто показываются по датам акции и только для определённых брендов или регионов. Эту логику выносят в чистую функцию, которую легко тестировать. Её и предстоит написать во вкладке «Практика».</p>`},
     {h:'CMS и headless', html:`<p>Headless CMS (Strapi, Contentful, собственные решения) хранит контент и отдаёт его по API, а фронтенд сам решает, как рисовать. Конструктор поверх CMS даёт маркетологу собирать страницу из готовых блоков без релиза фронтенда. Именно это и означает «запускать кампании без долгого цикла разработки».</p>`}
@@ -897,7 +962,7 @@ git push -u origin feature/PROMO-123-timer-block
 {
   id:'node', title:'Node.js, сборка и CI/CD', short:'npm, package.json, Vite/webpack, пайплайн', req:false,
   theory:[
-    {h:'Node.js и npm', html:`<p>Node.js выполняет JavaScript вне браузера. Во фронтенде он нужен для сборки, dev-сервера, линтеров, тестов, SSR и небольших BFF-сервисов. <code>package.json</code> описывает проект:</p>`,
+    {h:'Node.js и npm', html:`<p>Node.js выполняет JavaScript вне браузера. Во фронтенде он нужен для сборки, dev-сервера, линтеров, тестов, SSR и небольших BFF-сервисов. <code>package.json</code> описывает проект. В <code>dependencies</code> — то, что нужно приложению в рантайме, в <code>devDependencies</code> — инструменты для разработки и сборки. Комментарии в JSON писать нельзя.</p>`,
      code:`
 {
   "scripts": {
@@ -906,8 +971,8 @@ git push -u origin feature/PROMO-123-timer-block
     "lint": "eslint src",
     "test": "vitest run"
   },
-  "dependencies":    { "react": "^18.3.1" },   // нужно в рантайме
-  "devDependencies": { "typescript": "~5.6.2" } // нужно только для разработки и сборки
+  "dependencies":    { "react": "^18.3.1" },
+  "devDependencies": { "typescript": "~5.6.2" }
 }`},
     {h:'Версии и lock-файл', html:`<ul><li><code>^1.4.2</code> — любые <code>1.x.x</code> не ниже 1.4.2. <code>~1.4.2</code> — только <code>1.4.x</code>.</li><li><code>package-lock.json</code> фиксирует точные версии всего дерева, чтобы у всех и в CI стояло одинаковое. Коммитится в репозиторий.</li><li>В CI используют <code>npm ci</code>: чистая установка строго по lock-файлу.</li></ul>`},
     {h:'Что делает сборщик', html:`<p>Vite или webpack превращают исходники в то, что понимает браузер: склеивают модули, компилируют TS и JSX, обрабатывают CSS-модули, минифицируют, делят код на чанки (code splitting), добавляют хеши в имена файлов для кэширования. Переменные окружения (<code>import.meta.env</code>) подставляются на этапе сборки, поэтому секреты во фронтенд класть нельзя.</p>`},
@@ -946,8 +1011,10 @@ app.listen(3000);`}
     {h:'DevTools', html:`<ul><li><b>Elements</b>: computed-стили, оверлеи flex/grid, кто перебил стиль.</li><li><b>Console</b>: ошибки, <code>console.table</code>, <code>$0</code> — выбранный элемент.</li><li><b>Sources</b>: breakpoints, условные breakpoints, <code>debugger</code>.</li><li><b>Network</b>: статусы, тело ответа, замедление сети (Slow 4G), отключение кэша.</li><li><b>Lighthouse / Performance</b>: LCP, CLS, долгие задачи.</li><li><b>React DevTools</b>: дерево, props, state, Profiler ререндеров.</li><li><b>Device mode</b>: ширины, DPR, тач. Но это не настоящий Safari, проверяй и на устройстве.</li></ul>`},
     {h:'Тесты', html:`<p>Юнит-тесты (Vitest/Jest) — для чистых функций вроде видимости блоков. React Testing Library — для компонентов: ищи элементы так, как их видит пользователь (<code>getByRole</code>, <code>getByText</code>). E2E (Playwright) и скриншотные тесты ловят поломки вёрстки в разных браузерах.</p>`,
      code:`
+import { test, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ProductCard } from './ProductCard';
 
 test('кнопка добавляет товар в корзину', async () => {
   const onAdd = vi.fn();
@@ -1128,9 +1195,9 @@ setTimeout(() => console.log('timeout'));`, out:'then\ntimeout'},
      ans:'same', why:'Порядок строк не важен. После синхронного кода движок сначала разбирает все микрозадачи (then), и только потом берёт макрозадачу (setTimeout). Поэтому результат одинаковый.'},
     {q:'В корзине 0 штук товара. Где покупатель увидит 0, как и задумано?',
      a:{code:`const qty = 0;
-show(qty || 1);`, out:'1'},
+console.log(qty || 1);`, out:'1'},
      b:{code:`const qty = 0;
-show(qty ?? 1);`, out:'0'},
+console.log(qty ?? 1);`, out:'0'},
      ans:'b', why:'|| считает 0 «ложным» и подставляет 1. ?? подставляет значение только для null и undefined, а 0 — нормальное число.'}
   ],
   build:[
@@ -1494,7 +1561,7 @@ const CHECKLIST = [
 ];
 
 /* ---------- state ---------- */
-const APP_VERSION = '1.1.2';
+const APP_VERSION = '1.2.1';
 const KEY = 'fe-intern-course-v1';
 let S = {read:{}, quiz:{}, task:{}, code:{}, check:{}, notes:{}};
 try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch(e) {}
@@ -1836,7 +1903,7 @@ function renderTab(m){
   const tab = state.tab[m.id] || 'theory';
   const body = $('#tabBody');
   if (tab==='theory'){
-    body.innerHTML = `<div class="stack">${m.theory.map(t=>`<section class="section"><h2>${t.h}</h2>${t.html}${t.code?code(t.code):''}</section>`).join('')}
+    body.innerHTML = `<div class="stack">${m.theory.map(t=>`<section class="section"><h2>${t.h}</h2>${t.html}${t.code?(Array.isArray(t.code)?`<div>${t.code.map(c=>`<div class="code-file">${esc(c.f)}</div>${code(c.s)}`).join('')}</div>`:code(t.code)):''}</section>`).join('')}
       ${m.playgroundLink?`<div class="callout">Тему брендов на CSS-переменных можно потрогать руками в <a href="#playground">песочнице конструктора</a>.</div>`:''}
       <div class="btns">${S.read[m.id]?'<span class="solved">✓ Теория прочитана</span>':`<button class="btn primary" id="markRead">Прочитал, перейти к квизу</button>`}</div></div>`;
     const b = $('#markRead'); if (b) b.onclick = () => { S.read[m.id]=true; save(); state.tab[m.id]='quiz'; render(); window.scrollTo(0,0); };
