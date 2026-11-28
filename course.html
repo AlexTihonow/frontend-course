@@ -214,6 +214,7 @@ details.iq textarea{width:100%;min-height:70px;border:1px dashed var(--line);bor
 .pv-empty{padding:40px 20px;text-align:center;color:var(--pmuted);font-size:.9rem}
 
 .proj ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px}
+.app-version{margin:8px 0 0;text-align:center;font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .foot-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:20px}
 
 
@@ -1068,13 +1069,13 @@ css:{
     {t:'CSS-модули', s:'Сборщик делает имена классов уникальными (.title → .Card_title_x7f2), стили одного компонента не задевают другой.', an:'У каждого сотрудника своя полка с подписью, а не общий шкаф.', vs:'БЭМ. Цель та же, но изоляция держится на дисциплине в названиях, а не на сборщике.'}
   ],
   cmp:[
-    {q:'Пять карточек, ширина каждой не меньше 120px. В каком варианте последняя карточка в неполном ряду растянется на всю ширину?',
+    {q:'Контейнер 250px, в нём пять карточек, каждая не уже 80px — в ряд помещаются две. В каком варианте последняя карточка в неполном ряду растянется на всю ширину?',
      a:{code:`.list { display: flex;
   flex-wrap: wrap; gap: 8px; }
-.card { flex: 1 1 120px; }`, html:{css:`.list{display:flex;flex-wrap:wrap;gap:8px}.card{flex:1 1 120px;background:#dcefe3;border:1px solid #16794a;border-radius:6px;padding:10px 6px;text-align:center;font:600 12px system-ui}`, html:`<div class="list"><div class="card">1</div><div class="card">2</div><div class="card">3</div><div class="card">4</div><div class="card">5</div></div>`}},
+.card { flex: 1 1 80px; }`, html:{css:`.list{display:flex;flex-wrap:wrap;gap:8px;max-width:250px;margin:0 auto}.card{flex:1 1 80px;box-sizing:border-box;background:#dcefe3;border:1px solid #16794a;border-radius:6px;padding:10px 6px;text-align:center;font:600 12px system-ui}`, html:`<div class="list"><div class="card">1</div><div class="card">2</div><div class="card">3</div><div class="card">4</div><div class="card">5</div></div>`}},
      b:{code:`.list { display: grid; gap: 8px;
   grid-template-columns:
-    repeat(auto-fill, minmax(120px, 1fr)); }`, html:{css:`.list{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}.card{background:#dcefe3;border:1px solid #16794a;border-radius:6px;padding:10px 6px;text-align:center;font:600 12px system-ui}`, html:`<div class="list"><div class="card">1</div><div class="card">2</div><div class="card">3</div><div class="card">4</div><div class="card">5</div></div>`}},
+    repeat(auto-fill, minmax(80px, 1fr)); }`, html:{css:`.list{display:grid;gap:8px;max-width:250px;margin:0 auto;grid-template-columns:repeat(auto-fill,minmax(80px,1fr))}.card{box-sizing:border-box;background:#dcefe3;border:1px solid #16794a;border-radius:6px;padding:10px 6px;text-align:center;font:600 12px system-ui}`, html:`<div class="list"><div class="card">1</div><div class="card">2</div><div class="card">3</div><div class="card">4</div><div class="card">5</div></div>`}},
      ans:'a', why:'Flex думает об одной строке: в последней строке одна карточка, и flex-grow отдаёт ей всё место. Grid сначала строит столбцы для всего контейнера, и карточка встаёт в свою ячейку. Поэтому сетку карточек делают на Grid.'},
     {q:'У заголовка id="promo-title" и классы "title active". В каком варианте он будет красным?',
      a:{code:`.title.active { color: crimson; }
@@ -1268,11 +1269,11 @@ return Block
      a:{code:`.cta {
   background: #1B8A3A;
   border-radius: 16px;
-}`, html:{css:`.row{display:flex;gap:6px;flex-wrap:wrap}.b{flex:1;min-width:70px;padding:8px;border-radius:6px;border:1px solid #ddd;font:600 10px system-ui;color:#666;display:flex;flex-direction:column;gap:6px;align-items:flex-start}.cta{background:#1B8A3A;color:#fff;border-radius:16px;padding:6px 10px;font:700 11px system-ui}`, html:`<div class="row"><div class="b">A<span class="cta">Купить</span></div><div class="b">B<span class="cta">Купить</span></div><div class="b">C<span class="cta">Купить</span></div></div>`}},
+}`, html:{css:`.row{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}.b{box-sizing:border-box;flex:1 1 64px;max-width:calc((100% - 12px) / 3);min-width:64px;padding:8px 6px;border-radius:6px;border:1px solid #ddd;font:600 10px system-ui;color:#666;display:flex;flex-direction:column;gap:6px;align-items:flex-start}.cta{background:#1B8A3A;color:#fff;border-radius:16px;padding:6px 8px;font:700 11px system-ui;white-space:nowrap}`, html:`<div class="row"><div class="b">A<span class="cta">Купить</span></div><div class="b">B<span class="cta">Купить</span></div><div class="b">C<span class="cta">Купить</span></div></div>`}},
      b:{code:`.cta {
   background: var(--p);
   border-radius: var(--pr);
-}`, html:{css:`.row{display:flex;gap:6px;flex-wrap:wrap}.b{flex:1;min-width:70px;padding:8px;border-radius:6px;border:1px solid #ddd;font:600 10px system-ui;color:#666;display:flex;flex-direction:column;gap:6px;align-items:flex-start}.cta{background:var(--p);color:var(--pf);border-radius:var(--pr);padding:6px 10px;font:700 11px system-ui}`, html:`<div class="row"><div class="b" style="--p:#1B8A3A;--pf:#fff;--pr:16px">A<span class="cta">Купить</span></div><div class="b" style="--p:#0E4D3A;--pf:#F3EBDD;--pr:3px">B<span class="cta">Купить</span></div><div class="b" style="--p:#FFD400;--pf:#111;--pr:0">C<span class="cta">Купить</span></div></div>`}},
+}`, html:{css:`.row{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}.b{box-sizing:border-box;flex:1 1 64px;max-width:calc((100% - 12px) / 3);min-width:64px;padding:8px 6px;border-radius:6px;border:1px solid #ddd;font:600 10px system-ui;color:#666;display:flex;flex-direction:column;gap:6px;align-items:flex-start}.cta{background:var(--p);color:var(--pf);border-radius:var(--pr);padding:6px 8px;font:700 11px system-ui;white-space:nowrap}`, html:`<div class="row"><div class="b" style="--p:#1B8A3A;--pf:#fff;--pr:16px">A<span class="cta">Купить</span></div><div class="b" style="--p:#0E4D3A;--pf:#F3EBDD;--pr:3px">B<span class="cta">Купить</span></div><div class="b" style="--p:#FFD400;--pf:#111;--pr:0">C<span class="cta">Купить</span></div></div>`}},
      ans:'b', why:'Компонент из варианта {b} не знает конкретных цветов, он читает токены. Бренд-контейнер переопределяет --p и --pr, и та же кнопка выглядит по-разному. В варианте {a} цвет зашит, и для каждого бренда пришлось бы писать отдельные стили.'}
   ],
   build:[
@@ -1493,9 +1494,14 @@ const CHECKLIST = [
 ];
 
 /* ---------- state ---------- */
+const APP_VERSION = '1.1.2';
 const KEY = 'fe-intern-course-v1';
 let S = {read:{}, quiz:{}, task:{}, code:{}, check:{}, notes:{}};
 try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch(e) {}
+// passing the quiz counts as having read the theory: before 1.1.0 theory was only
+// counted via the "Прочитал" button, so a module could get stuck at 80-86%
+function fixRead(){ MODULES.forEach(m=>{ if (S.quiz[m.id] > 0) S.read[m.id] = true; }); }
+fixRead();
 const save = () => { S.savedAt = Date.now(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} scheduleFileWrite(); };
 
 /* ---------- progress file ---------- */
@@ -1527,6 +1533,7 @@ function applyData(text){
   const d = JSON.parse(text);
   if (!d || d.app !== 'fe-intern-course') throw new Error('Это не файл прогресса курса');
   S = Object.assign({read:{}, quiz:{}, task:{}, code:{}, check:{}, notes:{}}, d.progress || {});
+  fixRead();
   try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {}
   if (d.playground && Array.isArray(d.playground.blocks)) { pg = d.playground; try { localStorage.setItem(KEY+'-pg', JSON.stringify(pg)); } catch(e) {} }
   state.quiz = {}; state.order = {}; state.train = {};
@@ -1759,7 +1766,8 @@ function viewHome(){
     <div class="panel check" id="checklist">
       ${CHECKLIST.map((c,i)=>`<label for="ck${i}"><input type="checkbox" id="ck${i}" data-i="${i}" ${S.check[i]?'checked':''}><span>${c}</span></label>`).join('')}
     </div>
-  </section>`;
+  </section>
+  <p class="app-version">Версия ${APP_VERSION}</p>`;
 }
 
 function viewProject(){
@@ -1973,7 +1981,7 @@ function renderQuiz(m, body){
     body.innerHTML = `<div class="panel result">
       <span class="eyebrow">Результат</span>
       <span class="tag"><big>${right}/${m.quiz.length}</big></span>
-      <p>${right===m.quiz.length?'Отлично, модуль закрыт.':right/m.quiz.length>=.7?'Хорошо. Перечитай теорию по ошибкам и пройди ещё раз.':'Стоит вернуться к теории и пройти квиз снова.'} Лучший результат: ${Math.max(best,right)}/${m.quiz.length}.</p>
+      <p>${right===m.quiz.length?'Отлично, квиз пройден без ошибок. Чтобы закрыть модуль на 100%, пройди тренировку'+(m.task?' и практику':'')+'.':right/m.quiz.length>=.7?'Хорошо. Перечитай теорию по ошибкам и пройди ещё раз.':'Стоит вернуться к теории и пройти квиз снова.'} Лучший результат: ${Math.max(best,right)}/${m.quiz.length}.</p>
       <div class="btns"><button class="btn primary" id="again">Пройти заново</button><button class="btn" id="toTrain">К тренировке →</button></div></div>`;
     $('#again').onclick = () => { state.quiz[m.id] = {i:0, answers:[]}; renderQuiz(m, body); };
     $('#toTrain').onclick = () => { state.tab[m.id]='train'; render(); window.scrollTo(0,0); };
@@ -1992,7 +2000,7 @@ function renderQuiz(m, body){
     qs.answers[qs.i] = +b.dataset.i;
     if (qs.answers.length === m.quiz.length && qs.answers.every(a=>a!==undefined)){
       const score = qs.answers.filter((a,i)=>a===m.quiz[i].a).length / m.quiz.length;
-      S.quiz[m.id] = Math.max(S.quiz[m.id]||0, score); save(); renderNav();
+      S.quiz[m.id] = Math.max(S.quiz[m.id]||0, score); S.read[m.id] = true; save(); renderNav();
     }
     renderQuiz(m, body);
   });
